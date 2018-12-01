@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html
         xmlns:c="http://java.sun.com/jsp/jstl/core"
-        xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
+        xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+        xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,38 +15,33 @@
 
     <div class="container body-content">
         <div class="jumbotron">
-            <h1>ASP.NET</h1>
-            <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-            <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+            <h1>WebExam</h1>
+            <p class="lead">Check your knowledge here!</p>
+            <p><a href="#" class="btn btn-primary btn-lg">Go to tests page &raquo;</a></p>
         </div>
 
         <div class="row">
             <div class="col-md-4">
-                <h2>Getting started</h2>
+                <h2>Variety of tests</h2>
                 <p>
-                    ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                    enables a clean separation of concerns and gives you full control over markup
-                    for enjoyable, agile development.
+                    Master your skills on a great number of tests, which cover such popular topics like
+                    mathematics, programming, language learning and much-much more
                 </p>
-                <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+                <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
             </div>
             <div class="col-md-4">
-                <h2>Get more libraries</h2>
-                <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-                <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+                <h2>Competitive spirit</h2>
+                <p>Your test results will be put to the rank table, so that your high results will get cheers. Best participants will be listed publicly</p>
+                <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
             </div>
             <div class="col-md-4">
-                <h2>Web Hosting</h2>
-                <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-                <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+                <h2>Tests available 24/7</h2>
+                <p>You can easily pass any desired test whenever you wish to to that. You can access all our tests from your favourite gadgets</p>
+                <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
             </div>
         </div>
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        <jsp:include page="layout/footer.jsp"/>
     </div>
-    <script src="scripts/jquery-1.10.2.js" defer></script>
-    <script src="scripts/bootstrap.js" defer></script>
 </body>
 </html>

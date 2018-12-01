@@ -26,6 +26,34 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>2.0.2-beta</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>pl.pragmatists</groupId>
+        <artifactId>JUnitParams</artifactId>
+        <version>1.1.1</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>1.1.2</version>
+    </dependency>
   </dependencies>
 
   <build>
