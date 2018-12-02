@@ -25,11 +25,11 @@ CREATE SCHEMA IF NOT EXISTS `student_testing_db` DEFAULT CHARACTER SET utf8mb4 C
 USE `mydb` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`answer`
+-- Table `mydb`.`correctAnswer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`answer` ;
+DROP TABLE IF EXISTS `mydb`.`correctAnswer` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`answer` (
+CREATE TABLE IF NOT EXISTS `mydb`.`correctAnswer` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `value` VARCHAR(350) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
   `is_case_sensitive` TINYINT NULL DEFAULT 0,
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `student_testing_db`.`task` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `test_id` INT(10) UNSIGNED NOT NULL,
   `question` VARCHAR(350) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NULL DEFAULT NULL,
-  `answer` VARCHAR(250) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
+  `correctAnswer` VARCHAR(250) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
   `image_id` INT(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `student_testing_db`.`task_correct_answer` (
     ON UPDATE CASCADE,
   CONSTRAINT `fk_task_correct_answer_answer1`
     FOREIGN KEY (`answer_id`)
-    REFERENCES `mydb`.`answer` (`id`)
+    REFERENCES `mydb`.`correctAnswer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -234,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `student_testing_db`.`task_possible_answer` (
     ON UPDATE CASCADE,
   CONSTRAINT `fk_task_possible_answer_answer1`
     FOREIGN KEY (`answer_id`)
-    REFERENCES `mydb`.`answer` (`id`)
+    REFERENCES `mydb`.`correctAnswer` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
