@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="styles/bootstrap.css"/>
 </head>
 <body>
-    <jsp:include page="layout/header.jsp"/>
+    <jsp:include page="jsp/layout/header.jsp"/>
     <div class="container body-content">
     <h2>Log in</h2>
     <div class="row">
@@ -54,7 +54,7 @@
             </section>
         </div>
     </div>
-    <jsp:include page="layout/footer.jsp"/>
+    <jsp:include page="jsp/layout/footer.jsp"/>
     </div>
 </body>
 </html>
