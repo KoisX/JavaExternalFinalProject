@@ -25,7 +25,7 @@ public class PasswordManager {
      * @param salt value which will be concatenated to password to 'salt' it
      * @return salted password hash value
      */
-    public static String hash(String password, String salt){
+    public static String hash( String password, String salt){
         return DigestUtils.sha256Hex(getSaltedPassword(password, salt));
     }
 
@@ -50,13 +50,13 @@ public class PasswordManager {
 
     /**
      * Checks if a given password's salted hash is equal to the hash value which we expect
-     * @param actual represents actual password
+     * @param password represents actual password
      * @param salt user's salt
      * @param expectedHash hash value which we expect to get
      * @return
      */
-    public static boolean isExpectedPassword(String actual, String salt, String expectedHash){
-        String hash = hash(actual, salt);
+    public static boolean isExpectedPassword(String password, String salt, String expectedHash){
+        String hash = hash(password, salt);
         return expectedHash.equals(hash);
     }
 
