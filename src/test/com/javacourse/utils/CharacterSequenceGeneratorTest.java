@@ -1,18 +1,17 @@
 package com.javacourse.utils;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class PasswordGeneratorTest {
+public class CharacterSequenceGeneratorTest {
 
-    private PasswordGenerator generator;
+    private CharacterSequenceGenerator generator;
 
     @Before
     public void setUp() throws Exception {
-        generator = new PasswordGenerator.PasswordGeneratorBuilder()
+        generator = new CharacterSequenceGenerator.CharacterSequenceGeneratorBuilder()
                 .useDigits(true)
                 .useLower(true)
                 .useUpper(true)

@@ -14,6 +14,11 @@ public class PasswordManager {
      */
     private static int DEFAULT_PASSWORD_LENGTH = 10;
 
+    /**
+     * Standard commonly accepted length for salt
+     */
+    private static int DEFAULT_SALT_LENGTH = 16;
+
     private PasswordManager() {
         throw new UnsupportedOperationException("Object instantiation is not supported");
     }
@@ -34,11 +39,12 @@ public class PasswordManager {
     }
 
     /**
-     * Generated random password for a new user
+     * Generates random password for a new user
      * @return new random password of a default length equal to 10
      */
     public static String generateRandomPassword(){
-        PasswordGenerator generator = new PasswordGenerator.PasswordGeneratorBuilder()
+        CharacterSequenceGenerator generator = new CharacterSequenceGenerator
+                .CharacterSequenceGeneratorBuilder()
                 .useDigits(true)
                 .useLower(true)
                 .useUpper(true)
@@ -46,6 +52,23 @@ public class PasswordManager {
                 .build();
 
         return generator.generate(DEFAULT_PASSWORD_LENGTH);
+    }
+
+    /**
+     * Generates string which can be used for 'salting'
+     * user password for security magnification
+     * @return salt
+     */
+    public static String generateSalt(){
+        CharacterSequenceGenerator generator = new CharacterSequenceGenerator
+                .CharacterSequenceGeneratorBuilder()
+                .useDigits(true)
+                .useLower(true)
+                .useUpper(true)
+                .usePunctuation(true)
+                .build();
+
+        return generator.generate(DEFAULT_SALT_LENGTH);
     }
 
     /**

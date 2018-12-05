@@ -47,8 +47,8 @@ public class PasswordManagerTest {
     @Test
     public void generateRandomPassword_noParams_DefaultLength10() {
         int expected = 10;
-        String actual = PasswordManager.generateRandomPassword();
-        assertEquals(expected, actual.length());
+        int actual = PasswordManager.generateRandomPassword().length();
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -59,5 +59,12 @@ public class PasswordManagerTest {
         String expectedHash = PasswordManager.hash(password, salt);
 
         assertTrue(PasswordManager.isExpectedPassword(password, salt, expectedHash));
+    }
+
+    @Test
+    public void generateSalt_noParams_DefaultLength16() {
+        int expected = 16;
+        int actual = PasswordManager.generateSalt().length();
+        assertEquals(expected, actual);
     }
 }

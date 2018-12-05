@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Utility class for generating random user passwords
+ * Utility class for generating random string of any length
  */
-public class PasswordGenerator {
+public class CharacterSequenceGenerator {
 
     private static final String LOWER = "abcdefghijklmnopqrstuvwxyz";
     private static final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -20,48 +20,48 @@ public class PasswordGenerator {
     private boolean useDigits;
     private boolean usePunctuation;
 
-    public PasswordGenerator(PasswordGeneratorBuilder builder) {
+    public CharacterSequenceGenerator(CharacterSequenceGeneratorBuilder builder) {
         this.useLower = builder.useLower;
         this.useUpper = builder.useUpper;
         this.useDigits = builder.useDigits;
         this.usePunctuation = builder.usePunctuation;
     }
 
-    public static class PasswordGeneratorBuilder{
+    public static class CharacterSequenceGeneratorBuilder {
         private boolean useLower;
         private boolean useUpper;
         private boolean useDigits;
         private boolean usePunctuation;
 
-        public PasswordGeneratorBuilder() {
+        public CharacterSequenceGeneratorBuilder() {
             this.useLower = false;
             this.useUpper = false;
             this.useDigits = false;
             this.usePunctuation = false;
         }
 
-        public PasswordGeneratorBuilder useLower(boolean useLower) {
+        public CharacterSequenceGeneratorBuilder useLower(boolean useLower) {
             this.useLower = useLower;
             return this;
         }
 
-        public PasswordGeneratorBuilder useUpper(boolean useUpper) {
+        public CharacterSequenceGeneratorBuilder useUpper(boolean useUpper) {
             this.useUpper = useUpper;
             return this;
         }
 
-        public PasswordGeneratorBuilder useDigits(boolean useDigits) {
+        public CharacterSequenceGeneratorBuilder useDigits(boolean useDigits) {
             this.useDigits = useDigits;
             return this;
         }
 
-        public PasswordGeneratorBuilder usePunctuation(boolean usePunctuation) {
+        public CharacterSequenceGeneratorBuilder usePunctuation(boolean usePunctuation) {
             this.usePunctuation = usePunctuation;
             return this;
         }
 
-        public PasswordGenerator build() {
-            return new PasswordGenerator(this);
+        public CharacterSequenceGenerator build() {
+            return new CharacterSequenceGenerator(this);
         }
 
     }
