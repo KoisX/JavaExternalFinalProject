@@ -13,14 +13,16 @@ public class User {
     private String email;
     private Role role;
     private String password;
+    private String salt;
 
-    public User(long id, String name, String surname, String email, Role role, String password) {
+    public User(long id, String name, String surname, String email, Role role, String password, String salt) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.role = role;
         this.password = password;
+        this.salt = salt;
     }
 
     public User() {
@@ -62,11 +64,11 @@ public class User {
     }
 
 
-    public Role getRoleId() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRoleId(Role role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -79,6 +81,15 @@ public class User {
         this.password = password;
     }
 
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("User{");
@@ -88,6 +99,7 @@ public class User {
         sb.append(", email='").append(email).append('\'');
         sb.append(", role=").append(role);
         sb.append(", password='").append(password).append('\'');
+        sb.append(", salt='").append(salt).append('\'');
         sb.append('}');
         return sb.toString();
     }
@@ -102,11 +114,12 @@ public class User {
                 surname.equals(user.surname) &&
                 email.equals(user.email) &&
                 role == user.role &&
-                password.equals(user.password);
+                password.equals(user.password) &&
+                salt.equals(user.salt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, email, role, password);
+        return Objects.hash(id, name, surname, email, role, password, salt);
     }
 }
