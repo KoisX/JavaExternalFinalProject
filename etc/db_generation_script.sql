@@ -5,6 +5,9 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Schema student_testing_db
 -- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `student_testing_db` ;
@@ -16,20 +19,19 @@ CREATE SCHEMA IF NOT EXISTS `student_testing_db` DEFAULT CHARACTER SET utf8mb4 C
 USE `student_testing_db` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`correctAnswer`
+-- Table `student_testing_db`.`answer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `student_testing_db`.`correctAnswer` ;
+DROP TABLE IF EXISTS `student_testing_db`.`answer` ;
 
-CREATE TABLE IF NOT EXISTS `student_testing_db`.`correctAnswer` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `value` VARCHAR(350) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
-  `is_case_sensitive` TINYINT NULL DEFAULT 0,
+CREATE TABLE IF NOT EXISTS `student_testing_db`.`answer` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `value` VARCHAR(350) CHARACTER SET 'utf8' NOT NULL,
+  `is_case_sensitive` TINYINT(4) NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-USE `student_testing_db` ;
 
 -- -----------------------------------------------------
 -- Table `student_testing_db`.`image`
@@ -52,7 +54,7 @@ DROP TABLE IF EXISTS `student_testing_db`.`role` ;
 
 CREATE TABLE IF NOT EXISTS `student_testing_db`.`role` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(30) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
+  `name` VARCHAR(30) CHARACTER SET 'utf8' NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
@@ -68,7 +70,7 @@ DROP TABLE IF EXISTS `student_testing_db`.`topic` ;
 
 CREATE TABLE IF NOT EXISTS `student_testing_db`.`topic` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(250) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
+  `name` VARCHAR(250) CHARACTER SET 'utf8' NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
@@ -85,7 +87,7 @@ DROP TABLE IF EXISTS `student_testing_db`.`test` ;
 CREATE TABLE IF NOT EXISTS `student_testing_db`.`test` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `topic_id` INT(10) UNSIGNED NOT NULL,
-  `description` VARCHAR(250) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NULL DEFAULT NULL,
+  `description` VARCHAR(250) CHARACTER SET 'utf8' NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_test_topic1_idx` (`topic_id` ASC) VISIBLE,
@@ -107,14 +109,15 @@ CREATE TABLE IF NOT EXISTS `student_testing_db`.`user_account` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) CHARACTER SET 'utf8' NOT NULL,
   `surname` VARCHAR(100) CHARACTER SET 'utf8' NOT NULL,
-  `email` VARCHAR(100) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
+  `salt` VARCHAR(25) CHARACTER SET 'utf8' NOT NULL,
+  `email` VARCHAR(100) CHARACTER SET 'utf8' NOT NULL,
   `role_id` INT(10) UNSIGNED NOT NULL,
-  `password` VARCHAR(100) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
+  `password` VARCHAR(100) CHARACTER SET 'utf8' NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  INDEX `fk_user_account_role1_idx` (`role_id` ASC) VISIBLE,
   UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE,
+  INDEX `fk_user_account_role1_idx` (`role_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_account_role1`
     FOREIGN KEY (`role_id`)
     REFERENCES `student_testing_db`.`role` (`id`)
@@ -161,8 +164,8 @@ DROP TABLE IF EXISTS `student_testing_db`.`task` ;
 CREATE TABLE IF NOT EXISTS `student_testing_db`.`task` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `test_id` INT(10) UNSIGNED NOT NULL,
-  `question` VARCHAR(350) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NULL DEFAULT NULL,
-  `correctAnswer` VARCHAR(250) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
+  `question` VARCHAR(350) CHARACTER SET 'utf8' NULL DEFAULT NULL,
+  `correctAnswer` VARCHAR(250) CHARACTER SET 'utf8' NOT NULL,
   `image_id` INT(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
@@ -189,18 +192,21 @@ DROP TABLE IF EXISTS `student_testing_db`.`task_correct_answer` ;
 
 CREATE TABLE IF NOT EXISTS `student_testing_db`.`task_correct_answer` (
   `task_id` INT(10) UNSIGNED NOT NULL,
-  `answer_id` INT UNSIGNED NOT NULL,
+  `answer_id` INT(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`task_id`, `answer_id`),
   INDEX `fk_task_has_answer_answer1_idx` (`answer_id` ASC) VISIBLE,
   INDEX `fk_task_has_answer_task1_idx` (`task_id` ASC) VISIBLE,
+  CONSTRAINT `fk_task_correct_answer_answer1`
+    FOREIGN KEY (`answer_id`)
+    REFERENCES `student_testing_db`.`correctanswer` (`id`),
   CONSTRAINT `fk_task_correct_answer_task1`
     FOREIGN KEY (`task_id`)
     REFERENCES `student_testing_db`.`task` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_task_correct_answer_answer1`
+  CONSTRAINT `fk_task_correct_answer_answer2`
     FOREIGN KEY (`answer_id`)
-    REFERENCES `mydb`.`correctAnswer` (`id`)
+    REFERENCES `student_testing_db`.`answer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -214,18 +220,18 @@ DROP TABLE IF EXISTS `student_testing_db`.`task_possible_answer` ;
 
 CREATE TABLE IF NOT EXISTS `student_testing_db`.`task_possible_answer` (
   `task_id` INT(10) UNSIGNED NOT NULL,
-  `answer_id` INT UNSIGNED NOT NULL,
+  `answer_id` INT(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`task_id`, `answer_id`),
   INDEX `fk_task_has_answer_answer1_idx` (`answer_id` ASC) VISIBLE,
   INDEX `fk_task_has_answer_task1_idx` (`task_id` ASC) VISIBLE,
+  CONSTRAINT `fk_task_possible_answer_answer1`
+    FOREIGN KEY (`answer_id`)
+    REFERENCES `student_testing_db`.`answer` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_task_possible_answer_task1`
     FOREIGN KEY (`task_id`)
     REFERENCES `student_testing_db`.`task` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_task_possible_answer_answer1`
-    FOREIGN KEY (`answer_id`)
-    REFERENCES `mydb`.`correctAnswer` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
