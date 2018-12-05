@@ -5,15 +5,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `mydb` ;
-
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
--- -----------------------------------------------------
 -- Schema student_testing_db
 -- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `student_testing_db` ;
@@ -22,14 +13,14 @@ DROP SCHEMA IF EXISTS `student_testing_db` ;
 -- Schema student_testing_db
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `student_testing_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE `mydb` ;
+USE `student_testing_db` ;
 
 -- -----------------------------------------------------
 -- Table `mydb`.`correctAnswer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`correctAnswer` ;
+DROP TABLE IF EXISTS `student_testing_db`.`correctAnswer` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`correctAnswer` (
+CREATE TABLE IF NOT EXISTS `student_testing_db`.`correctAnswer` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `value` VARCHAR(350) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
   `is_case_sensitive` TINYINT NULL DEFAULT 0,
@@ -118,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `student_testing_db`.`user_account` (
   `surname` VARCHAR(100) CHARACTER SET 'utf8' NOT NULL,
   `email` VARCHAR(100) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
   `role_id` INT(10) UNSIGNED NOT NULL,
-  `password` VARCHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
+  `password` VARCHAR(100) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
