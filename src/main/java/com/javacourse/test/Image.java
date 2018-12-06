@@ -1,13 +1,15 @@
 package com.javacourse.test;
 
 
+import com.javacourse.shared.Entity;
+
 import java.util.Arrays;
 import java.util.Objects;
 
 /**
  * A model class for image database table
  */
-public class Image {
+public class Image implements Entity {
 
   private long id;
   private byte[] data;

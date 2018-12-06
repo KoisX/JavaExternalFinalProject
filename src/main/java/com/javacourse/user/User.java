@@ -1,11 +1,13 @@
 package com.javacourse.user;
 
+import com.javacourse.shared.Entity;
+
 import java.util.Objects;
 
 /**
  * A model class for user-account database table
  */
-public class User {
+public class User implements Entity {
 
     private long id;
     private String name;

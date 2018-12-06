@@ -1,6 +1,6 @@
 package com.javacourse.stats;
 
-
+import com.javacourse.shared.Entity;
 import com.javacourse.test.Test;
 import com.javacourse.user.User;
 
@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * A model class for stats database table
  */
-public class Stats {
+public class Stats implements Entity {
 
   private long id;
   private User user;

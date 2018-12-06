@@ -1,12 +1,14 @@
 package com.javacourse.test;
 
+import com.javacourse.shared.Entity;
+
 import java.util.List;
 import java.util.Objects;
 
 /**
  * A model class for task database table
  */
-public class Task {
+public class Task implements Entity {
 
   private long id;
   private long testId;

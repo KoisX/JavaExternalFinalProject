@@ -1,11 +1,13 @@
 package com.javacourse.test;
 
+import com.javacourse.shared.Entity;
+
 import java.util.Objects;
 
 /**
  * A model class for answer database table
  */
-public class Answer {
+public class Answer implements Entity {
 
   private long id;
   private String value;

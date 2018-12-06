@@ -1,9 +1,11 @@
 package com.javacourse.user;
 
+import com.javacourse.shared.Entity;
+
 /**
  * A model class for role database table
  */
-public enum Role {
+public enum Role implements Entity {
     ADMIN("admin"),
     USER("user");
 
