@@ -1,6 +1,10 @@
 package com.javacourse.utils;
 
 
+import com.javacourse.Constants;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
 import javax.naming.Context;
@@ -16,13 +20,20 @@ import java.sql.SQLException;
 public class DatabaseConnectionManager {
 
     private static DataSource dataSource = new DataSource();
+    private static Logger logger = Logger.getLogger(DatabaseConnectionManager.class);
 
+    //configuring logger
+    static {
+        new DOMConfigurator().doConfigure(Constants.LOG_CONFIG, LogManager.getLoggerRepository());
+    }
+
+    //configuring database connection properties
     static {
         try {
             Context context = (Context) (new InitialContext().lookup("java:comp/env"));
             dataSource = (DataSource) context.lookup("jdbc/student_testing");
         } catch (NamingException e) {
-            //TODO log
+            logger.error(e.getMessage());
         }
     }
 
