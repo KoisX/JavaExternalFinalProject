@@ -1,5 +1,7 @@
 package com.javacourse.shared;
 
+import com.javacourse.exceptions.UnsuccessfulQueryException;
+
 import java.sql.Connection;
 import java.util.List;
 
@@ -15,10 +17,10 @@ public abstract class AbstractDAO<K, T extends Entity> {
         this.connection = connection;
     }
 
-    public abstract List<T> findAll();
-    public abstract T findById(K id);
-    public abstract boolean delete(K id);
-    public abstract boolean create(T entity);
-    public abstract T update(T entity);
+    public abstract List<T> findAll() throws UnsuccessfulQueryException;
+    public abstract T findById(K id) throws UnsuccessfulQueryException;
+    public abstract boolean delete(K id) throws UnsuccessfulQueryException;
+    public abstract boolean create(T entity) throws UnsuccessfulQueryException;
+    public abstract T update(T entity) throws UnsuccessfulQueryException;
     //TODO: maybe add close methods for connection, statement and ResultSet
 }

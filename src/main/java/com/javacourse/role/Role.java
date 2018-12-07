@@ -1,4 +1,4 @@
-package com.javacourse.user;
+package com.javacourse.role;
 
 import com.javacourse.shared.Entity;
 
@@ -6,6 +6,7 @@ import com.javacourse.shared.Entity;
  * A model class for role database table
  */
 public enum Role implements Entity {
+
     ADMIN("admin"),
     USER("user");
 
@@ -26,10 +27,6 @@ public enum Role implements Entity {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override

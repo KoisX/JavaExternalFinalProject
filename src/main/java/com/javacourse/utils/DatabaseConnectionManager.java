@@ -20,7 +20,7 @@ import java.sql.SQLException;
 public class DatabaseConnectionManager {
 
     private static DataSource dataSource = new DataSource();
-    private static Logger logger = Logger.getLogger(DatabaseConnectionManager.class);
+    private final static Logger logger = Logger.getLogger(DatabaseConnectionManager.class);
 
     //configuring logger
     static {
