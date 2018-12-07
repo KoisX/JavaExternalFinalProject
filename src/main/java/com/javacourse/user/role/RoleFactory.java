@@ -1,4 +1,4 @@
-package com.javacourse.role;
+package com.javacourse.user.role;
 
 /**
  * Interface for implementing Role object creation using Factory pattern

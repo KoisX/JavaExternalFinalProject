@@ -2,8 +2,8 @@ package com.javacourse.user;
 
 import com.javacourse.Constants;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
-import com.javacourse.role.Role;
-import com.javacourse.role.RoleFactory;
+import com.javacourse.user.role.Role;
+import com.javacourse.user.role.RoleFactory;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.utils.DatabaseConnectionManager;
 import org.apache.log4j.LogManager;
@@ -35,6 +35,7 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     @Override
     public List<User> findAll() {
         List<User> items;
+        ResultSet rs = null;
         try(Connection con = DatabaseConnectionManager.getConnection();
             PreparedStatement statement = con.prepareStatement(
                     "SELECT user.id, user.name, user.surname, user.salt, user.email, role.id, role.name, user.password " +
@@ -43,23 +44,26 @@ public class UserDAO extends AbstractDAO<Integer, User> {
                         "ORDER BY surname, name ASC "
             )){
 
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             items = parseToEntityList(rs);
 
         }catch (SQLException e){
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         }
+        finally {
+            try {
+                if(rs!=null)
+                    rs.close();
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
+            }
+        }
         return items;
     }
 
-    @Override
-    public User findById(Integer id) {
-        return null;
-    }
-
     /**
-     * Helper-method which incapsulates getting a list of
+     * Helper-method which encapsulates getting a list of
      * entities from a ResultSet object
      * @param rs ResultSet object, which represents the result of an SQL-query
      * @return list of model entities
@@ -84,6 +88,49 @@ public class UserDAO extends AbstractDAO<Integer, User> {
             items.add(user);
         }
         return items;
+    }
+
+    @Override
+    public User findById(Integer id) {
+        User user;
+        ResultSet rs = null;
+        try(Connection con = DatabaseConnectionManager.getConnection();
+            PreparedStatement statement = con.prepareStatement(
+                    "SELECT user.id, user.name, user.surname, user.salt, user.email, role.id, role.name, user.password " +
+                            "FROM user_account AS user " +
+                            "JOIN role ON user.role_id = role.id " +
+                            "WHERE user.id = ? "
+            )){
+
+            statement.setLong(1, id);
+            rs = statement.executeQuery();
+            user = parseSingleEntity(rs);
+
+        }catch (SQLException e){
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        finally {
+            try {
+                if(rs!=null)
+                    rs.close();
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
+            }
+        }
+        return user;
+    }
+
+
+    /**
+     * Helper-method which encapsulates getting a single entity
+     * from the ResultSet object
+     * @param rs ResultSet object, which represents the result of an SQL-query
+     * @return model entity
+     * @throws SQLException in case when there is an SQL-related error
+     */
+    User parseSingleEntity(ResultSet rs) throws  SQLException{
+        return  parseToEntityList(rs).get(0);
     }
 
     @Override

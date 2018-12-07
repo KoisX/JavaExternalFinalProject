@@ -1,4 +1,4 @@
-package com.javacourse.role;
+package com.javacourse.user.role;
 
 import com.javacourse.shared.Entity;
 

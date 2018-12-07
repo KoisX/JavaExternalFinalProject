@@ -1,6 +1,6 @@
 package com.javacourse.user;
 
-import com.javacourse.role.Role;
+import com.javacourse.user.role.Role;
 import com.javacourse.shared.Entity;
 
 import java.util.Objects;
