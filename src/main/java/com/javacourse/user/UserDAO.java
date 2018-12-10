@@ -5,7 +5,6 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.user.role.Role;
 import com.javacourse.user.role.RoleFactory;
 import com.javacourse.shared.AbstractDAO;
-import com.javacourse.utils.DatabaseConnectionManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -16,6 +15,10 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Represents an AbstractDAO implementation class,
+ * which provides an easy way of interacting with database
+ */
 public class UserDAO extends AbstractDAO<Integer, User> {
 
     private final static Logger logger;
@@ -27,6 +30,12 @@ public class UserDAO extends AbstractDAO<Integer, User> {
         new DOMConfigurator().doConfigure(Constants.LOG_CONFIG, LogManager.getLoggerRepository());
     }
 
+    /**
+     * Creates UserDAO entity
+     * @param connection SQL connection to the desired database
+     * @param roleFactory RoleFactory entity, which helps to create
+     *                    role entity of enumerable type
+     */
     public UserDAO(Connection connection, RoleFactory roleFactory) {
         super(connection);
         this.roleFactory = roleFactory;
@@ -151,6 +160,7 @@ public class UserDAO extends AbstractDAO<Integer, User> {
         try(PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO user_account(name, surname, salt, email, role_id, password) " +
                         "values (?,?,?,?,?,?);")){
+
             statement.setString(1, entity.getName());
             statement.setString(2, entity.getSurname());
             statement.setString(3, entity.getSalt());

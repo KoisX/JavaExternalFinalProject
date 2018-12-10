@@ -25,6 +25,10 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
         new DOMConfigurator().doConfigure(Constants.LOG_CONFIG, LogManager.getLoggerRepository());
     }
 
+    /**
+     * Created TopicDAO entity
+     * @param connection SQL connection to the desired database
+     */
     public TopicDAO(Connection connection) {
         super(connection);
     }

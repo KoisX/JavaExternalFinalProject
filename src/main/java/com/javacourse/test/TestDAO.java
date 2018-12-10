@@ -4,7 +4,6 @@ import com.javacourse.Constants;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.test.topic.Topic;
-import com.javacourse.user.User;
 import com.javacourse.user.UserDAO;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -17,6 +16,10 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Represents an AbstractDAO implementation class,
+ * which provides an easy way of interacting with database
+ */
 public class TestDAO extends AbstractDAO<Integer, Test> {
 
     private final static Logger logger;
@@ -27,6 +30,10 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
         new DOMConfigurator().doConfigure(Constants.LOG_CONFIG, LogManager.getLoggerRepository());
     }
 
+    /**
+     * Created TestDAO entity
+     * @param connection SQL connection to the desired database
+     */
     public TestDAO(Connection connection) {
         super(connection);
     }
@@ -127,6 +134,7 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
         int changes = 0;
         try(PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM test WHERE id=? ;")){
+
             statement.setInt(1, id);
             changes = statement.executeUpdate();
         } catch (SQLException e) {

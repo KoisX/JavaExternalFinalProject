@@ -1,10 +1,10 @@
 package com.javacourse.exceptions;
 
 /**
- * Custom exception type which is tp be thrown
+ * Custom checked exception type which is to be thrown
  * after unsuccessful SQL database query
  */
-public class UnsuccessfulQueryException extends RuntimeException{
+public class UnsuccessfulQueryException extends Exception{
     public UnsuccessfulQueryException() {
         super("Unsuccessful SQL query");
     }
