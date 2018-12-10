@@ -17,7 +17,7 @@ public class Task implements Entity {
   private String question;
   private Image image;
   private List<Answer> correctAnswers;
-  private List<Answer>  possibleAnswers;
+  private List<Answer> possibleAnswers;
 
   public Task(long id, long testId, String question, Image image, List<Answer> correctAnswers, List<Answer> possibleAnswers) {
     this.id = id;
