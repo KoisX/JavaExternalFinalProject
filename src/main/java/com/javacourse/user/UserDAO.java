@@ -36,12 +36,11 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     public List<User> findAll() {
         List<User> items;
         ResultSet rs = null;
-        try(Connection con = DatabaseConnectionManager.getConnection();
-            PreparedStatement statement = con.prepareStatement(
+        try(PreparedStatement statement = connection.prepareStatement(
                     "SELECT user.id, user.name, user.surname, user.salt, user.email, role.id, role.name, user.password " +
                         "FROM user_account AS user " +
                         "JOIN role ON user.role_id = role.id " +
-                        "ORDER BY surname, name ASC "
+                        "ORDER BY surname, name ASC ;"
             )){
 
             rs = statement.executeQuery();
@@ -94,12 +93,11 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     public User findById(Integer id) {
         User user;
         ResultSet rs = null;
-        try(Connection con = DatabaseConnectionManager.getConnection();
-            PreparedStatement statement = con.prepareStatement(
+        try(PreparedStatement statement = connection.prepareStatement(
                     "SELECT user.id, user.name, user.surname, user.salt, user.email, role.id, role.name, user.password " +
                             "FROM user_account AS user " +
                             "JOIN role ON user.role_id = role.id " +
-                            "WHERE user.id = ? "
+                            "WHERE user.id = ? ;"
             )){
 
             statement.setLong(1, id);
@@ -135,17 +133,42 @@ public class UserDAO extends AbstractDAO<Integer, User> {
 
     @Override
     public boolean delete(Integer id) {
-        return false;
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "DELETE FROM user_account WHERE id=? ;")){
+            statement.setInt(1, id);
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
     }
 
     @Override
     public boolean create(User entity) {
-        return false;
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO user_account(name, surname, salt, email, role_id, password) " +
+                        "values (?,?,?,?,?,?);")){
+            statement.setString(1, entity.getName());
+            statement.setString(2, entity.getSurname());
+            statement.setString(3, entity.getSalt());
+            statement.setString(4,entity.getEmail());
+            statement.setLong(5, entity.getRole().getId());
+            statement.setString(6, entity.getPassword());
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
     }
 
+    //TODO: implement it
     @Override
     public User update(User entity) {
-        return null;
+        throw new UnsupportedOperationException("Operation has yet to be implemented");
     }
 
 }

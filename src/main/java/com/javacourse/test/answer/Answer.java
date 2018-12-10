@@ -1,4 +1,4 @@
-package com.javacourse.test;
+package com.javacourse.test.answer;
 
 import com.javacourse.shared.Entity;
 

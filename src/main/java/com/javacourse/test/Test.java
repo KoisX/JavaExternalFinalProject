@@ -1,6 +1,7 @@
 package com.javacourse.test;
 
 import com.javacourse.shared.Entity;
+import com.javacourse.test.topic.Topic;
 
 import java.util.Objects;
 

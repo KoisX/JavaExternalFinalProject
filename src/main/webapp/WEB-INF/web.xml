@@ -10,7 +10,7 @@
 
   <display-name>WebExam student testing application</display-name>
   <resource-ref>
-    <description>MySql DB Connection Pool</description>
+    <description>DB Connection</description>
     <res-ref-name>jdbc/student_testing</res-ref-name>
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>

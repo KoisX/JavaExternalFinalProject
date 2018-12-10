@@ -1,7 +1,5 @@
 package com.javacourse.user.role;
 
-import com.sun.istack.internal.NotNull;
-
 /**
  * Implementation of RoleFactory interface
  * for a two-user role scenario: ADMIN and USER
@@ -12,8 +10,9 @@ public class AdminUserRoleFactory implements RoleFactory {
 
     private final static String ADMIN = "admin";
 
+    //TODO: add not null annotation to roleType
     @Override
-    public Role createRole(@NotNull String roleType, long id) {
+    public Role createRole(String roleType, long id) {
         Role role;
 
         if(roleType.equalsIgnoreCase(ADMIN)){

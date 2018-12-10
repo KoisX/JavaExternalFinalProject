@@ -1,6 +1,8 @@
-package com.javacourse.test;
+package com.javacourse.test.task;
 
 import com.javacourse.shared.Entity;
+import com.javacourse.test.image.Image;
+import com.javacourse.test.answer.Answer;
 
 import java.util.List;
 import java.util.Objects;
