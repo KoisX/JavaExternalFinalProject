@@ -1,8 +1,10 @@
-package com.javacourse.test.topic;
+package com.javacourse.test;
 
 import com.javacourse.Constants;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
+import com.javacourse.test.topic.Topic;
+import com.javacourse.user.User;
 import com.javacourse.user.UserDAO;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -15,7 +17,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TopicDAO extends AbstractDAO<Integer, Topic> {
+public class TestDAO extends AbstractDAO<Integer, Test> {
 
     private final static Logger logger;
 
@@ -25,58 +27,22 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
         new DOMConfigurator().doConfigure(Constants.LOG_CONFIG, LogManager.getLoggerRepository());
     }
 
-    public TopicDAO(Connection connection) {
+    public TestDAO(Connection connection) {
         super(connection);
     }
 
     @Override
-    public List<Topic> findAll() throws UnsuccessfulQueryException {
-        List<Topic> items;
+    public List<Test> findAll() throws UnsuccessfulQueryException {
+        List<Test> items;
         ResultSet rs = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT topic.topic_id, topic.name FROM topic ORDER BY topic.name ;"
-        )){
+                "SELECT test.id, test.description, t.id, t.name " +
+                    "FROM test " +
+                    "JOIN topic t on test.topic_id = t.id " +
+                    "ORDER BY t.name, test.id;")){
 
             rs = statement.executeQuery();
             items = parseToEntityList(rs);
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-            throw new UnsuccessfulQueryException();
-        }
-        finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
-        }
-        return items;
-    }
-
-    List<Topic> parseToEntityList(ResultSet rs) throws SQLException {
-        List<Topic> items = new LinkedList<>();
-        Topic topic;
-        while (rs.next()){
-            topic = new Topic();
-            topic.setId(rs.getLong(1));
-            topic.setName(rs.getString(2));
-            items.add(topic);
-        }
-        return items;
-    }
-
-    @Override
-    public Topic findById(Integer id) throws UnsuccessfulQueryException {
-        Topic topic;
-        ResultSet rs = null;
-        try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT topic.id, topic.name FROM topic WHERE topic.id = ?;"
-        )){
-
-            statement.setLong(1,id);
-            rs = statement.executeQuery();
-            topic = parseSingleEntity(rs);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
@@ -88,7 +54,61 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
                 logger.error(e.getMessage());
             }
         }
-        return topic;
+        return items;
+    }
+
+    /**
+     * Helper-method which encapsulates getting a list of
+     * entities from a ResultSet object
+     * @param rs ResultSet object, which represents the result of an SQL-query
+     * @return list of model entities
+     * @throws SQLException in case when there is an SQL-related error
+     */
+    List<Test> parseToEntityList(ResultSet rs) throws SQLException {
+        List<Test> items = new LinkedList<>();
+        Test test;
+        Topic topic;
+        while (rs.next()){
+            test = new Test();
+            test.setId(rs.getLong(1));
+            test.setDescription(rs.getString(2));
+
+            topic = new Topic();
+            topic.setId(rs.getLong(3));
+            topic.setName(rs.getString(4));
+
+            test.setTopic(topic);
+            items.add(test);
+        }
+        return items;
+    }
+
+    @Override
+    public Test findById(Integer id) throws UnsuccessfulQueryException {
+        Test test;
+        ResultSet rs = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT test.id, test.description, t.id, t.name " +
+                        "FROM test " +
+                        "JOIN topic t on test.topic_id = t.id " +
+                        "WHERE test.id = ? ;")){
+
+            statement.setLong(1, id);
+            rs = statement.executeQuery();
+            test = parseSingleEntity(rs);
+
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        } finally {
+            try {
+                if(rs!=null)
+                    rs.close();
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
+            }
+        }
+        return test;
     }
 
     /**
@@ -98,16 +118,15 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
      * @return model entity
      * @throws SQLException in case when there is an SQL-related error
      */
-    Topic parseSingleEntity(ResultSet rs) throws SQLException {
-        return parseToEntityList(rs).get(0);
+    Test parseSingleEntity(ResultSet rs) throws  SQLException{
+        return  parseToEntityList(rs).get(0);
     }
 
     @Override
     public boolean delete(Integer id) throws UnsuccessfulQueryException {
         int changes = 0;
         try(PreparedStatement statement = connection.prepareStatement(
-                "DELETE FROM topic WHERE id=? ;")){
-
+                "DELETE FROM test WHERE id=? ;")){
             statement.setInt(1, id);
             changes = statement.executeUpdate();
         } catch (SQLException e) {
@@ -118,13 +137,16 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
     }
 
     @Override
-    public boolean create(Topic entity) throws UnsuccessfulQueryException {
+    public boolean create(Test entity) throws UnsuccessfulQueryException {
         int changes = 0;
         try(PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO topic(name) values (?) ;")){
+                "INSERT INTO test(topic_id, description)" +
+                    " VALUES (?,?);")){
 
-            statement.setString(1,entity.getName());
+            statement.setLong(1,entity.getTopic().getId());
+            statement.setString(2,entity.getDescription());
             changes = statement.executeUpdate();
+
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
@@ -132,8 +154,9 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
         return changes>0;
     }
 
+    //TODO: implement it
     @Override
-    public Topic update(Topic entity) throws UnsuccessfulQueryException {
+    public Test update(Test entity) throws UnsuccessfulQueryException {
         throw new UnsupportedOperationException();
     }
 }
