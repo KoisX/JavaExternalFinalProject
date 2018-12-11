@@ -1,5 +1,7 @@
 package com.javacourse.user.role;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Implementation of RoleFactory interface
  * for a two-user role scenario: ADMIN and USER
@@ -10,10 +12,12 @@ public class AdminUserRoleFactory implements RoleFactory {
 
     private final static String ADMIN = "admin";
 
-    //TODO: add not null annotation to roleType
     @Override
     public Role createRole(String roleType, long id) {
         Role role;
+
+        if(roleType==null)
+            return Role.USER;
 
         if(roleType.equalsIgnoreCase(ADMIN)){
             role = Role.ADMIN;

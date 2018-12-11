@@ -42,7 +42,7 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAll() throws UnsuccessfulQueryException {
         List<User> items;
         ResultSet rs = null;
         try(PreparedStatement statement = connection.prepareStatement(
@@ -99,7 +99,7 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     }
 
     @Override
-    public User findById(Integer id) {
+    public User findById(Integer id) throws UnsuccessfulQueryException {
         User user;
         ResultSet rs = null;
         try(PreparedStatement statement = connection.prepareStatement(
@@ -141,7 +141,7 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     }
 
     @Override
-    public boolean delete(Integer id) {
+    public boolean delete(Integer id) throws UnsuccessfulQueryException {
         int changes = 0;
         try(PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM user_account WHERE id=? ;")){
@@ -155,7 +155,7 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     }
 
     @Override
-    public boolean create(User entity) {
+    public boolean create(User entity) throws UnsuccessfulQueryException {
         int changes = 0;
         try(PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO user_account(name, surname, salt, email, role_id, password) " +
