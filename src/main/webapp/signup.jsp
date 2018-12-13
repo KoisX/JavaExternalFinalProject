@@ -19,7 +19,7 @@
                 <form action="" method="post" class="form-horizontal" role="form">
                     <h4>Create a new account.</h4>
                     <hr />
-                    <%--Put error msh here--%>
+                    <%--Put error msg here--%>
                     <div class="form-group">
                         <label for="email" class="col-md-2 control-label">Email:</label>
                         <div class="col-md-10">

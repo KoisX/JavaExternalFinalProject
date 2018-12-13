@@ -167,4 +167,15 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
     public Test update(Test entity) throws UnsuccessfulQueryException {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void close() {
+        try{
+            if(connection!=null){
+                connection.close();
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+    }
 }

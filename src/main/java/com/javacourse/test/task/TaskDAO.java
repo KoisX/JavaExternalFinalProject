@@ -89,4 +89,15 @@ public class TaskDAO extends AbstractDAO<Integer, Task> {
     public Task update(Task entity) throws UnsuccessfulQueryException {
         return null;
     }
+
+    @Override
+    public void close() {
+        try{
+            if(connection!=null){
+                connection.close();
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+    }
 }

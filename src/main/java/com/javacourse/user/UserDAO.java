@@ -181,4 +181,15 @@ public class UserDAO extends AbstractDAO<Integer, User> {
         throw new UnsupportedOperationException("Operation has yet to be implemented");
     }
 
+    @Override
+    public void close() {
+        try{
+            if(connection!=null){
+                connection.close();
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
 }

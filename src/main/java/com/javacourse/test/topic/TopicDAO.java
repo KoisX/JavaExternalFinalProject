@@ -140,4 +140,15 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
     public Topic update(Topic entity) throws UnsuccessfulQueryException {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void close() {
+        try{
+            if(connection!=null){
+                connection.close();
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+    }
 }
