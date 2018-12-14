@@ -6,8 +6,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log in</title>
-    <link rel="stylesheet" type="text/css" href="styles/site.css"/>
-    <link rel="stylesheet" type="text/css" href="styles/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/site.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/bootstrap.css"/>
 </head>
 <body>
     <jsp:include page="jsp/layout/header.jsp"/>
