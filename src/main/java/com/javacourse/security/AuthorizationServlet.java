@@ -2,6 +2,7 @@ package com.javacourse.security;
 
 import com.javacourse.ApplicationResources;
 import com.javacourse.shared.Command;
+import com.javacourse.shared.CommandFactory;
 import com.javacourse.user.UserDAO;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -43,8 +44,8 @@ public class AuthorizationServlet extends HttpServlet {
     void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String resultPage;
         try{
-            RequestHelper helper = new RequestHelper(request);
-            Command command = helper.getCommand();
+            CommandFactory factory = new AuthorizationCommandFactory(request);
+            Command command = factory.defineCommand();
             resultPage = command.execute(request);
         }catch (Exception e){
             logger.error(e.getMessage());
