@@ -11,7 +11,7 @@ import java.io.IOException;
  * Filter, which is responsible for checking whether a user is allowed to access
  * current page
  */
-@WebFilter(urlPatterns = {"/*"})
+@WebFilter(urlPatterns = {"/Test/*"})
 public class AuthorizationFilter implements Filter {
 
     @Override
@@ -45,20 +45,15 @@ public class AuthorizationFilter implements Filter {
         return (login!=null && password!=null);
     }
 
+    //TODO: change allowed pages as this filter is now only used with tests
     boolean isRequestAllowedForUnauthorizedUsers(HttpServletRequest request, String loginURI) {
         /*List of pages allowed for unauthorized users*/
-        String homepage = request.getContextPath() + "/index.jsp";
-        String root = request.getContextPath() + "/";
-        String error = request.getContextPath() + "error.jsp";
-        String loginPage = loginURI;
+        String allTopicsPage = request.getContextPath() + "/Test/All";
 
         /*Page, from which the request was sent*/
         String currentURI = request.getRequestURI();
 
-        return currentURI.equals(loginPage) ||
-               currentURI.equals(homepage) ||
-               currentURI.equals(root) ||
-               currentURI.equals(error) ;
+        return currentURI.equals(allTopicsPage);
     }
 
 
