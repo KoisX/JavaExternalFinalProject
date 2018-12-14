@@ -1,4 +1,4 @@
-package com.javacourse.user.authorization;
+package com.javacourse.security;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -49,6 +49,7 @@ public class AuthorizationFilter implements Filter {
         /*List of pages allowed for unauthorized users*/
         String homepage = request.getContextPath() + "/index.jsp";
         String root = request.getContextPath() + "/";
+        String error = request.getContextPath() + "error.jsp";
         String loginPage = loginURI;
 
         /*Page, from which the request was sent*/
@@ -56,7 +57,8 @@ public class AuthorizationFilter implements Filter {
 
         return currentURI.equals(loginPage) ||
                currentURI.equals(homepage) ||
-               currentURI.equals(root);
+               currentURI.equals(root) ||
+               currentURI.equals(error) ;
     }
 
 

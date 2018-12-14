@@ -1,4 +1,4 @@
-package com.javacourse.utils;
+package com.javacourse.security;
 
 import java.util.ArrayList;
 import java.util.List;

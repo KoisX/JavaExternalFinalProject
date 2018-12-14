@@ -5,4 +5,9 @@ package com.javacourse;
  * preconfigured values */
 public class ApplicationResources {
     public final static String LOG_CONFIG = "src/main/resources/log4j.xml";
+    private final static String ERROR_PAGE = "error.jsp";
+
+    public static String getErrorPage(){
+        return ERROR_PAGE;
+    }
 }

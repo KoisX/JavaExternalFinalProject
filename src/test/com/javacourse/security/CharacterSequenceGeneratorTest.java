@@ -1,5 +1,6 @@
-package com.javacourse.utils;
+package com.javacourse.security;
 
+import com.javacourse.security.CharacterSequenceGenerator;
 import org.junit.Before;
 import org.junit.Test;
 

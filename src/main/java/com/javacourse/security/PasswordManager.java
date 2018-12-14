@@ -1,4 +1,4 @@
-package com.javacourse.utils;
+package com.javacourse.security;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
