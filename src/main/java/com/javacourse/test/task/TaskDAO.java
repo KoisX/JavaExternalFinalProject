@@ -22,7 +22,7 @@ public class TaskDAO extends AbstractDAO<Integer, Task> {
     //logger configuration
     static {
         logger = Logger.getLogger(UserDAO.class);
-        new DOMConfigurator().doConfigure(ApplicationResources.LOG_CONFIG, LogManager.getLoggerRepository());
+        new DOMConfigurator().doConfigure(ApplicationResources.getLogConfig(), LogManager.getLoggerRepository());
     }
 
     /**

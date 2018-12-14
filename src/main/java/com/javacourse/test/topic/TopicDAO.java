@@ -23,7 +23,7 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
     //logger configuration
     static {
         logger = Logger.getLogger(UserDAO.class);
-        new DOMConfigurator().doConfigure(ApplicationResources.LOG_CONFIG, LogManager.getLoggerRepository());
+        new DOMConfigurator().doConfigure(ApplicationResources.getLogConfig(), LogManager.getLoggerRepository());
     }
 
     /**

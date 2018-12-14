@@ -23,7 +23,7 @@ public class AuthorizationServlet extends HttpServlet {
     //logger configuration
     static {
         logger = Logger.getLogger(UserDAO.class);
-        new DOMConfigurator().doConfigure(ApplicationResources.LOG_CONFIG, LogManager.getLoggerRepository());
+        new DOMConfigurator().doConfigure(ApplicationResources.getLogConfig(), LogManager.getLoggerRepository());
     }
 
     @Override
@@ -51,6 +51,7 @@ public class AuthorizationServlet extends HttpServlet {
             logger.error(e.getMessage());
             resultPage = ApplicationResources.getErrorPage();
         }
+        //response.sendRedirect(resultPage);
         request.getRequestDispatcher(resultPage).forward(request, response);
     }
 

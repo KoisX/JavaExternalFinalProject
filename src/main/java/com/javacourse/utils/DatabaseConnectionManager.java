@@ -24,7 +24,7 @@ public class DatabaseConnectionManager {
 
     //configuring logger
     static {
-        new DOMConfigurator().doConfigure(ApplicationResources.LOG_CONFIG, LogManager.getLoggerRepository());
+        new DOMConfigurator().doConfigure(ApplicationResources.getLogConfig(), LogManager.getLoggerRepository());
     }
 
     //configuring database connection properties

@@ -1,5 +1,6 @@
 package com.javacourse.security;
 
+import com.javacourse.security.command.SignInCommand;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
 
@@ -16,6 +17,6 @@ public class AuthorizationCommandFactory extends CommandFactory {
 
     @Override
     public Command defineCommand() {
-        return null;
+        return new SignInCommand();
     }
 }
