@@ -1,7 +1,5 @@
 package com.javacourse.user.role;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Implementation of RoleFactory interface
  * for a two-user role scenario: ADMIN and USER

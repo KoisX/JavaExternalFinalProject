@@ -37,7 +37,7 @@ public class UserDAOTest {
 
     @Before
     public void setUp() throws Exception {
-        userDAO = new UserDAO(connection, roleFactory);
+        userDAO = new UserDAO(roleFactory);
     }
 
     @Test(expected = UnsuccessfulQueryException.class)

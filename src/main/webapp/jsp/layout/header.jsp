@@ -9,14 +9,20 @@
                 </div>
                 <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                                <li><a href="#">HOME</a></li>
-                                <li><a href="#">TESTS</a></li>
-                                <li><a href="#">RULES</a></li>
-                                <li><a href="#">ABOUT</a></li>
+                                <%--TODO: change to /Home--%>
+                                <li><a href="${pageContext.request.contextPath}/index.jsp">HOME</a></li>
+                                <%--TODO: change to /Test--%>
+                                <li><a href="${pageContext.request.contextPath}/Test">TESTS</a></li>
+                                <%--TODO: change to /Home/Rules--%>
+                                <li><a href="${pageContext.request.contextPath}/Rules">RULES</a></li>
+                                <%--TODO: change to /About--%>
+                                <li><a href="${pageContext.request.contextPath}/About">ABOUT</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                                <%--TODO: change to /Login--%>
+                                <li><a href="${pageContext.request.contextPath}/login"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                                <%--TODO: change to /Home--%>
+                                <li><a href="${pageContext.request.contextPath}/login/Register"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                         </ul>
                 </div>
         </div>

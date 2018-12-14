@@ -1,10 +1,11 @@
 package com.javacourse.user;
 
-import com.javacourse.Constants;
+import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.user.role.Role;
 import com.javacourse.user.role.RoleFactory;
 import com.javacourse.shared.AbstractDAO;
+import com.javacourse.utils.DatabaseConnectionManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -27,17 +28,15 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     //logger configuration
     static {
         logger = Logger.getLogger(UserDAO.class);
-        new DOMConfigurator().doConfigure(Constants.LOG_CONFIG, LogManager.getLoggerRepository());
+        new DOMConfigurator().doConfigure(ApplicationResources.LOG_CONFIG, LogManager.getLoggerRepository());
     }
 
     /**
      * Creates UserDAO entity
-     * @param connection SQL connection to the desired database
      * @param roleFactory RoleFactory entity, which helps to create
      *                    role entity of enumerable type
      */
-    public UserDAO(Connection connection, RoleFactory roleFactory) {
-        super(connection);
+    public UserDAO(RoleFactory roleFactory) {
         this.roleFactory = roleFactory;
     }
 
@@ -45,7 +44,8 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     public List<User> findAll() throws UnsuccessfulQueryException {
         List<User> items;
         ResultSet rs = null;
-        try(PreparedStatement statement = connection.prepareStatement(
+        try(    Connection connection = DatabaseConnectionManager.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
                     "SELECT user.id, user.name, user.surname, user.salt, user.email, role.id, role.name, user.password " +
                         "FROM user_account AS user " +
                         "JOIN role ON user.role_id = role.id " +
@@ -102,7 +102,8 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     public User findById(Integer id) throws UnsuccessfulQueryException {
         User user;
         ResultSet rs = null;
-        try(PreparedStatement statement = connection.prepareStatement(
+        try(    Connection connection = DatabaseConnectionManager.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
                     "SELECT user.id, user.name, user.surname, user.salt, user.email, role.id, role.name, user.password " +
                             "FROM user_account AS user " +
                             "JOIN role ON user.role_id = role.id " +
@@ -143,7 +144,8 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     @Override
     public boolean delete(Integer id) throws UnsuccessfulQueryException {
         int changes = 0;
-        try(PreparedStatement statement = connection.prepareStatement(
+        try(    Connection connection = DatabaseConnectionManager.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM user_account WHERE id=? ;")){
             statement.setInt(1, id);
             changes = statement.executeUpdate();
@@ -157,7 +159,8 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     @Override
     public boolean create(User entity) throws UnsuccessfulQueryException {
         int changes = 0;
-        try(PreparedStatement statement = connection.prepareStatement(
+        try(Connection connection = DatabaseConnectionManager.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO user_account(name, surname, salt, email, role_id, password) " +
                         "values (?,?,?,?,?,?);")){
 
@@ -179,17 +182,6 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     @Override
     public User update(User entity) {
         throw new UnsupportedOperationException("Operation has yet to be implemented");
-    }
-
-    @Override
-    public void close() {
-        try{
-            if(connection!=null){
-                connection.close();
-            }
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        }
     }
 
 }

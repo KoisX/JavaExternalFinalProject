@@ -32,7 +32,7 @@ public class TopicDAOTest {
 
     @Before
     public void setUp() throws Exception {
-        topicDAO = new TopicDAO(connection);
+        topicDAO = new TopicDAO();
     }
 
     @Test(expected = UnsuccessfulQueryException.class)

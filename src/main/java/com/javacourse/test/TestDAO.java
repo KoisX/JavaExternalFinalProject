@@ -1,10 +1,11 @@
 package com.javacourse.test;
 
-import com.javacourse.Constants;
+import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.test.topic.Topic;
 import com.javacourse.user.UserDAO;
+import com.javacourse.utils.DatabaseConnectionManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -27,22 +28,21 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
     //logger configuration
     static {
         logger = Logger.getLogger(UserDAO.class);
-        new DOMConfigurator().doConfigure(Constants.LOG_CONFIG, LogManager.getLoggerRepository());
+        new DOMConfigurator().doConfigure(ApplicationResources.LOG_CONFIG, LogManager.getLoggerRepository());
     }
 
     /**
      * Created TestDAO entity
-     * @param connection SQL connection to the desired database
      */
-    public TestDAO(Connection connection) {
-        super(connection);
+    public TestDAO(){
     }
 
     @Override
     public List<Test> findAll() throws UnsuccessfulQueryException {
         List<Test> items;
         ResultSet rs = null;
-        try(PreparedStatement statement = connection.prepareStatement(
+        try(Connection connection = DatabaseConnectionManager.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
                 "SELECT test.id, test.description, t.id, t.name " +
                     "FROM test " +
                     "JOIN topic t on test.topic_id = t.id " +
@@ -94,7 +94,8 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
     public Test findById(Integer id) throws UnsuccessfulQueryException {
         Test test;
         ResultSet rs = null;
-        try(PreparedStatement statement = connection.prepareStatement(
+        try(    Connection connection = DatabaseConnectionManager.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
                 "SELECT test.id, test.description, t.id, t.name " +
                         "FROM test " +
                         "JOIN topic t on test.topic_id = t.id " +
@@ -132,7 +133,8 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
     @Override
     public boolean delete(Integer id) throws UnsuccessfulQueryException {
         int changes = 0;
-        try(PreparedStatement statement = connection.prepareStatement(
+        try(    Connection connection = DatabaseConnectionManager.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM test WHERE id=? ;")){
 
             statement.setInt(1, id);
@@ -147,7 +149,8 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
     @Override
     public boolean create(Test entity) throws UnsuccessfulQueryException {
         int changes = 0;
-        try(PreparedStatement statement = connection.prepareStatement(
+        try(    Connection connection = DatabaseConnectionManager.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO test(topic_id, description)" +
                     " VALUES (?,?);")){
 
@@ -168,14 +171,4 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void close() {
-        try{
-            if(connection!=null){
-                connection.close();
-            }
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        }
-    }
 }

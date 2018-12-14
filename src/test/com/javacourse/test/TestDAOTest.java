@@ -33,7 +33,7 @@ public class TestDAOTest {
 
     @Before
     public void setUp() throws Exception {
-        testDAO = new TestDAO(connection);
+        testDAO = new TestDAO();
     }
 
     @Test(expected = UnsuccessfulQueryException.class)

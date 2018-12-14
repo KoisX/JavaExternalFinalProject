@@ -1,9 +1,10 @@
 package com.javacourse.test.task;
 
-import com.javacourse.Constants;
+import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.user.UserDAO;
+import com.javacourse.utils.DatabaseConnectionManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -21,15 +22,13 @@ public class TaskDAO extends AbstractDAO<Integer, Task> {
     //logger configuration
     static {
         logger = Logger.getLogger(UserDAO.class);
-        new DOMConfigurator().doConfigure(Constants.LOG_CONFIG, LogManager.getLoggerRepository());
+        new DOMConfigurator().doConfigure(ApplicationResources.LOG_CONFIG, LogManager.getLoggerRepository());
     }
 
     /**
      * Created TaskDAO entity
-     * @param connection SQL connection to the desired database
      */
-    public TaskDAO(Connection connection) {
-        super(connection);
+    public TaskDAO(Connection connection){
     }
 
 
@@ -38,7 +37,8 @@ public class TaskDAO extends AbstractDAO<Integer, Task> {
     public List<Task> findAll() throws UnsuccessfulQueryException {
         List<Task> items;
         ResultSet rs = null;
-        try(PreparedStatement statement = connection.prepareStatement(
+        try(    Connection connection = DatabaseConnectionManager.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
                 "")){
 
             rs = statement.executeQuery();
@@ -90,14 +90,4 @@ public class TaskDAO extends AbstractDAO<Integer, Task> {
         return null;
     }
 
-    @Override
-    public void close() {
-        try{
-            if(connection!=null){
-                connection.close();
-            }
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        }
-    }
 }
