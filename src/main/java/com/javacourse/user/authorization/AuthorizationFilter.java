@@ -22,7 +22,7 @@ public class AuthorizationFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String loginURI = request.getContextPath() + "/login";
+        String loginURI = request.getContextPath() + "/Login/SignIn";
 
         if(isLoggedIn(request) || isRequestAllowedForUnauthorizedUsers(request, loginURI)){
             filterChain.doFilter(servletRequest, servletResponse);
