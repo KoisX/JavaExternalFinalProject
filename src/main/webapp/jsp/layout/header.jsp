@@ -9,10 +9,10 @@
                 </div>
                 <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                                <li><a href="${pageContext.request.contextPath}/index.jsp">HOME</a></li>
+                                <li><a href="${pageContext.request.contextPath}/Home/Index">HOME</a></li>
                                 <li><a href="${pageContext.request.contextPath}/Test">TESTS</a></li>
-                                <li><a href="${pageContext.request.contextPath}/Rules">RULES</a></li>
-                                <li><a href="${pageContext.request.contextPath}/About">ABOUT</a></li>
+                                <li><a href="${pageContext.request.contextPath}/Home/Rules">RULES</a></li>
+                                <li><a href="${pageContext.request.contextPath}/Home/About">ABOUT</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                                 <li><a href="${pageContext.request.contextPath}/Login/SignUp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>

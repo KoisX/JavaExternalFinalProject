@@ -20,7 +20,6 @@ public class LogConfigurator {
         String fileSep = System.getProperty("file.separator");
         if (realPath != null && (!realPath.endsWith(fileSep)))
             realPath = realPath + fileSep;
-        System.out.println(realPath);
         PropertyConfigurator.configure(realPath + "WEB-INF/classes/log4j.xml");
         return Logger.getLogger(clazz);
     }

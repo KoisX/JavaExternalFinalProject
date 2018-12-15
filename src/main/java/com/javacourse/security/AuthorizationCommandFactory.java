@@ -12,9 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public class AuthorizationCommandFactory extends CommandFactory {
 
-    /**
-     * @param request HttpServletRequest object of the request which is being served
-     */
     public AuthorizationCommandFactory(HttpServletRequest request) {
         super(request);
     }
