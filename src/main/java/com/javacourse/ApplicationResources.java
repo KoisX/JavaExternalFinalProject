@@ -12,12 +12,13 @@ public class ApplicationResources {
     /**
      * Path to the error page
      */
-    private final static String ERROR_PAGE = "error.jsp";
+    private final static String ERROR_PAGE = "/Error";
 
     public static String getLogConfig(){
         return LOG_CONFIG;
     }
-    public static String getErrorPage(){
-        return ERROR_PAGE;
+
+    public static String getErrorPage(String contextPath){
+        return contextPath + ERROR_PAGE;
     }
 }

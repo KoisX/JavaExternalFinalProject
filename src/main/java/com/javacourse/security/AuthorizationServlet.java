@@ -18,12 +18,6 @@ import java.io.IOException;
 @WebServlet(name = "Login", urlPatterns = {"/Login/*"})
 public class AuthorizationServlet extends HttpServlet {
 
-    /*private final static Logger logger;
-    //logger configuration
-    static {
-        logger = Logger.getLogger(UserDAO.class);
-    }*/
-
     @Override
     public void init() throws ServletException {
 
@@ -45,9 +39,10 @@ public class AuthorizationServlet extends HttpServlet {
             CommandFactory factory = new AuthorizationCommandFactory(request);
             Command command = factory.defineCommand();
             resultPage = command.execute(request);
+            throw new Exception();
         }catch (Exception e){
 
-            resultPage = ApplicationResources.getErrorPage();
+            resultPage = ApplicationResources.getErrorPage(request.getContextPath());
         }
         request.getRequestDispatcher(resultPage).forward(request, response);
     }
