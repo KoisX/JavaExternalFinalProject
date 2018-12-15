@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Context antiJARLocking="true" path="/">
     <Resource
-        name="jdbc/student_testing"
+        name="jdbc/student_testing?serverTimezone=UTC"
         author="Container"
         type="javax.sql.DataSource"
         maxActive="32"

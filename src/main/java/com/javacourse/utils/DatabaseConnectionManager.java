@@ -5,7 +5,7 @@ import com.javacourse.ApplicationResources;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
-import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -19,7 +19,7 @@ import java.sql.SQLException;
  */
 public class DatabaseConnectionManager {
 
-    private static DataSource dataSource = new DataSource();
+    private static DataSource dataSource;
     private final static Logger logger = Logger.getLogger(DatabaseConnectionManager.class);
 
     //configuring logger

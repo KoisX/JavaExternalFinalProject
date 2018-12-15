@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <p>
-                    <a href="#">Register as a new user</a>
+                    Don't have an account? <a href="#">Register as a new user</a>
                 </p>
                 </form>
             </section>

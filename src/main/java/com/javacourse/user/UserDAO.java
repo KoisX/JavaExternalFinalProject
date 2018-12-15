@@ -6,6 +6,7 @@ import com.javacourse.user.role.Role;
 import com.javacourse.user.role.RoleFactory;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.utils.DatabaseConnectionManager;
+import com.javacourse.utils.DatabaseConnectionPoolResource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -177,6 +178,35 @@ public class UserDAO extends AbstractDAO<Integer, User> {
         }
         return changes>0;
     }
+
+    /**
+     * Check if db contains a used identified by a pair of login and password
+     * @param email
+     * @param password
+     * @return true if such user exists, false otherwise
+     */
+    public boolean doesUserExist(String email, String password) throws UnsuccessfulQueryException {
+        ResultSet rs = null;
+        boolean result;
+        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT COUNT(user.id) AS total FROM user_account AS user " +
+                        "WHERE user.email = ? AND user.password = ? ;")){
+            statement.setString(1, email);
+            statement.setString(2, password);
+            rs = statement.executeQuery();
+            rs.next();
+            result = rs.getInt("total") > 0;
+        }catch (SQLException e){
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return result;
+    }
+
+    /*public boolean getRoleByEmailAndPassword() throws UnsuccessfulQueryException{
+
+    }*/
 
     //TODO: implement it
     @Override
