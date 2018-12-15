@@ -2,7 +2,7 @@ package com.javacourse.utils;
 
 import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnableToParseUriException;
-import com.javacourse.user.UserDAO;
+import com.javacourse.exceptions.UnexistingUrlException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
