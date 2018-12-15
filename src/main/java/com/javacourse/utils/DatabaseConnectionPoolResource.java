@@ -1,5 +1,6 @@
 package com.javacourse.utils;
 
+import com.javacourse.ApplicationResources;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.log4j.Logger;
 
@@ -15,14 +16,13 @@ public class DatabaseConnectionPoolResource {
     public static final Logger logger;
 
     static {
-        logger = Logger.getLogger(DatabaseConnectionPoolResource.class);
-        //DOMConfigurator.configure("E:\\Epam Java Course\\Homework\\JavaExternal\\Homework_24_11_18\\log\\log4j.xml");
+        logger = LogConfigurator.getLogger(DatabaseConnectionPoolResource.class);
     }
 
     static {
         FileInputStream fis =null;
         try {
-            fis = new FileInputStream("C:\\Users\\kois\\Desktop\\Final_Project\\src\\main\\resources\\database.properties");
+            fis = new FileInputStream(ApplicationResources.getDbPropertiesPath());
             property.load(fis);
             ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
             ds.setUrl(property.getProperty("db.host"));

@@ -6,6 +6,7 @@ import com.javacourse.shared.AbstractDAO;
 import com.javacourse.test.topic.Topic;
 import com.javacourse.user.UserDAO;
 import com.javacourse.utils.DatabaseConnectionManager;
+import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -27,8 +28,7 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
 
     //logger configuration
     static {
-        logger = Logger.getLogger(UserDAO.class);
-        new DOMConfigurator().doConfigure(ApplicationResources.getLogConfig(), LogManager.getLoggerRepository());
+        logger = LogConfigurator.getLogger(TestDAO.class);
     }
 
     /**

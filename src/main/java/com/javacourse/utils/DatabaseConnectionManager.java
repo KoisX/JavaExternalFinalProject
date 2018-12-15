@@ -20,11 +20,11 @@ import java.sql.SQLException;
 public class DatabaseConnectionManager {
 
     private static DataSource dataSource;
-    private final static Logger logger = Logger.getLogger(DatabaseConnectionManager.class);
+    private final static Logger logger;
 
     //configuring logger
     static {
-        new DOMConfigurator().doConfigure(ApplicationResources.getLogConfig(), LogManager.getLoggerRepository());
+        logger = LogConfigurator.getLogger(DatabaseConnectionManager.class);
     }
 
     //configuring database connection properties

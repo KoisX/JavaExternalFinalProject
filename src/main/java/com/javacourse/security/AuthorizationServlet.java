@@ -24,6 +24,7 @@ public class AuthorizationServlet extends HttpServlet {
         //configuring log4j logger
         String contextPath = getServletContext().getRealPath("/");
         logger = LogConfigurator.getLogger(contextPath, this.getClass());
+        logger.info("logging set up....");
     }
 
     @Override

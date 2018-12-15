@@ -2,7 +2,6 @@ package com.javacourse.utils;
 
 import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnableToParseUriException;
-import com.javacourse.exceptions.UnexistingUrlException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -24,8 +23,7 @@ public class UriMarshaller {
 
     //logger configuration
     static {
-        logger = Logger.getLogger(UriMarshaller.class);
-        new DOMConfigurator().doConfigure(ApplicationResources.getLogConfig(), LogManager.getLoggerRepository());
+        logger = LogConfigurator.getLogger(UriMarshaller.class);
     }
 
     public UriMarshaller(String requestUri) {

@@ -5,21 +5,20 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
 import com.javacourse.user.UserDAO;
 import com.javacourse.user.role.AdminUserRoleFactory;
+import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.SQLException;
 
 public class SignInCommand implements Command {
     private final static Logger logger;
 
     //logger configuration
     static {
-        logger = Logger.getLogger(SignInCommand.class);
-        new DOMConfigurator().doConfigure(ApplicationResources.getLogConfig(), LogManager.getLoggerRepository());
+        logger = LogConfigurator.getLogger(SignInCommand.class);
     }
 
     @Override

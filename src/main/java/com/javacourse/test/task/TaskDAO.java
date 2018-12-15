@@ -5,6 +5,7 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.user.UserDAO;
 import com.javacourse.utils.DatabaseConnectionManager;
+import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -21,8 +22,7 @@ public class TaskDAO extends AbstractDAO<Integer, Task> {
 
     //logger configuration
     static {
-        logger = Logger.getLogger(UserDAO.class);
-        new DOMConfigurator().doConfigure(ApplicationResources.getLogConfig(), LogManager.getLoggerRepository());
+        logger = LogConfigurator.getLogger(TaskDAO.class);
     }
 
     /**

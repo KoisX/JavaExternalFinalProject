@@ -7,6 +7,7 @@ import com.javacourse.user.role.RoleFactory;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.utils.DatabaseConnectionManager;
 import com.javacourse.utils.DatabaseConnectionPoolResource;
+import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -28,8 +29,7 @@ public class UserDAO extends AbstractDAO<Integer, User> {
 
     //logger configuration
     static {
-        logger = Logger.getLogger(UserDAO.class);
-        new DOMConfigurator().doConfigure(ApplicationResources.getLogConfig(), LogManager.getLoggerRepository());
+        logger = LogConfigurator.getLogger(UserDAO.class);
     }
 
     /**
