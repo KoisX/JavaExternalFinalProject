@@ -23,14 +23,14 @@
                     <div class="form-group">
                         <label for="email" class="col-md-2 control-label">Email:</label>
                         <div class="col-md-10">
-                            <input type="email" id="email" class="col-md-2 form-control">
+                            <input type="email" id="email" name="login" id="login" class="col-md-2 form-control">
                             <%--Error msg here--%>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="password" class="col-md-2 control-label">Password:</label>
                         <div class="col-md-10">
-                            <input type="password" id="password" class="col-md-2 form-control">
+                            <input type="password" name="password" id="password" class="col-md-2 form-control">
                             <%--Error msg here--%>
                         </div>
                     </div>
