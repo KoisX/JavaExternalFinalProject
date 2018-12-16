@@ -6,10 +6,11 @@ import com.javacourse.shared.CommandFactory;
 import com.javacourse.utils.UriMarshaller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class TestCommandFactory extends CommandFactory {
-    public TestCommandFactory(HttpServletRequest request) {
-        super(request);
+    public TestCommandFactory(HttpServletRequest request, HttpServletResponse response) {
+        super(request, response);
     }
 
     @Override

@@ -12,6 +12,8 @@ import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class SignUpCommand implements Command {
 
@@ -24,7 +26,7 @@ public class SignUpCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         String userEmail = request.getParameter("login");
         String userPassword = request.getParameter("password");
         String userPasswordConfirm = request.getParameter("password-confirm");
@@ -73,10 +75,11 @@ public class SignUpCommand implements Command {
         }
 
         if(insertUser(userName, userSurname, userEmail, userPassword, userDAO)){
-            return "/Login/SignIn";
+            //!!!
+            return "/index.jsp";
         }else {
             request.setAttribute("error", "Registration unsuccessful. Try again.");
-            return "/signup.jsp";
+            return "/login.jsp";
         }
     }
 

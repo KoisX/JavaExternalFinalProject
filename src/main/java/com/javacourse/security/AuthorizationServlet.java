@@ -39,9 +39,9 @@ public class AuthorizationServlet extends HttpServlet {
     void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String resultPage;
         try{
-            CommandFactory factory = new AuthorizationCommandFactory(request);
+            CommandFactory factory = new AuthorizationCommandFactory(request, response);
             Command command = factory.defineCommand();
-            resultPage = command.execute(request);
+            resultPage = command.execute(request, response);
         }catch (Exception e){
             resultPage = ApplicationResources.getErrorPage(request.getContextPath());
         }

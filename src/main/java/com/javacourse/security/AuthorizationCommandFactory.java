@@ -9,11 +9,12 @@ import com.javacourse.shared.HttpMethod;
 import com.javacourse.utils.UriMarshaller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class AuthorizationCommandFactory extends CommandFactory {
 
-    public AuthorizationCommandFactory(HttpServletRequest request) {
-        super(request);
+    public AuthorizationCommandFactory(HttpServletRequest request, HttpServletResponse response) {
+        super(request, response);
     }
 
     @Override

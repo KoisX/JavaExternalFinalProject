@@ -37,9 +37,9 @@ public class TestServlet extends HttpServlet {
     void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String resultPage;
         try{
-            CommandFactory factory = new TestCommandFactory(request);
+            CommandFactory factory = new TestCommandFactory(request, response);
             Command command = factory.defineCommand();
-            resultPage = command.execute(request);
+            resultPage = command.execute(request, response);
         }catch (Exception e){
             resultPage = ApplicationResources.getErrorPage(request.getContextPath());
         }

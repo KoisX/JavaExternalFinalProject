@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class SignInCommand implements Command {
@@ -24,7 +25,7 @@ public class SignInCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request , HttpServletResponse response) {
         String userEmail = request.getParameter("login");
         String userPassword = request.getParameter("password");
         HttpSession session = request.getSession();
