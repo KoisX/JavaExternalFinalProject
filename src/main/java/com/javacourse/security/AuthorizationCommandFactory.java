@@ -31,6 +31,8 @@ public class AuthorizationCommandFactory extends CommandFactory {
                 return HttpMethod.isGet(request.getMethod()) ?
                         LoginCommandEnum.SHOW_SIGN_UP.getCommand() :
                         LoginCommandEnum.SIGN_UP.getCommand();
+            case "Logout":
+                return LoginCommandEnum.LOGOUT.getCommand();
             default:
                 throw new UnexistingUrlException();
         }

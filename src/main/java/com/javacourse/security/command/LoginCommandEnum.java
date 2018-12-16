@@ -22,6 +22,11 @@ public enum LoginCommandEnum {
         {
             this.command = new ShowSignUpCommand();
         }
+    },
+    LOGOUT{
+        {
+            this.command = new LogoutCommand();
+        }
     };
 
     Command command;
