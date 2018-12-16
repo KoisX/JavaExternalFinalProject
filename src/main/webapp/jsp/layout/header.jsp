@@ -18,7 +18,7 @@
                         <ul class="nav navbar-nav navbar-right">
                                 <c:choose>
                                         <c:when test="${not empty sessionScope.login && not empty sessionScope.password}">
-                                                <li><a href="${pageContext.request.contextPath}/Login/Logout"><span class="glyphicon glyphicon-user"></span>Logout</a></li>
+                                                <li><a href="${pageContext.request.contextPath}/Login/Logout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
                                         </c:when>
                                         <c:otherwise>
                                                 <li><a href="${pageContext.request.contextPath}/Login/SignUp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
