@@ -48,18 +48,17 @@ public class UserDAOTest {
 
     @Test
     public void parseToEntityList_getsEntity_returnsCorrectEntity() throws SQLException {
-        User user = new User(1, "Ivan", "Ivanov", "ivanov@gmail.com", Role.USER, "123", "123");
+        User user = new User(1, "Ivan", "Ivanov", "ivanov@gmail.com", Role.USER, "123");
         Role role = Role.USER;
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
         when(rs.getLong(1)).thenReturn(user.getId());
         when(rs.getString(2)).thenReturn(user.getName());
         when(rs.getString(3)).thenReturn(user.getSurname());
-        when(rs.getString(4)).thenReturn(user.getSalt());
-        when(rs.getString(5)).thenReturn(user.getEmail());
-        when(rs.getString(6)).thenReturn(role.getName());
-        when(rs.getLong(7)).thenReturn(role.getId());
-        when(rs.getString(8)).thenReturn(user.getPassword());
+        when(rs.getString(4)).thenReturn(user.getEmail());
+        when(rs.getString(5)).thenReturn(role.getName());
+        when(rs.getLong(6)).thenReturn(role.getId());
+        when(rs.getString(7)).thenReturn(user.getPassword());
         when(roleFactory.createRole(user.getRole().getName(), user.getRole().getId())).thenReturn(Role.USER);
 
         List<User> expected = new LinkedList<>();
@@ -76,18 +75,17 @@ public class UserDAOTest {
 
     @Test
     public void parseSingleEntity_getsEntity_returnsCorrectEntity() throws SQLException {
-        User expected = new User(1, "Ivan", "Ivanov", "ivanov@gmail.com", Role.USER, "123", "123");
+        User expected = new User(1, "Ivan", "Ivanov", "ivanov@gmail.com", Role.USER,"123");
         Role role = Role.USER;
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
         when(rs.getLong(1)).thenReturn(expected.getId());
         when(rs.getString(2)).thenReturn(expected.getName());
         when(rs.getString(3)).thenReturn(expected.getSurname());
-        when(rs.getString(4)).thenReturn(expected.getSalt());
-        when(rs.getString(5)).thenReturn(expected.getEmail());
-        when(rs.getString(6)).thenReturn(role.getName());
-        when(rs.getLong(7)).thenReturn(role.getId());
-        when(rs.getString(8)).thenReturn(expected.getPassword());
+        when(rs.getString(4)).thenReturn(expected.getEmail());
+        when(rs.getString(5)).thenReturn(role.getName());
+        when(rs.getLong(6)).thenReturn(role.getId());
+        when(rs.getString(7)).thenReturn(expected.getPassword());
         when(roleFactory.createRole(expected.getRole().getName(), expected.getRole().getId())).thenReturn(Role.USER);
 
         User actual = userDAO.parseSingleEntity(rs);

@@ -16,31 +16,46 @@
     <div class="row">
         <div class="col-md-8">
             <section id="loginForm">
-                <form action="" method="post" class="form-horizontal" role="form">
+                <form action="${pageContext.request.contextPath}/Login/SignUp" method="post" class="form-horizontal" role="form">
                     <h4>Create a new account.</h4>
                     <hr />
+                    <div class="form-group">
+                        <label for="name" class="col-md-2 control-label">Name:</label>
+                        <div class="col-md-10">
+                            <input type="text" id="name" name="name" class="col-md-2 form-control" required pattern=".{3,50}">
+                            <%--Error msg here--%>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="surname" class="col-md-2 control-label">Surname:</label>
+                        <div class="col-md-10">
+                            <input type="text" id="surname" name="surname" class="col-md-2 form-control" required pattern=".{3,50}">
+                            <%--Error msg here--%>
+                        </div>
+                    </div>
                     <%--Put error msg here--%>
                     <div class="form-group">
                         <label for="email" class="col-md-2 control-label">Email:</label>
                         <div class="col-md-10">
-                            <input type="email" id="email" name="login" id="login" class="col-md-2 form-control">
+                            <input type="email" id="email" name="login" class="col-md-2 form-control" required>
                             <%--Error msg here--%>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="password" class="col-md-2 control-label">Password:</label>
                         <div class="col-md-10">
-                            <input type="password" name="password" id="password" class="col-md-2 form-control">
+                            <input type="password" name="password" id="password" class="col-md-2 form-control" required>
                             <%--Error msg here--%>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="password" class="col-md-2 control-label">Confirm password:</label>
                         <div class="col-md-10">
-                            <input type="password" id="password" class="col-md-2 form-control">
+                            <input type="password" name="password-confirm" id="password-confirm" class="col-md-2 form-control" required>
                             <%--Error msg here--%>
                         </div>
                     </div>
+                    <p class="text-danger">${requestScope.error}</p>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Sign up" class="btn btn-default" />

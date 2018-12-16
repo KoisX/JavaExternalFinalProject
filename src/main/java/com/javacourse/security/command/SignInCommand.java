@@ -2,6 +2,7 @@ package com.javacourse.security.command;
 
 import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
+import com.javacourse.security.PasswordManager;
 import com.javacourse.shared.Command;
 import com.javacourse.user.UserDAO;
 import com.javacourse.user.role.AdminUserRoleFactory;
@@ -31,9 +32,10 @@ public class SignInCommand implements Command {
         boolean doesExist = false;
         Role role = Role.USER;
         try {
-            doesExist = userDAO.doesUserExist(userEmail, userPassword);
+            String hash = PasswordManager.hash(userPassword, userEmail);
+            doesExist = userDAO.doesUserExist(userEmail, hash);
             if(doesExist){
-                role = userDAO.getRoleByEmailAndPassword(userEmail, userPassword);
+                role = userDAO.getRoleByEmailAndPassword(userEmail, hash);
             }
         }catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
@@ -45,7 +47,7 @@ public class SignInCommand implements Command {
             session.setAttribute("role", role.getName());
             return "/index.jsp";
         }
-
+        //TODO: get it form props
         request.setAttribute("error", "Incorrect login or password");
         return "/login.jsp";
     }

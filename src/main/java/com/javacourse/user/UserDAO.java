@@ -2,6 +2,7 @@ package com.javacourse.user;
 
 import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
+import com.javacourse.user.role.AdminUserRoleFactory;
 import com.javacourse.user.role.Role;
 import com.javacourse.user.role.RoleFactory;
 import com.javacourse.shared.AbstractDAO;
@@ -41,13 +42,20 @@ public class UserDAO extends AbstractDAO<Integer, User> {
         this.roleFactory = roleFactory;
     }
 
+    /**
+     * Creates UserDAO entity with default role factory
+     */
+    public UserDAO() {
+        this.roleFactory = new AdminUserRoleFactory();
+    }
+
     @Override
     public List<User> findAll() throws UnsuccessfulQueryException {
         List<User> items;
         ResultSet rs = null;
         try(    Connection connection = DatabaseConnectionManager.getConnection();
                 PreparedStatement statement = connection.prepareStatement(
-                    "SELECT user.id, user.name, user.surname, user.salt, user.email, role.id, role.name, user.password " +
+                    "SELECT user.id, user.name, user.surname, user.email, role.id, role.name, user.password " +
                         "FROM user_account AS user " +
                         "JOIN role ON user.role_id = role.id " +
                         "ORDER BY surname, name ASC ;"
@@ -87,13 +95,12 @@ public class UserDAO extends AbstractDAO<Integer, User> {
             user.setId(rs.getLong(1));
             user.setName(rs.getString(2));
             user.setSurname(rs.getString(3));
-            user.setSalt(rs.getString(4));
-            user.setEmail(rs.getString(5));
+            user.setEmail(rs.getString(4));
 
-            role = roleFactory.createRole(rs.getString(6), rs.getLong(7));
+            role = roleFactory.createRole(rs.getString(5), rs.getLong(6));
 
             user.setRole(role);
-            user.setPassword(rs.getString(8));
+            user.setPassword(rs.getString(7));
             items.add(user);
         }
         return items;
@@ -105,7 +112,7 @@ public class UserDAO extends AbstractDAO<Integer, User> {
         ResultSet rs = null;
         try(    Connection connection = DatabaseConnectionManager.getConnection();
                 PreparedStatement statement = connection.prepareStatement(
-                    "SELECT user.id, user.name, user.surname, user.salt, user.email, role.id, role.name, user.password " +
+                    "SELECT user.id, user.name, user.surname, user.email, role.id, role.name, user.password " +
                             "FROM user_account AS user " +
                             "JOIN role ON user.role_id = role.id " +
                             "WHERE user.id = ? ;"
@@ -160,17 +167,16 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     @Override
     public boolean create(User entity) throws UnsuccessfulQueryException {
         int changes = 0;
-        try(Connection connection = DatabaseConnectionManager.getConnection();
+        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
             PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO user_account(name, surname, salt, email, role_id, password) " +
-                        "values (?,?,?,?,?,?);")){
+                "INSERT INTO user_account(name, surname, email, role_id, password) " +
+                        "values (?,?,?,?,?);")){
 
             statement.setString(1, entity.getName());
             statement.setString(2, entity.getSurname());
-            statement.setString(3, entity.getSalt());
-            statement.setString(4,entity.getEmail());
-            statement.setLong(5, entity.getRole().getId());
-            statement.setString(6, entity.getPassword());
+            statement.setString(3,entity.getEmail());
+            statement.setLong(4, entity.getRole().getId());
+            statement.setString(5, entity.getPassword());
             changes = statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e.getMessage());
@@ -222,6 +228,24 @@ public class UserDAO extends AbstractDAO<Integer, User> {
             role = rs.getString(1);
             result = roleFactory.createRole(role);
         } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return result;
+    }
+
+    public boolean doesEmailAlreadyExist(String email) throws UnsuccessfulQueryException {
+        ResultSet rs = null;
+        boolean result;
+        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT COUNT(user.id) AS total FROM user_account AS user " +
+                            "WHERE user.email = ? ;")){
+            statement.setString(1, email);
+            rs = statement.executeQuery();
+            rs.next();
+            result = rs.getInt("total") > 0;
+        }catch (SQLException e){
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         }

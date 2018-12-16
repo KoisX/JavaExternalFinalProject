@@ -16,16 +16,14 @@ public class User implements Entity {
     private String email;
     private Role role;
     private String password;
-    private String salt;
 
-    public User(long id, String name, String surname, String email, Role role, String password, String salt) {
+    public User(long id, String name, String surname, String email, Role role, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.role = role;
         this.password = password;
-        this.salt = salt;
     }
 
     public User() {
@@ -84,15 +82,6 @@ public class User implements Entity {
         this.password = password;
     }
 
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("User{");
@@ -102,7 +91,6 @@ public class User implements Entity {
         sb.append(", email='").append(email).append('\'');
         sb.append(", role=").append(role);
         sb.append(", password='").append(password).append('\'');
-        sb.append(", salt='").append(salt).append('\'');
         sb.append('}');
         return sb.toString();
     }
@@ -117,12 +105,11 @@ public class User implements Entity {
                 surname.equals(user.surname) &&
                 email.equals(user.email) &&
                 role == user.role &&
-                password.equals(user.password) &&
-                salt.equals(user.salt);
+                password.equals(user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, email, role, password, salt);
+        return Objects.hash(id, name, surname, email, role, password);
     }
 }
