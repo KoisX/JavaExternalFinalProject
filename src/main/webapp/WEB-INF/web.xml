@@ -20,4 +20,9 @@
     <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>
 
+  <session-config>
+    <!--Session never expires-->
+    <session-timeout>-1</session-timeout>
+  </session-config>
+
 </web-app>
