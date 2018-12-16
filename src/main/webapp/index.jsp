@@ -17,7 +17,7 @@
         <div class="jumbotron">
             <h1>WebExam</h1>
             <p class="lead">Check your knowledge here!</p>
-            <p><a href="${pageContext.request.contextPath}/Test" class="btn btn-primary btn-lg">Go to tests page &raquo;</a></p>
+            <p><a href="${pageContext.request.contextPath}/Test/Topic" class="btn btn-primary btn-lg">Go to tests page &raquo;</a></p>
         </div>
 
         <div class="row">
