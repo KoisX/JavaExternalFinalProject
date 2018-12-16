@@ -7,6 +7,7 @@ import com.javacourse.user.User;
 import com.javacourse.user.UserDAO;
 import com.javacourse.user.role.AdminUserRoleFactory;
 import com.javacourse.user.role.Role;
+import com.javacourse.user.role.RoleDAO;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -63,6 +64,7 @@ public class SignUpCommand implements Command {
             logger.error(e.getMessage());
             return "/Error";
         }
+
         if(doesEmailExist){
             //TODO: get it form props
             request.setAttribute("error", "User with this email already exists");
@@ -70,9 +72,8 @@ public class SignUpCommand implements Command {
 
         }
 
-        if(insertUser(userName, userSurname, userEmail, userPassword, userDAO))
-        {
-            return "/login.jsp";
+        if(insertUser(userName, userSurname, userEmail, userPassword, userDAO)){
+            return "/Login/SignIn";
         }else {
             request.setAttribute("error", "Registration unsuccessful. Try again.");
             return "/signup.jsp";
@@ -86,7 +87,13 @@ public class SignUpCommand implements Command {
         user.setEmail(userEmail);
         user.setRole(Role.USER);
         user.setPassword(PasswordManager.hash(userPassword, userEmail));
+
+        RoleDAO roleDAO = new RoleDAO();
+        int roleId;
+
         try {
+            roleId = roleDAO.getRoleIdByName(user.getRole().getName());
+            user.getRole().setId(roleId);
             userDAO.create(user);
         } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
