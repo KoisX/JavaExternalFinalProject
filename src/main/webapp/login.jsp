@@ -34,14 +34,7 @@
                             <%--Error msg here--%>
                         </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            <input type="checkbox" id="remember_me">
-                            <label for="remember_me">Remember me</label>
-                        </div>
-                    </div>
-                </div>
+                <p class="text-danger">${requestScope.error}</p>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Log in" class="btn btn-default" />

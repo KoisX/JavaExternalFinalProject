@@ -46,6 +46,7 @@ public class SignInCommand implements Command {
             return "/index.jsp";
         }
 
+        request.setAttribute("error", "Incorrect login or password");
         return "/login.jsp";
     }
 }
