@@ -5,5 +5,5 @@
 <footer>
     <p>&copy; <c:out value="${currentYear}"/> - Igor Konobas</p>
 </footer>
-<script src="../../scripts/jquery-1.10.2.js" defer></script>
-<script src="../../scripts/bootstrap.js" defer></script>
+<script src="../../scripts/jquery-1.10.2.js"></script>
+<script src="../../scripts/bootstrap.js"></script>

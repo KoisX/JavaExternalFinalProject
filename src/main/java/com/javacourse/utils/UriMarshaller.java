@@ -43,7 +43,7 @@ public class UriMarshaller {
             try {
                 action = parseUri();
             } catch (UnableToParseUriException e) {
-                logger.error(e.getMessage());
+                logger.info(e.getMessage());
             }
         }
         return action;

@@ -12,7 +12,7 @@ import java.io.IOException;
  * Filter, which is responsible for checking whether a user is allowed to access
  * current page
  */
-@WebFilter(urlPatterns = {"/Test/*"})
+@WebFilter(urlPatterns = {"/Test/1"})
 public class AuthorizationFilter implements Filter {
 
     @Override

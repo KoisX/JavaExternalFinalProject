@@ -20,7 +20,7 @@ import java.io.IOException;
  * /Home/Rules
  * /Home/About
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/Home/*", "/"})
+@WebServlet(name = "HomeServlet", urlPatterns = {"/Home/*"})
 public class HomeServlet extends HttpServlet {
 
     private Logger logger;

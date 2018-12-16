@@ -10,7 +10,7 @@
                 <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                                 <li><a href="${pageContext.request.contextPath}/Home/Index">HOME</a></li>
-                                <li><a href="${pageContext.request.contextPath}/Test">TESTS</a></li>
+                                <li><a href="${pageContext.request.contextPath}/Test/Topic">TESTS</a></li>
                                 <li><a href="${pageContext.request.contextPath}/Home/Rules">RULES</a></li>
                                 <li><a href="${pageContext.request.contextPath}/Home/About">ABOUT</a></li>
                         </ul>

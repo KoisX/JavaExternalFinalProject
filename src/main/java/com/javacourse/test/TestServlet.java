@@ -1,9 +1,9 @@
-package com.javacourse.security;
+package com.javacourse.test;
 
 import com.javacourse.ApplicationResources;
+import com.javacourse.home.HomeCommandFactory;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
-import com.javacourse.user.UserDAO;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "Login", urlPatterns = {"/Login/*"})
-public class AuthorizationServlet extends HttpServlet {
+@WebServlet(name = "TestServlet", urlPatterns = {"/Test/*"})
+public class TestServlet extends HttpServlet {
 
     private Logger logger;
 
@@ -26,30 +26,23 @@ public class AuthorizationServlet extends HttpServlet {
         logger = LogConfigurator.getLogger(contextPath, this.getClass());
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String resultPage;
         try{
-            CommandFactory factory = new AuthorizationCommandFactory(request);
+            CommandFactory factory = new TestCommandFactory(request);
             Command command = factory.defineCommand();
             resultPage = command.execute(request);
         }catch (Exception e){
             resultPage = ApplicationResources.getErrorPage(request.getContextPath());
         }
         request.getRequestDispatcher(resultPage).forward(request, response);
-    }
-
-    @Override
-    public void destroy() {
-
     }
 }

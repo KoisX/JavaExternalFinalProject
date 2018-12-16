@@ -5,6 +5,7 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.user.UserDAO;
 import com.javacourse.utils.DatabaseConnectionManager;
+import com.javacourse.utils.DatabaseConnectionPoolResource;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -37,9 +38,9 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
     public List<Topic> findAll() throws UnsuccessfulQueryException {
         List<Topic> items;
         ResultSet rs = null;
-        try(    Connection connection = DatabaseConnectionManager.getConnection();
-                PreparedStatement statement = connection.prepareStatement(
-                "SELECT topic.topic_id, topic.name FROM topic ORDER BY topic.name ;"
+        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "SELECT topic.id, topic.name FROM topic ORDER BY topic.name ;"
         )){
 
             rs = statement.executeQuery();
