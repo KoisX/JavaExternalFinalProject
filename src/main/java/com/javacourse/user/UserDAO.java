@@ -204,9 +204,29 @@ public class UserDAO extends AbstractDAO<Integer, User> {
         return result;
     }
 
-    /*public boolean getRoleByEmailAndPassword() throws UnsuccessfulQueryException{
+    public Role getRoleByEmailAndPassword(String email, String password) throws UnsuccessfulQueryException{
+        ResultSet rs = null;
+        String role;
+        Role result;
+        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT role.name " +
+                        "from user_account inner JOIN role on user_account.role_id = role.id " +
+                        "where user_account.password = ? AND user_account.email = ?;"
+                        )){
 
-    }*/
+            statement.setString(1, password);
+            statement.setString(2,email);
+            rs = statement.executeQuery();
+            rs.next();
+            role = rs.getString(1);
+            result = roleFactory.createRole(role);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return result;
+    }
 
     //TODO: implement it
     @Override

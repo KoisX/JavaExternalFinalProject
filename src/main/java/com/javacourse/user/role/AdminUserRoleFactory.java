@@ -25,4 +25,23 @@ public class AdminUserRoleFactory implements RoleFactory {
         role.setId(id);
         return role;
     }
+
+    /**
+     * Overloaded version of the interface method.
+     * It can only be used, when we do not care about
+     * the id (DB primary key) of the role
+     * @param roleType
+     * @return
+     */
+    @Override
+    public Role createRole(String roleType) {
+        Role role;
+        if(roleType==null)
+            return Role.USER;
+        if(roleType.equalsIgnoreCase(ADMIN)){
+            role = Role.ADMIN;
+        }else
+            role = Role.USER;
+        return role;
+    }
 }

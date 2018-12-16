@@ -5,4 +5,5 @@ package com.javacourse.user.role;
  */
 public interface RoleFactory {
     Role createRole(String roleType, long id);
+    Role createRole(String roleType);
 }
