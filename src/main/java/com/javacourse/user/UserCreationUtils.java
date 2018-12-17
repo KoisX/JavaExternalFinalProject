@@ -40,6 +40,7 @@ public class UserCreationUtils {
 
         if(!checkInputFields(request) || !validateInDb(request, userDAO)){
             resultPage = ApplicationResources.getSignUpPage();
+            return  resultPage;
         }
 
         if(insertUser(constructUser(request), userDAO)){
