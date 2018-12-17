@@ -29,6 +29,10 @@ public class ApplicationResources {
 
     private final static String LOGIN_PAGE = "/login.jsp";
 
+    private final static String LOGIN_ACTION = "/Login/SignIn";
+
+    private final static String INDEX_ACTION = "/Home/Index";
+
     /**
      * Path to database.properties file
      */
@@ -38,7 +42,7 @@ public class ApplicationResources {
         return LOG_CONFIG_FOR_JAVA_CODE;
     }
 
-    public static String getErrorPage(String contextPath){
+    public static String getErrorPageFull(String contextPath){
         return contextPath + ERROR_PAGE;
     }
 
@@ -68,5 +72,17 @@ public class ApplicationResources {
 
     public static String getLoginPage() {
         return LOGIN_PAGE;
+    }
+
+    public static String getLoginAction() {
+        return LOGIN_ACTION;
+    }
+
+    public static String getIndexAction() {
+        return INDEX_ACTION;
+    }
+
+    public static String getErrorPage() {
+        return ERROR_PAGE;
     }
 }

@@ -1,6 +1,7 @@
 package com.javacourse.security.command;
 
 import com.javacourse.ApplicationResources;
+import com.javacourse.WebKeys;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
 import com.javacourse.shared.Command;
@@ -40,16 +41,16 @@ public class SignInCommand implements Command {
             }
         }catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
-            return "/Error";
+            return ApplicationResources.getErrorPage();
         }
         if(doesExist){
             session.setAttribute("login", userEmail);
             session.setAttribute("password", userPassword);
             session.setAttribute("role", role.getName());
-            return "/index.jsp";
+            request.setAttribute(WebKeys.getShouldRedirect(), "true");
+            return ApplicationResources.getIndexAction();
         }
-        //TODO: get it form props
         request.setAttribute("error", "Incorrect login or password");
-        return "/login.jsp";
+        return ApplicationResources.getLoginPage();
     }
 }

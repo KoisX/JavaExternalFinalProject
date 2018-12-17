@@ -1,7 +1,6 @@
 package com.javacourse.test;
 
 import com.javacourse.ApplicationResources;
-import com.javacourse.home.HomeCommandFactory;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
 import com.javacourse.utils.LogConfigurator;
@@ -41,7 +40,7 @@ public class TestServlet extends HttpServlet {
             Command command = factory.defineCommand();
             resultPage = command.execute(request, response);
         }catch (Exception e){
-            resultPage = ApplicationResources.getErrorPage(request.getContextPath());
+            resultPage = ApplicationResources.getErrorPageFull(request.getContextPath());
         }
         request.getRequestDispatcher(resultPage).forward(request, response);
     }

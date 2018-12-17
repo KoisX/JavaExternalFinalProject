@@ -1,10 +1,9 @@
 package com.javacourse.security;
 
 import com.javacourse.ApplicationResources;
-import com.javacourse.WebKeys;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
-import com.javacourse.user.UserDAO;
+import com.javacourse.utils.DispatchHelper;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -44,11 +43,9 @@ public class AuthorizationServlet extends HttpServlet {
             Command command = factory.defineCommand();
             resultPage = command.execute(request, response);
         }catch (Exception e){
-            resultPage = ApplicationResources.getErrorPage(request.getContextPath());
+            resultPage = ApplicationResources.getErrorPageFull(request.getContextPath());
         }
-        if(request.getAttribute(WebKeys.getShouldRedirect())==null)
-            request.getRequestDispatcher(resultPage).forward(request, response);
-        else response.sendRedirect("/Login/SignIn");
+        DispatchHelper.dispatch(request, response, resultPage);
     }
 
     @Override

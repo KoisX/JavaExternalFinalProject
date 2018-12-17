@@ -1,7 +1,6 @@
 package com.javacourse.home;
 
 import com.javacourse.ApplicationResources;
-import com.javacourse.security.AuthorizationCommandFactory;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
 import com.javacourse.utils.LogConfigurator;
@@ -47,7 +46,7 @@ public class HomeServlet extends HttpServlet {
             Command command = factory.defineCommand();
             resultPage = command.execute(request, response);
         }catch (Exception e){
-            resultPage = ApplicationResources.getErrorPage(request.getContextPath());
+            resultPage = ApplicationResources.getErrorPageFull(request.getContextPath());
         }
         request.getRequestDispatcher(resultPage).forward(request, response);
     }

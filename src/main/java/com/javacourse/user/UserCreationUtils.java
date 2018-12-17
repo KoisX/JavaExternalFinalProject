@@ -27,6 +27,13 @@ public class UserCreationUtils {
         logger = LogConfigurator.getLogger(SignUpCommand.class);
     }
 
+    /**
+     * Checks if input fields are valid.
+     * If yes, inserts a new user.
+     * Otherwise sets error messages
+     * @param request
+     * @return url to forward or redirect to
+     */
     public static String handleUserInsert(HttpServletRequest request){
         UserDAO userDAO = new UserDAO();
         String resultPage;
@@ -36,7 +43,7 @@ public class UserCreationUtils {
         }
 
         if(insertUser(constructUser(request), userDAO)){
-            resultPage = ApplicationResources.getLoginPage();
+            resultPage = ApplicationResources.getLoginAction();
             /*If new account was created successfully, we want to
              * redirect user to login page, not forward*/
             request.setAttribute(WebKeys.getShouldRedirect(), "true");
