@@ -54,7 +54,7 @@ public class SignInCommand implements Command {
         Role role = userDAO.getRoleByEmailAndPassword(userEmail, hash);
         session.setAttribute("login", userEmail);
         session.setAttribute("password", userPassword);
-        session.setAttribute("role", role.getName());
+        session.setAttribute("role", role);
         request.setAttribute(WebKeys.getShouldRedirect(), "true");
     }
 

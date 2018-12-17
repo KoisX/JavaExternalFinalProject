@@ -5,6 +5,7 @@ import com.javacourse.security.command.SignInCommand;
 import com.javacourse.shared.Command;
 import com.javacourse.test.topic.Topic;
 import com.javacourse.test.topic.TopicDAO;
+import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -33,6 +34,9 @@ public class ShowTopicsCommand implements Command {
             return "/Error";
         }
         request.setAttribute("topics", topics);
+        Role userRole = (Role) request.getSession().getAttribute("role");
+        if(userRole == Role.ADMIN)
+            return "/jsp/admin/topics.jsp";
         return "/jsp/user/topics.jsp";
     }
 }
