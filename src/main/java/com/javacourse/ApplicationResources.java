@@ -3,15 +3,30 @@ package com.javacourse;
 /**ApplicationResources provides a simple API
  * for retrieving preconfigured path values */
 public class ApplicationResources {
-    /**
-     * Path to the log4j configuration file
-     */
-    private final static String LOG_CONFIG_FOR_JAVA_CODE = "src/main/resources/log4j.xml";
 
-    /**
-     * Path to the error page
-     */
-    private final static String ERROR_PAGE = "/Error";
+    /*---------- Pages section --------------*/
+
+    private final static String SIGN_UP_PAGE = "/signup.jsp";
+
+    private final static String INDEX_PAGE = "/index.jsp";
+
+    private final static String LOGIN_PAGE = "/login.jsp";
+
+    private final static String ABOUT_PAGE = "/about.jsp";
+
+    private final static String RULES_PAGE = "/rules.jsp";
+
+    /*---------- /Pages section --------------*/
+    /*---------- Actions section --------------*/
+
+    private final static String ERROR_ACTION = "/Error";
+
+    private final static String LOGIN_ACTION = "/Login/SignIn";
+
+    private final static String INDEX_ACTION = "/Home/Index";
+
+    /*---------- /Actions section --------------*/
+    /*---------- Paths to files -------------*/
 
     /**
      * Path returned by <code>getContextPath</code> method of the servlet
@@ -23,27 +38,15 @@ public class ApplicationResources {
      */
     private final static String LOG_INNER_LOCATION = "WEB-INF/classes/log4j.xml";
 
-    private final static String SIGN_UP_PAGE = "/signup.jsp";
-
-    private final static String INDEX_PAGE = "/index.jsp";
-
-    private final static String LOGIN_PAGE = "/login.jsp";
-
-    private final static String LOGIN_ACTION = "/Login/SignIn";
-
-    private final static String INDEX_ACTION = "/Home/Index";
-
     /**
      * Path to database.properties file
      */
     private final static String DB_PROPERTIES_PATH = "C:\\Users\\kois\\Desktop\\Final_Project\\src\\main\\resources\\database.properties";
 
-    public static String getLogConfigForJavaCode(){
-        return LOG_CONFIG_FOR_JAVA_CODE;
-    }
+    /*---------- /Paths to files -------------*/
 
     public static String getErrorPageFull(String contextPath){
-        return contextPath + ERROR_PAGE;
+        return contextPath + ERROR_ACTION;
     }
 
     public static String getContextPath() {
@@ -82,7 +85,15 @@ public class ApplicationResources {
         return INDEX_ACTION;
     }
 
-    public static String getErrorPage() {
-        return ERROR_PAGE;
+    public static String getErrorAction() {
+        return ERROR_ACTION;
+    }
+
+    public static String getAboutPage() {
+        return ABOUT_PAGE;
+    }
+
+    public static String getRulesPage() {
+        return RULES_PAGE;
     }
 }

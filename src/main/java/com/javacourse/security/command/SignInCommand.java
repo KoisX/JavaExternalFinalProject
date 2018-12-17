@@ -6,12 +6,9 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
 import com.javacourse.shared.Command;
 import com.javacourse.user.UserDAO;
-import com.javacourse.user.role.AdminUserRoleFactory;
 import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +39,7 @@ public class SignInCommand implements Command {
             }
         }catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
-            return ApplicationResources.getErrorPage();
+            return ApplicationResources.getErrorAction();
         }
         //if logging in is unsuccessful
         request.setAttribute(WebKeys.getErrorRequestMessage(), "Incorrect login or password");
