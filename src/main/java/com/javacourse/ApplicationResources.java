@@ -1,8 +1,7 @@
 package com.javacourse;
 
 /**ApplicationResources provides a simple API
- * for retrieving constants and other
- * preconfigured values */
+ * for retrieving preconfigured path values */
 public class ApplicationResources {
     /**
      * Path to the log4j configuration file
@@ -23,6 +22,12 @@ public class ApplicationResources {
      * Relative path to log config file
      */
     private final static String LOG_INNER_LOCATION = "WEB-INF/classes/log4j.xml";
+
+    private final static String SIGN_UP_PAGE = "/signup.jsp";
+
+    private final static String INDEX_PAGE = "/index.jsp";
+
+    private final static String LOGIN_PAGE = "/login.jsp";
 
     /**
      * Path to database.properties file
@@ -51,5 +56,17 @@ public class ApplicationResources {
 
     public static String getDbPropertiesPath() {
         return DB_PROPERTIES_PATH;
+    }
+
+    public static String getSignUpPage() {
+        return SIGN_UP_PAGE;
+    }
+
+    public static String getIndexPage() {
+        return INDEX_PAGE;
+    }
+
+    public static String getLoginPage() {
+        return LOGIN_PAGE;
     }
 }

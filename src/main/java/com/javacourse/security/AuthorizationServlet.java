@@ -1,6 +1,7 @@
 package com.javacourse.security;
 
 import com.javacourse.ApplicationResources;
+import com.javacourse.WebKeys;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
 import com.javacourse.user.UserDAO;
@@ -45,7 +46,9 @@ public class AuthorizationServlet extends HttpServlet {
         }catch (Exception e){
             resultPage = ApplicationResources.getErrorPage(request.getContextPath());
         }
-        request.getRequestDispatcher(resultPage).forward(request, response);
+        if(request.getAttribute(WebKeys.getShouldRedirect())==null)
+            request.getRequestDispatcher(resultPage).forward(request, response);
+        else response.sendRedirect("/Login/SignIn");
     }
 
     @Override
