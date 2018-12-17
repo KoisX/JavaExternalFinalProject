@@ -1,6 +1,8 @@
-<%@ fmt:taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
-<fmt:setBundle basename="messages"/>
+<fmt:setBundle basename="index_messages"/>
 
 <!DOCTYPE html>
 <html lang="${sessionScope.lang}">
@@ -17,28 +19,27 @@
     <div class="container body-content">
         <div class="jumbotron">
             <h1>WebExam</h1>
-            <p class="lead">Check your knowledge here!</p>
-            <p><a href="${pageContext.request.contextPath}/Test/Topic" class="btn btn-primary btn-lg">Go to tests page &raquo;</a></p>
+            <p class="lead"><fmt:message key="msg.header"/></p>
+            <p><a href="${pageContext.request.contextPath}/Test/Topic" class="btn btn-primary btn-lg"><fmt:message key="msg.go-to-tests"/></a></p>
         </div>
 
         <div class="row">
             <div class="col-md-4">
-                <h2>Variety of tests</h2>
+                <h2><fmt:message key="msg.h1"/></h2>
                 <p>
-                    Master your skills on a great number of tests, which cover such popular topics like
-                    mathematics, programming, language learning and much-much more
+                    <fmt:message key="msg.p1"/>
                 </p>
-                <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+                <p><a class="btn btn-default" href="#"><fmt:message key="msg.learn-more"/></a></p>
             </div>
             <div class="col-md-4">
-                <h2>Competitive spirit</h2>
-                <p>Your test results will be put to the rank table, so that your high results will get cheers. Best participants will be listed publicly</p>
-                <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+                <h2><fmt:message key="msg.h2"/></h2>
+                <p><fmt:message key="msg.p2"/></p>
+                <p><a class="btn btn-default" href="#"><fmt:message key="msg.learn-more"/></a></p>
             </div>
             <div class="col-md-4">
-                <h2>Tests available 24/7</h2>
-                <p>You can easily pass any desired test whenever you wish to to that. You can access all our tests from your favourite gadgets</p>
-                <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+                <h2><fmt:message key="msg.h3"/></h2>
+                <p><fmt:message key="msg.p3"/></p>
+                <p><a class="btn btn-default" href="#"><fmt:message key="msg.learn-more"/></a></p>
             </div>
         </div>
         <hr />
