@@ -34,15 +34,10 @@ public class SignInCommand implements Command {
     String tryLogInByUserCredentials(HttpServletRequest request,UserDAO userDAO){
         String userEmail = request.getParameter("login");
         String userPassword = request.getParameter("password");
-        HttpSession session = request.getSession();
         try {
             String hash = PasswordManager.hash(userPassword, userEmail);
             if(userDAO.doesUserExist(userEmail, hash)){
-                Role role = userDAO.getRoleByEmailAndPassword(userEmail, hash);
-                session.setAttribute("login", userEmail);
-                session.setAttribute("password", userPassword);
-                session.setAttribute("role", role.getName());
-                request.setAttribute(WebKeys.getShouldRedirect(), "true");
+                setUserAttributes(userDAO, hash, request);
                 return ApplicationResources.getIndexAction();
             }
         }catch (UnsuccessfulQueryException e) {
@@ -52,6 +47,18 @@ public class SignInCommand implements Command {
         //if logging in is unsuccessful
         request.setAttribute(WebKeys.getErrorRequestMessage(), "Incorrect login or password");
         return ApplicationResources.getLoginPage();
+    }
+
+    void setUserAttributes(UserDAO userDAO, String hash, HttpServletRequest request) throws UnsuccessfulQueryException {
+        String userEmail = request.getParameter("login");
+        String userPassword = request.getParameter("password");
+        HttpSession session = request.getSession();
+
+        Role role = userDAO.getRoleByEmailAndPassword(userEmail, hash);
+        session.setAttribute("login", userEmail);
+        session.setAttribute("password", userPassword);
+        session.setAttribute("role", role.getName());
+        request.setAttribute(WebKeys.getShouldRedirect(), "true");
     }
 
 }

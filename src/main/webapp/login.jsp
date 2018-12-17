@@ -21,16 +21,16 @@
                 <hr />
                 <%--Put error msh here--%>
                 <div class="form-group">
-                    <label for="email" class="col-md-2 control-label">Email:</label>
+                    <label for="login" class="col-md-2 control-label">Email:</label>
                     <div class="col-md-10">
-                        <input type="email" id="email" class="col-md-2 form-control" name="login" id="login">
+                        <input type="email" class="col-md-2 form-control" name="login" id="login" required>
                         <%--Error msg here--%>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password" class="col-md-2 control-label">Password:</label>
                         <div class="col-md-10">
-                            <input type="password" id="password" name="password" class="col-md-2 form-control">
+                            <input type="password" id="password" name="password" class="col-md-2 form-control" required>
                             <%--Error msg here--%>
                         </div>
                 </div>
