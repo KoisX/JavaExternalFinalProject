@@ -11,7 +11,13 @@ public class WebKeys {
      */
     private static final String SHOULD_REDIRECT = "redirect";
 
+    private static final String ERROR_REQUEST_MESSAGE = "error";
+
     public static String getShouldRedirect() {
         return SHOULD_REDIRECT;
+    }
+
+    public static String getErrorRequestMessage() {
+        return ERROR_REQUEST_MESSAGE;
     }
 }

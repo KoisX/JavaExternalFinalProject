@@ -27,30 +27,31 @@ public class SignInCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request , HttpServletResponse response) {
+        UserDAO userDAO = new UserDAO();
+        return tryLogInByUserCredentials(request, userDAO);
+    }
+
+    String tryLogInByUserCredentials(HttpServletRequest request,UserDAO userDAO){
         String userEmail = request.getParameter("login");
         String userPassword = request.getParameter("password");
         HttpSession session = request.getSession();
-        UserDAO userDAO = new UserDAO(new AdminUserRoleFactory());
-        boolean doesExist = false;
-        Role role = Role.USER;
         try {
             String hash = PasswordManager.hash(userPassword, userEmail);
-            doesExist = userDAO.doesUserExist(userEmail, hash);
-            if(doesExist){
-                role = userDAO.getRoleByEmailAndPassword(userEmail, hash);
+            if(userDAO.doesUserExist(userEmail, hash)){
+                Role role = userDAO.getRoleByEmailAndPassword(userEmail, hash);
+                session.setAttribute("login", userEmail);
+                session.setAttribute("password", userPassword);
+                session.setAttribute("role", role.getName());
+                request.setAttribute(WebKeys.getShouldRedirect(), "true");
+                return ApplicationResources.getIndexAction();
             }
         }catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return ApplicationResources.getErrorPage();
         }
-        if(doesExist){
-            session.setAttribute("login", userEmail);
-            session.setAttribute("password", userPassword);
-            session.setAttribute("role", role.getName());
-            request.setAttribute(WebKeys.getShouldRedirect(), "true");
-            return ApplicationResources.getIndexAction();
-        }
-        request.setAttribute("error", "Incorrect login or password");
+        //if logging in is unsuccessful
+        request.setAttribute(WebKeys.getErrorRequestMessage(), "Incorrect login or password");
         return ApplicationResources.getLoginPage();
     }
+
 }

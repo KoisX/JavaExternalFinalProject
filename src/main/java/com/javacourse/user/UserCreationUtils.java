@@ -49,7 +49,7 @@ public class UserCreationUtils {
              * redirect user to login page, not forward*/
             request.setAttribute(WebKeys.getShouldRedirect(), "true");
         }else {
-            request.setAttribute("error", "Registration unsuccessful. Try again.");
+            request.setAttribute(WebKeys.getErrorRequestMessage(), "Registration unsuccessful. Try again.");
             resultPage = ApplicationResources.getSignUpPage();
         }
 
@@ -64,17 +64,17 @@ public class UserCreationUtils {
         String userSurname = request.getParameter("surname");
 
         if(containsEmptyFields(userName, userSurname, userEmail, userPassword, userPasswordConfirm)){
-            request.setAttribute("error", "Field(s) can't be empty");
+            request.setAttribute(WebKeys.getErrorRequestMessage(), "Field(s) can't be empty");
             return false;
         }
 
         if(!arePasswordsEqual(userPassword, userPasswordConfirm)){
-            request.setAttribute("error", "Password confirmation is unsuccessful");
+            request.setAttribute(WebKeys.getErrorRequestMessage(), "Password confirmation is unsuccessful");
             return false;
         }
 
         if(!isPasswordLongEnough(userPassword)){
-            request.setAttribute("error", "Password must me at least 3 symbols long");
+            request.setAttribute(WebKeys.getErrorRequestMessage(), "Password must me at least 3 symbols long");
             return false;
         }
 
@@ -88,12 +88,12 @@ public class UserCreationUtils {
             doesEmailExist = userDAO.doesEmailAlreadyExist(userEmail);
         } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
-            request.setAttribute("error", "Unsuccessful signing up. Try again.");
+            request.setAttribute(WebKeys.getErrorRequestMessage(), "Unsuccessful signing up. Try again.");
             return false;
         }
 
         if(doesEmailExist){
-            request.setAttribute("error", "User with this email already exists");
+            request.setAttribute(WebKeys.getErrorRequestMessage(), "User with this email already exists");
             return false;
         }
         return true;
