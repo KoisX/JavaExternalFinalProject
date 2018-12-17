@@ -4,6 +4,10 @@
 <fmt:formatDate value="${date}" pattern="yyyy" var="currentYear" />
 <footer>
     <p>&copy; <c:out value="${currentYear}"/> - Igor Konobas</p>
+    <ul class="lang-list">
+    <li class="lang-flag"><a href="?sessionLocale=ukr" title="UA"><img class="lang-pic" width="30px;" src="${pageContext.request.contextPath}/images/ukraine.jpg"/></a></li>
+    <li class="lang-flag"><a href="?sessionLocale=en" title="ENG"><img class="lang-pic" width="30px;" src="${pageContext.request.contextPath}/images/england.png"/></a></li>
+    </ul>
 </footer>
-<script src="../../scripts/jquery-1.10.2.js"></script>
-<script src="../../scripts/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/scripts/jquery-1.10.2.js"></script>
+<script src="${pageContext.request.contextPath}/scripts/bootstrap.js"></script>

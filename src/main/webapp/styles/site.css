@@ -25,3 +25,15 @@ textarea {
 }
 /*Whole site styles*/
 
+.lang-list{
+    list-style-type: none;
+    padding: 0;
+}
+
+.lang-flag{
+    display: inline-block;
+}
+
+.lang-pic{
+    border-radius: 5px;
+}
