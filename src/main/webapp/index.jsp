@@ -1,8 +1,9 @@
+<%@ fmt:taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="messages"/>
+
 <!DOCTYPE html>
-<html
-        xmlns:c="http://java.sun.com/jsp/jstl/core"
-        xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-        xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+<html lang="${sessionScope.lang}">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -11,7 +11,14 @@ public class WebKeys {
      */
     private static final String SHOULD_REDIRECT = "redirect";
 
+    /**
+     * Key by which error message is saved as a request param
+     */
     private static final String ERROR_REQUEST_MESSAGE = "error";
+
+    private static final String LANG_SESSION = "lang";
+
+    private static final String LANG_URL_PARAM = "lang";
 
     public static String getShouldRedirect() {
         return SHOULD_REDIRECT;
@@ -19,5 +26,13 @@ public class WebKeys {
 
     public static String getErrorRequestMessage() {
         return ERROR_REQUEST_MESSAGE;
+    }
+
+    public static String getLangSession() {
+        return LANG_SESSION;
+    }
+
+    public static String getLangUrlParam() {
+        return LANG_URL_PARAM;
     }
 }
