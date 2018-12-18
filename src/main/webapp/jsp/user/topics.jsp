@@ -18,7 +18,7 @@
     <h1>Choose the topic of the test, which you want to pass:</h1>
     <div class="list-group">
         <c:forEach var="topic" items="${requestScope.topics}">
-            <a href="#" class="list-group-item list-group-item-action">
+            <a href="${pageContext.request.contextPath}/Test/Tests?id=${topic.id}" class="list-group-item list-group-item-action">
                 ${topic.name}
             </a>
         </c:forEach>

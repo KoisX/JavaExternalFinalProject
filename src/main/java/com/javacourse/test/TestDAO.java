@@ -6,6 +6,7 @@ import com.javacourse.shared.AbstractDAO;
 import com.javacourse.test.topic.Topic;
 import com.javacourse.user.UserDAO;
 import com.javacourse.utils.DatabaseConnectionManager;
+import com.javacourse.utils.DatabaseConnectionPoolResource;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -163,6 +164,39 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
             throw new UnsuccessfulQueryException();
         }
         return changes>0;
+    }
+
+    /**
+     * Finds all tests for a specific topic
+     * @param id topic id
+     * @return
+     * @throws UnsuccessfulQueryException
+     */
+    public List<Test> findByTopicId(String id) throws UnsuccessfulQueryException {
+        List<Test> items;
+        ResultSet rs = null;
+        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT test.id, test.description, t.id, t.name " +
+                            "FROM test " +
+                            "JOIN topic t on test.topic_id = t.id " +
+                            "WHERE test.topic_id = ? ")){
+
+            statement.setString(1, id);
+            rs = statement.executeQuery();
+            items = parseToEntityList(rs);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        } finally {
+            try {
+                if(rs!=null)
+                    rs.close();
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
+            }
+        }
+        return items;
     }
 
     //TODO: implement it

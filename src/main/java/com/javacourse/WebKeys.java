@@ -20,6 +20,8 @@ public class WebKeys {
 
     private static final String LANG_URL_PARAM = "lang";
 
+    private static final String ROLE_KEY = "role";
+
     public static String getShouldRedirect() {
         return SHOULD_REDIRECT;
     }
@@ -34,5 +36,9 @@ public class WebKeys {
 
     public static String getLangUrlParam() {
         return LANG_URL_PARAM;
+    }
+
+    public static String getRoleKey() {
+        return ROLE_KEY;
     }
 }

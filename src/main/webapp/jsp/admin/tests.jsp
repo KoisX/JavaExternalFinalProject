@@ -14,11 +14,11 @@
 <body>
 <jsp:include page="../layout/header.jsp"/>
 <div class="container body-content">
-    <h1>Choose the topic of the test, which you want to pass:</h1>
+    <h1>Choose the desired test:</h1>
     <div class="list-group">
-        <c:forEach var="topic" items="${requestScope.topics}">
-            <a href="${pageContext.request.contextPath}/Test/Tests?id=${topic.id}" class="list-group-item list-group-item-action">
-                ${topic.name}
+        <c:forEach var="test" items="${requestScope.tests}">
+            <a href="${pageContext.request.contextPath}/Test/Details?id=${test.id}" class="list-group-item list-group-item-action">
+                    ${test.description}
             </a>
         </c:forEach>
     </div>

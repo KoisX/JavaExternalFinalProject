@@ -1,6 +1,5 @@
 package com.javacourse.test;
 
-import com.javacourse.home.commands.HomeCommandEnum;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
 import com.javacourse.utils.UriMarshaller;
@@ -20,6 +19,8 @@ public class TestCommandFactory extends CommandFactory {
         switch (action){
             case "Topic":
                 return TestCommandEnum.SHOW_TOPICS.getCommand();
+            case "Tests":
+                return TestCommandEnum.SHOW_TESTS_BY_TOPIC.getCommand();
             default:
                 return TestCommandEnum.SHOW_TOPICS.getCommand();
         }
