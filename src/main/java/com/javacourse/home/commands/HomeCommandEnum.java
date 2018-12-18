@@ -17,6 +17,11 @@ public enum  HomeCommandEnum {
         {
             this.command = new ShowRulesCommand();
         }
+    },
+    STATS{
+        {
+            this.command = new ShowStatsCommand();
+        }
     };
 
     Command command;
