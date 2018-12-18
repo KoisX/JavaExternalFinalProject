@@ -11,13 +11,13 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/bootstrap.css"/>
 </head>
 <body>
-<jsp:include page="jsp/layout/header.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/jsp/layout/header.jsp"/>
 
 <div class="container body-content">
     <h1>WebApp is an application for testing students</h1>
     <h3>To be continued...</h3>
     <hr />
-    <jsp:include page="jsp/layout/footer.jsp"/>
+    <jsp:include page="${pageContext.request.contextPath}/jsp/layout/footer.jsp"/>
 </div>
 </body>
 </html>
