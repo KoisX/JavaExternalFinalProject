@@ -14,12 +14,34 @@
 <body>
 <jsp:include page="../layout/header.jsp"/>
 <div class="container body-content">
-    <h1>Choose the topic of the test, which you want to pass:</h1>
+    <h1>Choose the desired test:</h1>
     <div class="list-group">
         <c:forEach var="test" items="${requestScope.tests}">
-            <a href="${pageContext.request.contextPath}/Test/Details?id=${test.id}" class="list-group-item list-group-item-action">
-                ${test.description}
+            <a class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">
+                <h3>${test.header}</h3>
+                <p>${test.description}</p>
             </a>
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">${test.header}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>${test.description}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="${pageContext.request.contextPath}/Test/Exam?id=${test.id}" class="btn btn-success">Start test</a>
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </c:forEach>
     </div>
 
