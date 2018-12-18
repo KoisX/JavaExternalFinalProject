@@ -38,3 +38,7 @@ textarea {
     border-radius: 5px;
     width: 30px;
 }
+
+.list-elem{
+    cursor: pointer;
+}
