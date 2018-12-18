@@ -1375,131 +1375,148 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>set-null</OnDelete>
     </foreign-key>
-    <column id="333" parent="286" name="task_id">
-      <Position>1</Position>
-      <DataType>int(10) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="334" parent="286" name="answer_id">
-      <Position>2</Position>
-      <DataType>int(10) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="335" parent="286" name="fk_task_has_answer_task1_idx">
-      <ColNames>task_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="336" parent="286" name="fk_task_has_answer_answer1_idx">
-      <ColNames>answer_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="337" parent="286" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>task_id
-answer_id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="338" parent="286" name="fk_task_correct_answer_task1">
-      <ColNames>task_id</ColNames>
-      <RefSchemaName>student_testing_db</RefSchemaName>
-      <RefTableName>task</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <foreign-key id="339" parent="286" name="fk_task_correct_answer_answer1">
-      <ColNames>answer_id</ColNames>
-      <RefSchemaName>student_testing_db</RefSchemaName>
-      <RefTableName>correctanswer</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="340" parent="286" name="fk_task_correct_answer_answer2">
-      <ColNames>answer_id</ColNames>
-      <RefSchemaName>student_testing_db</RefSchemaName>
-      <RefTableName>answer</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="341" parent="287" name="task_id">
-      <Position>1</Position>
-      <DataType>int(10) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="342" parent="287" name="answer_id">
-      <Position>2</Position>
-      <DataType>int(10) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="343" parent="287" name="fk_task_has_answer_task1_idx">
-      <ColNames>task_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="344" parent="287" name="fk_task_has_answer_answer1_idx">
-      <ColNames>answer_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="345" parent="287" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>task_id
-answer_id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="346" parent="287" name="fk_task_possible_answer_task1">
-      <ColNames>task_id</ColNames>
-      <RefSchemaName>student_testing_db</RefSchemaName>
-      <RefTableName>task</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <foreign-key id="347" parent="287" name="fk_task_possible_answer_answer1">
-      <ColNames>answer_id</ColNames>
-      <RefSchemaName>student_testing_db</RefSchemaName>
-      <RefTableName>answer</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <column id="348" parent="288" name="id">
+    <column id="333" parent="286" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="349" parent="288" name="topic_id">
+    <column id="334" parent="286" name="task_id">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="350" parent="288" name="description">
+    <column id="335" parent="286" name="answer_id">
       <Position>3</Position>
-      <DataType>varchar(250)|0s</DataType>
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="351" parent="288" name="id_UNIQUE">
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
+    <index id="336" parent="286" name="fk_task_has_answer_task1_idx">
+      <ColNames>task_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="352" parent="288" name="fk_test_topic1_idx">
-      <ColNames>topic_id</ColNames>
+    <index id="337" parent="286" name="fk_task_has_answer_answer1_idx">
+      <ColNames>answer_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="353" parent="288" name="PRIMARY">
+    <key id="338" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="354" parent="288" name="id_UNIQUE">
+    <foreign-key id="339" parent="286" name="fk_task_correct_answer_task1">
+      <ColNames>task_id</ColNames>
+      <RefSchemaName>student_testing_db</RefSchemaName>
+      <RefTableName>task</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="340" parent="286" name="fk_task_correct_answer_answer1">
+      <ColNames>answer_id</ColNames>
+      <RefSchemaName>student_testing_db</RefSchemaName>
+      <RefTableName>correctanswer</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="341" parent="286" name="fk_task_correct_answer_answer2">
+      <ColNames>answer_id</ColNames>
+      <RefSchemaName>student_testing_db</RefSchemaName>
+      <RefTableName>answer</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="342" parent="287" name="id">
+      <Position>1</Position>
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="343" parent="287" name="task_id">
+      <Position>2</Position>
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="344" parent="287" name="answer_id">
+      <Position>3</Position>
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="345" parent="287" name="fk_task_has_answer_task1_idx">
+      <ColNames>task_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="346" parent="287" name="fk_task_has_answer_answer1_idx">
+      <ColNames>answer_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="347" parent="287" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="348" parent="287" name="fk_task_possible_answer_task1">
+      <ColNames>task_id</ColNames>
+      <RefSchemaName>student_testing_db</RefSchemaName>
+      <RefTableName>task</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="349" parent="287" name="fk_task_possible_answer_answer1">
+      <ColNames>answer_id</ColNames>
+      <RefSchemaName>student_testing_db</RefSchemaName>
+      <RefTableName>answer</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="350" parent="288" name="id">
+      <Position>1</Position>
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="351" parent="288" name="topic_id">
+      <Position>2</Position>
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="352" parent="288" name="description">
+      <Position>3</Position>
+      <DataType>varchar(250)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="353" parent="288" name="header">
+      <Position>4</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="354" parent="288" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="355" parent="288" name="fk_test_topic1_idx">
+      <ColNames>topic_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="356" parent="288" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="357" parent="288" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <foreign-key id="355" parent="288" name="fk_test_topic1">
+    <foreign-key id="358" parent="288" name="fk_test_topic1">
       <ColNames>topic_id</ColNames>
       <RefSchemaName>student_testing_db</RefSchemaName>
       <RefTableName>topic</RefTableName>
@@ -1507,122 +1524,116 @@ answer_id</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="356" parent="289" name="id">
+    <column id="359" parent="289" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="357" parent="289" name="name">
+    <column id="360" parent="289" name="name">
       <Position>2</Position>
       <DataType>varchar(250)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="358" parent="289" name="id_UNIQUE">
+    <index id="361" parent="289" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="359" parent="289" name="name_UNIQUE">
+    <index id="362" parent="289" name="name_UNIQUE">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="360" parent="289" name="PRIMARY">
+    <key id="363" parent="289" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="361" parent="289" name="id_UNIQUE">
+    <key id="364" parent="289" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="362" parent="289" name="name_UNIQUE">
+    <key id="365" parent="289" name="name_UNIQUE">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name_UNIQUE</UnderlyingIndexName>
     </key>
-    <column id="363" parent="290" name="id">
+    <column id="366" parent="290" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="364" parent="290" name="name">
+    <column id="367" parent="290" name="name">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="365" parent="290" name="surname">
+    <column id="368" parent="290" name="surname">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="366" parent="290" name="salt">
+    <column id="369" parent="290" name="email">
       <Position>4</Position>
-      <DataType>varchar(25)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="367" parent="290" name="email">
-      <Position>5</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="368" parent="290" name="role_id">
-      <Position>6</Position>
+    <column id="370" parent="290" name="role_id">
+      <Position>5</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="369" parent="290" name="password">
-      <Position>7</Position>
+    <column id="371" parent="290" name="password">
+      <Position>6</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="370" parent="290" name="id_UNIQUE">
+    <index id="372" parent="290" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="371" parent="290" name="email_UNIQUE">
+    <index id="373" parent="290" name="email_UNIQUE">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="372" parent="290" name="password_UNIQUE">
+    <index id="374" parent="290" name="password_UNIQUE">
       <ColNames>password</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="373" parent="290" name="fk_user_account_role1_idx">
+    <index id="375" parent="290" name="fk_user_account_role1_idx">
       <ColNames>role_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="374" parent="290" name="PRIMARY">
+    <key id="376" parent="290" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="375" parent="290" name="id_UNIQUE">
+    <key id="377" parent="290" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="376" parent="290" name="email_UNIQUE">
+    <key id="378" parent="290" name="email_UNIQUE">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>email_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="377" parent="290" name="password_UNIQUE">
+    <key id="379" parent="290" name="password_UNIQUE">
       <ColNames>password</ColNames>
       <UnderlyingIndexName>password_UNIQUE</UnderlyingIndexName>
     </key>
-    <foreign-key id="378" parent="290" name="fk_user_account_role1">
+    <foreign-key id="380" parent="290" name="fk_user_account_role1">
       <ColNames>role_id</ColNames>
       <RefSchemaName>student_testing_db</RefSchemaName>
       <RefTableName>role</RefTableName>

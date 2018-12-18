@@ -18,7 +18,8 @@
     <div class="list-group">
         <c:forEach var="test" items="${requestScope.tests}">
             <a href="${pageContext.request.contextPath}/Test/Details?id=${test.id}" class="list-group-item list-group-item-action">
-                    ${test.description}
+                <h3>${test.header}</h3>
+                <p>${test.description}</p>
             </a>
         </c:forEach>
     </div>

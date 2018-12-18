@@ -14,7 +14,7 @@ public class TestCommandFactory extends CommandFactory {
 
     @Override
     public Command defineCommand() {
-        UriMarshaller marshaller = new UriMarshaller(request.getRequestURI());
+        UriMarshaller marshaller = new UriMarshaller(request);
         String action = marshaller.getAction();
         switch (action){
             case "Topic":

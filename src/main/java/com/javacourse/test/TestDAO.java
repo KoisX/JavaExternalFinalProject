@@ -44,7 +44,7 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
         ResultSet rs = null;
         try(Connection connection = DatabaseConnectionManager.getConnection();
             PreparedStatement statement = connection.prepareStatement(
-                "SELECT test.id, test.description, t.id, t.name " +
+                "SELECT test.id, test.description, t.id, t.name, test.header  " +
                     "FROM test " +
                     "JOIN topic t on test.topic_id = t.id " +
                     "ORDER BY t.name, test.id;")){
@@ -85,6 +85,7 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
             topic.setId(rs.getLong(3));
             topic.setName(rs.getString(4));
 
+            test.setHeader(rs.getString(5));
             test.setTopic(topic);
             items.add(test);
         }
@@ -97,7 +98,7 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
         ResultSet rs = null;
         try(    Connection connection = DatabaseConnectionManager.getConnection();
                 PreparedStatement statement = connection.prepareStatement(
-                "SELECT test.id, test.description, t.id, t.name " +
+                "SELECT test.id, test.description, t.id, t.name , test.header " +
                         "FROM test " +
                         "JOIN topic t on test.topic_id = t.id " +
                         "WHERE test.id = ? ;")){
@@ -177,10 +178,10 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
         ResultSet rs = null;
         try(Connection connection = DatabaseConnectionPoolResource.getConnection();
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT test.id, test.description, t.id, t.name " +
-                            "FROM test " +
-                            "JOIN topic t on test.topic_id = t.id " +
-                            "WHERE test.topic_id = ? ")){
+                    "SELECT test.id, test.description, t.id, t.name, test.header " +
+                        "FROM test " +
+                        "JOIN topic t on test.topic_id = t.id " +
+                        "WHERE test.topic_id = ? ")){
 
             statement.setString(1, id);
             rs = statement.executeQuery();

@@ -35,7 +35,7 @@ public class SignInCommand implements Command {
             String hash = PasswordManager.hash(userPassword, userEmail);
             if(userDAO.doesUserExist(userEmail, hash)){
                 setUserAttributes(userDAO, hash, request);
-                return ApplicationResources.getIndexAction();
+                return  ApplicationResources.getIndexAction();
             }
         }catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());

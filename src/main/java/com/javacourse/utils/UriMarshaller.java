@@ -6,6 +6,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
 /**
@@ -26,8 +27,8 @@ public class UriMarshaller {
         logger = LogConfigurator.getLogger(UriMarshaller.class);
     }
 
-    public UriMarshaller(String requestUri) {
-        this.requestUri = requestUri;
+    public UriMarshaller(HttpServletRequest request) {
+        this.requestUri = request.getRequestURI().substring(request.getContextPath().length());
     }
 
     /**

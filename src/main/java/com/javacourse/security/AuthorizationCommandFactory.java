@@ -19,7 +19,7 @@ public class AuthorizationCommandFactory extends CommandFactory {
 
     @Override
     public Command defineCommand() {
-        UriMarshaller marshaller = new UriMarshaller(request.getRequestURI());
+        UriMarshaller marshaller = new UriMarshaller(request);
         String action = marshaller.getAction();
         if(action==null)
             throw new UnexistingUrlException();

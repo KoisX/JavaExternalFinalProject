@@ -13,11 +13,13 @@ public class Test implements Entity {
   private long id;
   private Topic topic;
   private String description;
+  private String header;
 
-  public Test(long id, Topic topic, String description) {
+  public Test(long id, Topic topic, String description, String header) {
     this.id = id;
     this.topic = topic;
     this.description = description;
+    this.header = header;
   }
 
   public Test() {
@@ -49,12 +51,22 @@ public class Test implements Entity {
     this.description = description;
   }
 
+
+  public String getHeader() {
+    return header;
+  }
+
+  public void setHeader(String header) {
+    this.header = header;
+  }
+
   @Override
   public String toString() {
     final StringBuffer sb = new StringBuffer("Test{");
     sb.append("id=").append(id);
     sb.append(", topic=").append(topic);
     sb.append(", description='").append(description).append('\'');
+    sb.append(", header=").append(header);
     sb.append('}');
     return sb.toString();
   }
@@ -66,11 +78,12 @@ public class Test implements Entity {
     Test test = (Test) o;
     return id == test.id &&
             topic.equals(test.topic) &&
-            description.equals(test.description);
+            description.equals(test.description) &&
+            header.equals(test.header);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, topic, description);
+    return Objects.hash(id, topic, description, header);
   }
 }
