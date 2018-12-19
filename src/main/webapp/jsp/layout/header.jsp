@@ -34,8 +34,7 @@
                                                 <li><a href="${pageContext.request.contextPath}/Login/SignIn"><span class="glyphicon glyphicon-log-in"></span> <fmt:message key="msg.login"/></a></li>
                                         </c:otherwise>
                                 </c:choose>
-                                
-                        </ul>
+                </ul>
                 </div>
         </div>
 </div>

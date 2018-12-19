@@ -11,7 +11,6 @@
       Adding localization parameter to the url of kind /Test?id=3
       without corrupting exisiting params
     --%>
-
 <c:url value="">
     <c:forEach items="${paramValues}" var="p">
         <c:choose>

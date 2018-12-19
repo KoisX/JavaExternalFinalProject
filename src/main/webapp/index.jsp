@@ -29,17 +29,17 @@
                 <p>
                     <fmt:message key="msg.p1"/>
                 </p>
-                <p><a class="btn btn-default" href="#"><fmt:message key="msg.learn-more"/></a></p>
+                <p><a class="btn btn-default" href="${pageContext.request.contextPath}/Home/About"><fmt:message key="msg.learn-more"/></a></p>
             </div>
             <div class="col-md-4">
                 <h2><fmt:message key="msg.h2"/></h2>
                 <p><fmt:message key="msg.p2"/></p>
-                <p><a class="btn btn-default" href="#"><fmt:message key="msg.learn-more"/></a></p>
+                <p><a class="btn btn-default" href="${pageContext.request.contextPath}/Home/About"><fmt:message key="msg.learn-more"/></a></p>
             </div>
             <div class="col-md-4">
                 <h2><fmt:message key="msg.h3"/></h2>
                 <p><fmt:message key="msg.p3"/></p>
-                <p><a class="btn btn-default" href="#"><fmt:message key="msg.learn-more"/></a></p>
+                <p><a class="btn btn-default" href="${pageContext.request.contextPath}/Home/About"><fmt:message key="msg.learn-more"/></a></p>
             </div>
         </div>
         <hr />

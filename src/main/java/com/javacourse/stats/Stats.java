@@ -38,20 +38,20 @@ public class Stats implements Entity {
   }
 
 
-  public User getUserAccountId() {
+  public User getUserAccount() {
     return user;
   }
 
-  public void setUserAccountId(User user) {
+  public void setUserAccount(User user) {
     this.user = user;
   }
 
 
-  public Test getTestId() {
+  public Test getTest() {
     return test;
   }
 
-  public void setTestId(Test test) {
+  public void setTest(Test test) {
     this.test = test;
   }
 

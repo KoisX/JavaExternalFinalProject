@@ -28,6 +28,8 @@ public class HomeCommandFactory extends CommandFactory{
                 return HomeCommandEnum.ABOUT.getCommand();
             case "Rules":
                 return HomeCommandEnum.RULES.getCommand();
+            case "Stats":
+                return HomeCommandEnum.STATS.getCommand();
             default:
                 return HomeCommandEnum.INDEX.getCommand();
         }
