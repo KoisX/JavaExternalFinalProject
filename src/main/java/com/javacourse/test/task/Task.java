@@ -67,11 +67,11 @@ public class Task implements Entity {
   }
 
 
-  public List<Answer> getCorrectAnswer() {
+  public List<Answer> getCorrectAnswers() {
     return correctAnswers;
   }
 
-  public void setCorrectAnswer(List<Answer> correctAnswer) {
+  public void setCorrectAnswers(List<Answer> correctAnswer) {
     this.correctAnswers = correctAnswer;
   }
 

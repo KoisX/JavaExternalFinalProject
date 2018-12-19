@@ -26,14 +26,16 @@
                 <%--Put error msh here--%>
                 <div class="form-group">
                     <label for="login" class="col-md-2 control-label"><fmt:message key="msg.email"/></label>
-                    <div class="col-md-10">
+                    <div class="col-md-10 input-group">
+                        <span class="input-group-addon" id="sizing-addon2">@</span>
                         <input type="email" class="col-md-2 form-control" name="login" id="login" required>
                         <%--Error msg here--%>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password" class="col-md-2 control-label"><fmt:message key="msg.password"/></label>
-                        <div class="col-md-10">
+                        <div class="col-md-10 input-group">
+                            <span class="input-group-addon" id="sizing-addon2">#</span>
                             <input type="password" id="password" name="password" class="col-md-2 form-control" required>
                             <%--Error msg here--%>
                         </div>

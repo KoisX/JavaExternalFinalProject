@@ -20,12 +20,12 @@
     <h1><fmt:message key="msg.header"/></h1>
     <div class="list-group">
         <c:forEach var="test" items="${requestScope.tests}">
-            <a class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">
+            <a class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal${test.id}" style="cursor: pointer;">
                 <h3>${test.header}</h3>
                 <p>${test.description}</p>
             </a>
             <!-- Modal -->
-            <div id="myModal" class="modal fade" role="dialog">
+            <div id="myModal${test.id}" class="modal fade" role="dialog">
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
