@@ -1,10 +1,8 @@
 package com.javacourse.utils;
 
 
-import com.javacourse.ApplicationResources;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
+
 import javax.sql.DataSource;
 
 import javax.naming.Context;
@@ -17,14 +15,14 @@ import java.sql.SQLException;
  * Utility class which provides an easy way for
  * using database connections from a connection pool
  */
-public class DatabaseConnectionManager {
+public class DBCPTomcat {
 
     private static DataSource dataSource;
     private final static Logger logger;
 
     //configuring logger
     static {
-        logger = LogConfigurator.getLogger(DatabaseConnectionManager.class);
+        logger = LogConfigurator.getLogger(DBCPTomcat.class);
     }
 
     //configuring database connection properties
@@ -37,7 +35,7 @@ public class DatabaseConnectionManager {
         }
     }
 
-    private DatabaseConnectionManager() {
+    private DBCPTomcat() {
         throw new UnsupportedOperationException("Object instantiation is forbidden");
     }
 

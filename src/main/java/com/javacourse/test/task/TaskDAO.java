@@ -3,7 +3,7 @@ package com.javacourse.test.task;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.test.answer.AnswerDAO;
-import com.javacourse.utils.DatabaseConnectionPoolResource;
+import com.javacourse.utils.DBConnectionPool;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -11,11 +11,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TaskDAO extends AbstractDAO<Integer, Task> {
 
+    private Connection connection;
     private final static Logger logger;
 
     //logger configuration
@@ -26,9 +28,13 @@ public class TaskDAO extends AbstractDAO<Integer, Task> {
     /**
      * Created TaskDAO entity
      */
-    public TaskDAO(){
+    public TaskDAO(Connection connection){
+        this.connection = connection;
     }
 
+    private TaskDAO(){
+        throw new UnsupportedOperationException();
+    }
 
     //TODO: add implementation
     @Override
@@ -44,16 +50,13 @@ public class TaskDAO extends AbstractDAO<Integer, Task> {
      * @throws SQLException in case when there is an SQL-related error
      */
     private List<Task> parseToEntityList(ResultSet tasksRS) throws SQLException, UnsuccessfulQueryException {
-        List<Task> items = new LinkedList<>();
-        AnswerDAO answerDAO = new AnswerDAO();
+        List<Task> items = new ArrayList<>();
         Task task;
         while (tasksRS.next()){
             task = new Task();
-            task.setId(tasksRS.getLong(1));
-            task.setTestId(tasksRS.getLong(2));
-            task.setQuestion(tasksRS.getString(3));
-            task.setCorrectAnswers(answerDAO.findCorrectAnswersByTaskId(task.getId()));
-            task.setPossibleAnswers(answerDAO.findPossibleAnswersByTaskId(task.getId()));
+            task.setId(tasksRS.getLong("id"));
+            task.setTestId(tasksRS.getLong("testId"));
+            task.setQuestion(tasksRS.getString("question"));
             items.add(task);
         }
         return items;
@@ -81,28 +84,35 @@ public class TaskDAO extends AbstractDAO<Integer, Task> {
 
     public List<Task> findTasksByTestId(String test_id) throws UnsuccessfulQueryException{
         List<Task> items;
-        ResultSet rs = null;
-        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                        "SELECT task.id, task.test_id, task.question " +
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                        "SELECT task.id as id, task.test_id as testId, task.question as question " +
                             "FROM task WHERE test_id = ? ;")){
 
             statement.setString(1, test_id);
-            rs = statement.executeQuery();
-            items = parseToEntityList(rs);
+            resultSet = statement.executeQuery();
+            items = parseToEntityList(resultSet);
 
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         } finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
+            closeResultSet(resultSet);
         }
         return items;
+    }
+
+    /**
+     * Service method for closing ResultSet object entity
+     * @param resultSet
+     */
+    private void closeResultSet(ResultSet resultSet){
+        try {
+            if(resultSet!=null)
+                resultSet.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
     }
 
 }

@@ -16,16 +16,12 @@ public class Task implements Entity {
   private long testId;
   private String question;
   private Image image;
-  private List<Answer> correctAnswers;
-  private List<Answer> possibleAnswers;
 
-  public Task(long id, long testId, String question, Image image, List<Answer> correctAnswers, List<Answer> possibleAnswers) {
+  public Task(long id, long testId, String question, Image image) {
     this.id = id;
     this.testId = testId;
     this.question = question;
     this.image = image;
-    this.correctAnswers = correctAnswers;
-    this.possibleAnswers = possibleAnswers;
   }
 
   public Task() {
@@ -66,24 +62,6 @@ public class Task implements Entity {
     this.image = imageId;
   }
 
-
-  public List<Answer> getCorrectAnswers() {
-    return correctAnswers;
-  }
-
-  public void setCorrectAnswers(List<Answer> correctAnswer) {
-    this.correctAnswers = correctAnswer;
-  }
-
-
-  public List<Answer> getPossibleAnswers() {
-    return possibleAnswers;
-  }
-
-  public void setPossibleAnswers(List<Answer> possibleAnswers) {
-    this.possibleAnswers = possibleAnswers;
-  }
-
   @Override
   public String toString() {
     final StringBuffer sb = new StringBuffer("Task{");
@@ -91,8 +69,6 @@ public class Task implements Entity {
     sb.append(", testId=").append(testId);
     sb.append(", question='").append(question).append('\'');
     sb.append(", image=").append(image);
-    sb.append(", correctAnswers=").append(correctAnswers);
-    sb.append(", possibleAnswers=").append(possibleAnswers);
     sb.append('}');
     return sb.toString();
   }
@@ -105,13 +81,11 @@ public class Task implements Entity {
     return id == task.id &&
             testId == task.testId &&
             question.equals(task.question) &&
-            image.equals(task.image) &&
-            correctAnswers.equals(task.correctAnswers) &&
-            possibleAnswers.equals(task.possibleAnswers);
+            image.equals(task.image);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, testId, question, image, correctAnswers, possibleAnswers);
+    return Objects.hash(id, testId, question, image);
   }
 }

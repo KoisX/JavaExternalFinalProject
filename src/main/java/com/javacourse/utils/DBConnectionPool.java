@@ -10,13 +10,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class DatabaseConnectionPoolResource {
+public class DBConnectionPool {
     private static BasicDataSource ds = new BasicDataSource();
     private static Properties property = new Properties();
     public static final Logger logger;
 
     static {
-        logger = LogConfigurator.getLogger(DatabaseConnectionPoolResource.class);
+        logger = LogConfigurator.getLogger(DBConnectionPool.class);
     }
 
     static {
@@ -41,7 +41,7 @@ public class DatabaseConnectionPoolResource {
         }
     }
 
-    private DatabaseConnectionPoolResource(){}
+    private DBConnectionPool(){}
 
     public static Connection getConnection() throws SQLException {
         return ds.getConnection();

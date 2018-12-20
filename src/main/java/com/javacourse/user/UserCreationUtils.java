@@ -85,7 +85,7 @@ public class UserCreationUtils {
         String userEmail = request.getParameter("login");
         boolean doesEmailExist = false;
         try {
-            doesEmailExist = userDAO.doesEmailAlreadyExist(userEmail);
+            doesEmailExist = userDAO.doesEmailExist(userEmail);
         } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             request.setAttribute(WebKeys.getErrorRequestMessage(), "Unsuccessful signing up. Try again.");

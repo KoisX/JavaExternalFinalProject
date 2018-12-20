@@ -2,9 +2,8 @@ package com.javacourse.test.answer;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
-import com.javacourse.test.task.Task;
 import com.javacourse.test.task.TaskDAO;
-import com.javacourse.utils.DatabaseConnectionPoolResource;
+import com.javacourse.utils.DBConnectionPool;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -17,6 +16,7 @@ import java.util.List;
 
 public class AnswerDAO extends AbstractDAO<Integer, Answer> {
 
+    private Connection connection;
     private final static Logger logger;
 
     //logger configuration
@@ -24,7 +24,12 @@ public class AnswerDAO extends AbstractDAO<Integer, Answer> {
         logger = LogConfigurator.getLogger(TaskDAO.class);
     }
 
-    public AnswerDAO() {
+    public AnswerDAO(Connection connection) {
+        this.connection = connection;
+    }
+
+    private AnswerDAO(){
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -37,9 +42,9 @@ public class AnswerDAO extends AbstractDAO<Integer, Answer> {
         Answer answer;
         while (rs.next()){
             answer = new Answer();
-            answer.setId(rs.getLong(1));
-            answer.setValue(rs.getString(2));
-            answer.setIsCaseSensitive(rs.getBoolean(3));
+            answer.setId(rs.getLong("id"));
+            answer.setValue(rs.getString("value"));
+            answer.setIsCaseSensitive(rs.getBoolean("caseSens"));
             items.add(answer);
         }
         return items;
@@ -67,57 +72,58 @@ public class AnswerDAO extends AbstractDAO<Integer, Answer> {
 
     public List<Answer> findCorrectAnswersByTaskId(long task_id) throws UnsuccessfulQueryException {
         List<Answer> items;
-        ResultSet rs = null;
-        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT answer.id, answer.value, answer.is_case_sensitive " +
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                    "SELECT answer.id AS id, answer.value AS value, answer.is_case_sensitive as caseSens " +
                             "FROM answer " +
                             "JOIN task_correct_answer a on answer.id = a.answer_id " +
                             "where a.task_id = ?")){
 
             statement.setLong(1, task_id);
-            rs = statement.executeQuery();
-            items = parseToEntityList(rs);
+            resultSet = statement.executeQuery();
+            items = parseToEntityList(resultSet);
 
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         } finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
+            closeResultSet(resultSet);
         }
         return items;
     }
 
     public List<Answer> findPossibleAnswersByTaskId(long task_id) throws UnsuccessfulQueryException {
         List<Answer> items;
-        ResultSet rs = null;
-        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT answer.id, answer.value, answer.is_case_sensitive " +
-                            "FROM answer " +
-                            "JOIN task_possible_answer a on answer.id = a.answer_id " +
-                            "where a.task_id = ?")){
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                    "SELECT answer.id AS id, answer.value AS value, answer.is_case_sensitive as caseSens " +
+                        "FROM answer " +
+                        "JOIN task_possible_answer a on answer.id = a.answer_id " +
+                        "where a.task_id = ?")){
 
             statement.setLong(1, task_id);
-            rs = statement.executeQuery();
-            items = parseToEntityList(rs);
+            resultSet = statement.executeQuery();
+            items = parseToEntityList(resultSet);
 
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         } finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
+            closeResultSet(resultSet);
         }
         return items;
+    }
+
+    /**
+     * Service method for closing ResultSet object entity
+     * @param resultSet
+     */
+    private void closeResultSet(ResultSet resultSet){
+        try {
+            if(resultSet!=null)
+                resultSet.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
     }
 }

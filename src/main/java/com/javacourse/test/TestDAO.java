@@ -1,21 +1,18 @@
 package com.javacourse.test;
 
-import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.test.topic.Topic;
-import com.javacourse.user.UserDAO;
-import com.javacourse.utils.DatabaseConnectionManager;
-import com.javacourse.utils.DatabaseConnectionPoolResource;
+import com.javacourse.utils.DBCPTomcat;
+import com.javacourse.utils.DBConnectionPool;
 import com.javacourse.utils.LogConfigurator;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +23,7 @@ import java.util.List;
 public class TestDAO extends AbstractDAO<Integer, Test> {
 
     private final static Logger logger;
+    private Connection connection;
 
     //logger configuration
     static {
@@ -35,32 +33,31 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
     /**
      * Created TestDAO entity
      */
-    public TestDAO(){
+    public TestDAO(Connection connection){
+        this.connection = connection;
+    }
+
+    private TestDAO(){
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<Test> findAll() throws UnsuccessfulQueryException {
         List<Test> items;
-        ResultSet rs = null;
-        try(Connection connection = DatabaseConnectionManager.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                "SELECT test.id, test.description, t.id, t.name, test.header  " +
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT test.id as id, test.description as description, t.id as topicId, t.name as topicName, test.header as header " +
                     "FROM test " +
                     "JOIN topic t on test.topic_id = t.id " +
                     "ORDER BY t.name, test.id;")){
 
-            rs = statement.executeQuery();
-            items = parseToEntityList(rs);
+            resultSet = statement.executeQuery();
+            items = parseToEntityList(resultSet);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         } finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
+            closeResultSet(resultSet);
         }
         return items;
     }
@@ -73,19 +70,19 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
      * @throws SQLException in case when there is an SQL-related error
      */
     List<Test> parseToEntityList(ResultSet rs) throws SQLException {
-        List<Test> items = new LinkedList<>();
+        List<Test> items = new ArrayList<>();
         Test test;
         Topic topic;
         while (rs.next()){
             test = new Test();
-            test.setId(rs.getLong(1));
-            test.setDescription(rs.getString(2));
+            test.setId(rs.getLong("id"));
+            test.setDescription(rs.getString("description"));
 
             topic = new Topic();
-            topic.setId(rs.getLong(3));
-            topic.setName(rs.getString(4));
+            topic.setId(rs.getLong("topicId"));
+            topic.setName(rs.getString("topicName"));
 
-            test.setHeader(rs.getString(5));
+            test.setHeader(rs.getString("header"));
             test.setTopic(topic);
             items.add(test);
         }
@@ -95,28 +92,22 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
     @Override
     public Test findById(Integer id) throws UnsuccessfulQueryException {
         Test test;
-        ResultSet rs = null;
-        try(    Connection connection = DatabaseConnectionManager.getConnection();
-                PreparedStatement statement = connection.prepareStatement(
-                "SELECT test.id, test.description, t.id, t.name , test.header " +
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT test.id as id, test.description as description, t.id as topicId, t.name as topicName, test.header as header " +
                         "FROM test " +
                         "JOIN topic t on test.topic_id = t.id " +
                         "WHERE test.id = ? ;")){
 
             statement.setLong(1, id);
-            rs = statement.executeQuery();
-            test = parseSingleEntity(rs);
+            resultSet = statement.executeQuery();
+            test = parseSingleEntity(resultSet);
 
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         } finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
+            closeResultSet(resultSet);
         }
         return test;
     }
@@ -135,8 +126,7 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
     @Override
     public boolean delete(Integer id) throws UnsuccessfulQueryException {
         int changes = 0;
-        try(    Connection connection = DatabaseConnectionManager.getConnection();
-                PreparedStatement statement = connection.prepareStatement(
+        try(PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM test WHERE id=? ;")){
 
             statement.setInt(1, id);
@@ -151,8 +141,7 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
     @Override
     public boolean create(Test entity) throws UnsuccessfulQueryException {
         int changes = 0;
-        try(    Connection connection = DatabaseConnectionManager.getConnection();
-                PreparedStatement statement = connection.prepareStatement(
+        try(PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO test(topic_id, description)" +
                     " VALUES (?,?);")){
 
@@ -175,27 +164,21 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
      */
     public List<Test> findByTopicId(String id) throws UnsuccessfulQueryException {
         List<Test> items;
-        ResultSet rs = null;
-        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT test.id, test.description, t.id, t.name, test.header " +
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                    "SELECT test.id as id, test.description as description, t.id as topicId, t.name as topicName, test.header as header " +
                         "FROM test " +
                         "JOIN topic t on test.topic_id = t.id " +
                         "WHERE test.topic_id = ? ")){
 
             statement.setString(1, id);
-            rs = statement.executeQuery();
-            items = parseToEntityList(rs);
+            resultSet = statement.executeQuery();
+            items = parseToEntityList(resultSet);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         } finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
+            closeResultSet(resultSet);
         }
         return items;
     }
@@ -204,6 +187,19 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
     @Override
     public Test update(Test entity) throws UnsuccessfulQueryException {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Service method for closing ResultSet object entity
+     * @param resultSet
+     */
+    private void closeResultSet(ResultSet resultSet){
+        try {
+            if(resultSet!=null)
+                resultSet.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
     }
 
 }

@@ -1,21 +1,20 @@
 package com.javacourse.user;
 
-import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.user.role.AdminUserRoleFactory;
 import com.javacourse.user.role.Role;
 import com.javacourse.user.role.RoleFactory;
 import com.javacourse.shared.AbstractDAO;
-import com.javacourse.utils.DatabaseConnectionManager;
-import com.javacourse.utils.DatabaseConnectionPoolResource;
+import com.javacourse.utils.DBCPTomcat;
+import com.javacourse.utils.DBConnectionPool;
 import com.javacourse.utils.LogConfigurator;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,6 +26,7 @@ public class UserDAO extends AbstractDAO<Integer, User> {
 
     private final static Logger logger;
     private RoleFactory roleFactory;
+    private Connection connection;
 
     //logger configuration
     static {
@@ -38,43 +38,38 @@ public class UserDAO extends AbstractDAO<Integer, User> {
      * @param roleFactory RoleFactory entity, which helps to create
      *                    role entity of enumerable type
      */
-    public UserDAO(RoleFactory roleFactory) {
+    public UserDAO(Connection connection, RoleFactory roleFactory) {
         this.roleFactory = roleFactory;
+        this.connection = connection;
     }
 
     /**
      * Creates UserDAO entity with default role factory
      */
-    public UserDAO() {
+    public UserDAO(Connection connection) {
         this.roleFactory = new AdminUserRoleFactory();
+        this.connection = connection;
     }
 
     @Override
     public List<User> findAll() throws UnsuccessfulQueryException {
         List<User> items;
-        ResultSet rs = null;
-        try(    Connection connection = DatabaseConnectionManager.getConnection();
-                PreparedStatement statement = connection.prepareStatement(
-                    "SELECT user.id, user.name, user.surname, user.email, role.id, role.name, user.password " +
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                    "SELECT user.id as id, user.name as name, user.surname as surname, user.email as email, role.id as roleID, role.name as roleName, user.password as password " +
                         "FROM user_account AS user " +
                         "JOIN role ON user.role_id = role.id " +
                         "ORDER BY surname, name ASC ;"
             )){
-
-            rs = statement.executeQuery();
-            items = parseToEntityList(rs);
+            resultSet = statement.executeQuery();
+            items = parseToEntityList(resultSet);
 
         }catch (SQLException e){
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         }
         finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
+            closeResultSet(resultSet);
         }
         return items;
     }
@@ -82,25 +77,23 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     /**
      * Helper-method which encapsulates getting a list of
      * entities from a ResultSet object
-     * @param rs ResultSet object, which represents the result of an SQL-query
+     * @param resultSet ResultSet object, which represents the result of an SQL-query
      * @return list of model entities
      * @throws SQLException in case when there is an SQL-related error
      */
-    List<User> parseToEntityList(ResultSet rs) throws SQLException {
-        List<User> items = new LinkedList<>();
+    List<User> parseToEntityList(ResultSet resultSet) throws SQLException {
+        List<User> items = new ArrayList<>();
         User user;
         Role role;
-        while(rs.next()){
+        while(resultSet.next()){
             user = new User();
-            user.setId(rs.getLong(1));
-            user.setName(rs.getString(2));
-            user.setSurname(rs.getString(3));
-            user.setEmail(rs.getString(4));
-
-            role = roleFactory.createRole(rs.getString(5), rs.getLong(6));
-
+            user.setId(resultSet.getLong("id"));
+            user.setName(resultSet.getString("name"));
+            user.setSurname(resultSet.getString("surname"));
+            user.setEmail(resultSet.getString("email"));
+            role = roleFactory.createRole(resultSet.getString("roleName"), resultSet.getLong("roleID"));
             user.setRole(role);
-            user.setPassword(rs.getString(7));
+            user.setPassword(resultSet.getString("password"));
             items.add(user);
         }
         return items;
@@ -109,30 +102,23 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     @Override
     public User findById(Integer id) throws UnsuccessfulQueryException {
         User user;
-        ResultSet rs = null;
-        try(    Connection connection = DatabaseConnectionManager.getConnection();
-                PreparedStatement statement = connection.prepareStatement(
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
                     "SELECT user.id, user.name, user.surname, user.email, role.id, role.name, user.password " +
                             "FROM user_account AS user " +
                             "JOIN role ON user.role_id = role.id " +
                             "WHERE user.id = ? ;"
             )){
-
             statement.setLong(1, id);
-            rs = statement.executeQuery();
-            user = parseSingleEntity(rs);
+            resultSet = statement.executeQuery();
+            user = parseSingleEntity(resultSet);
 
         }catch (SQLException e){
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         }
         finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
+            closeResultSet(resultSet);
         }
         return user;
     }
@@ -152,8 +138,7 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     @Override
     public boolean delete(Integer id) throws UnsuccessfulQueryException {
         int changes = 0;
-        try(    Connection connection = DatabaseConnectionManager.getConnection();
-                PreparedStatement statement = connection.prepareStatement(
+        try(PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM user_account WHERE id=? ;")){
             statement.setInt(1, id);
             changes = statement.executeUpdate();
@@ -167,8 +152,7 @@ public class UserDAO extends AbstractDAO<Integer, User> {
     @Override
     public boolean create(User entity) throws UnsuccessfulQueryException {
         int changes = 0;
-        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
+        try(PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO user_account(name, surname, email, role_id, password) " +
                         "values (?,?,?,?,?);")){
 
@@ -192,62 +176,66 @@ public class UserDAO extends AbstractDAO<Integer, User> {
      * @return true if such user exists, false otherwise
      */
     public boolean doesUserExist(String email, String password) throws UnsuccessfulQueryException {
-        ResultSet rs = null;
+        ResultSet resultSet = null;
         boolean result;
-        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
+        try(PreparedStatement statement = connection.prepareStatement(
                     "SELECT COUNT(user.id) AS total FROM user_account AS user " +
                         "WHERE user.email = ? AND user.password = ? ;")){
             statement.setString(1, email);
             statement.setString(2, password);
-            rs = statement.executeQuery();
-            rs.next();
-            result = rs.getInt("total") > 0;
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            result = resultSet.getInt("total") > 0;
         }catch (SQLException e){
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
+        }finally {
+            closeResultSet(resultSet);
         }
         return result;
     }
 
-    public Role getRoleByEmailAndPassword(String email, String password) throws UnsuccessfulQueryException{
-        ResultSet rs = null;
+    public Role getRoleByEmailAndPassword(String email) throws UnsuccessfulQueryException{
+        ResultSet resultSet = null;
         String role;
         Role result;
-        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT role.name " +
+        try(PreparedStatement statement = connection.prepareStatement(
+                    "SELECT role.name as role " +
                         "from user_account inner JOIN role on user_account.role_id = role.id " +
-                        "where user_account.password = ? AND user_account.email = ?;"
+                        "where user_account.email = ?;"
                         )){
 
-            statement.setString(1, password);
-            statement.setString(2,email);
-            rs = statement.executeQuery();
-            rs.next();
-            role = rs.getString(1);
+            statement.setString(1,email);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            role = resultSet.getString("role");
             result = roleFactory.createRole(role);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         }
+        finally {
+            closeResultSet(resultSet);
+        }
         return result;
     }
 
-    public boolean doesEmailAlreadyExist(String email) throws UnsuccessfulQueryException {
-        ResultSet rs = null;
+    public boolean doesEmailExist(String email) throws UnsuccessfulQueryException {
+        ResultSet resultSet = null;
         boolean result;
-        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
+        try(Connection connection = DBConnectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT COUNT(user.id) AS total FROM user_account AS user " +
                             "WHERE user.email = ? ;")){
             statement.setString(1, email);
-            rs = statement.executeQuery();
-            rs.next();
-            result = rs.getInt("total") > 0;
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            result = resultSet.getInt("total") > 0;
         }catch (SQLException e){
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
+        }finally {
+            closeResultSet(resultSet);
         }
         return result;
     }
@@ -258,4 +246,16 @@ public class UserDAO extends AbstractDAO<Integer, User> {
         throw new UnsupportedOperationException("Operation has yet to be implemented");
     }
 
+    /**
+     * Service method for closing ResultSet object entity
+     * @param resultSet
+     */
+    private void closeResultSet(ResultSet resultSet){
+        try {
+            if(resultSet!=null)
+                resultSet.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+    }
 }

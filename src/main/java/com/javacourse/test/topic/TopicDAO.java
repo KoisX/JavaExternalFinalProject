@@ -1,26 +1,24 @@
 package com.javacourse.test.topic;
 
-import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
-import com.javacourse.user.UserDAO;
-import com.javacourse.utils.DatabaseConnectionManager;
-import com.javacourse.utils.DatabaseConnectionPoolResource;
+import com.javacourse.utils.DBCPTomcat;
+import com.javacourse.utils.DBConnectionPool;
 import com.javacourse.utils.LogConfigurator;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TopicDAO extends AbstractDAO<Integer, Topic> {
 
     private final static Logger logger;
+    private Connection connection;
 
     //logger configuration
     static {
@@ -30,43 +28,41 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
     /**
      * Created TopicDAO entity
      */
-    public TopicDAO() {
+    public TopicDAO(Connection connection) {
+        this.connection = connection;
+    }
 
+    private TopicDAO() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<Topic> findAll() throws UnsuccessfulQueryException {
         List<Topic> items;
-        ResultSet rs = null;
-        try(Connection connection = DatabaseConnectionPoolResource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                "SELECT topic.id, topic.name FROM topic ORDER BY topic.name ;"
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT topic.id as id, topic.name as name FROM topic ORDER BY topic.name ;"
         )){
 
-            rs = statement.executeQuery();
-            items = parseToEntityList(rs);
+            resultSet = statement.executeQuery();
+            items = parseToEntityList(resultSet);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         }
         finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
+            closeResultSet(resultSet);
         }
         return items;
     }
 
     List<Topic> parseToEntityList(ResultSet rs) throws SQLException {
-        List<Topic> items = new LinkedList<>();
+        List<Topic> items = new ArrayList<>();
         Topic topic;
         while (rs.next()){
             topic = new Topic();
-            topic.setId(rs.getLong(1));
-            topic.setName(rs.getString(2));
+            topic.setId(rs.getLong("id"));
+            topic.setName(rs.getString("name"));
             items.add(topic);
         }
         return items;
@@ -75,25 +71,19 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
     @Override
     public Topic findById(Integer id) throws UnsuccessfulQueryException {
         Topic topic;
-        ResultSet rs = null;
-        try(    Connection connection = DatabaseConnectionManager.getConnection();
-                PreparedStatement statement = connection.prepareStatement(
-                "SELECT topic.id, topic.name FROM topic WHERE topic.id = ?;"
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT topic.id as id, topic.name as name FROM topic WHERE topic.id = ?;"
         )){
 
             statement.setLong(1,id);
-            rs = statement.executeQuery();
-            topic = parseSingleEntity(rs);
+            resultSet = statement.executeQuery();
+            topic = parseSingleEntity(resultSet);
         } catch (SQLException e) {
             logger.error(e.getMessage());
             throw new UnsuccessfulQueryException();
         } finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
+           closeResultSet(resultSet);
         }
         return topic;
     }
@@ -112,10 +102,8 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
     @Override
     public boolean delete(Integer id) throws UnsuccessfulQueryException {
         int changes = 0;
-        try(    Connection connection = DatabaseConnectionManager.getConnection();
-                PreparedStatement statement = connection.prepareStatement(
+        try(PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM topic WHERE id=? ;")){
-
             statement.setInt(1, id);
             changes = statement.executeUpdate();
         } catch (SQLException e) {
@@ -128,10 +116,8 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
     @Override
     public boolean create(Topic entity) throws UnsuccessfulQueryException {
         int changes = 0;
-        try(    Connection connection = DatabaseConnectionManager.getConnection();
-                PreparedStatement statement = connection.prepareStatement(
+        try(PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO topic(name) values (?) ;")){
-
             statement.setString(1,entity.getName());
             changes = statement.executeUpdate();
         } catch (SQLException e) {
@@ -144,5 +130,18 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
     @Override
     public Topic update(Topic entity) throws UnsuccessfulQueryException {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Service method for closing ResultSet object entity
+     * @param resultSet
+     */
+    private void closeResultSet(ResultSet resultSet){
+        try {
+            if(resultSet!=null)
+                resultSet.close();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
     }
 }
