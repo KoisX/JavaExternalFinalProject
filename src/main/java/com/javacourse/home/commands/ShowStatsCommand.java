@@ -25,13 +25,28 @@ public class ShowStatsCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         StatsDAO statsDAO = new StatsDAO();
         List<Stats> stats;
+
+        int page = 1;
+        int recordsPerPage = 10;
+        int pages = 0;
+        if(request.getParameter("page") != null)
+            page = Integer.parseInt(request.getParameter("page"));
         try {
-            stats = statsDAO.findAllWithPagination();
+            stats = statsDAO.findAllWithPagination((page-1)*recordsPerPage, recordsPerPage);
+            pages = statsDAO.getNumberOfPages(recordsPerPage);
         } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return "/Error";
         }
+
+        if(page<0 || page>pages){
+            return "/Error";
+        }
+
         request.setAttribute("stats", stats);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("pages", pages);
+        request.setAttribute("recordsPerPage", recordsPerPage);
         return request.getContextPath()+"/jsp/admin/stats.jsp";
     }
 }

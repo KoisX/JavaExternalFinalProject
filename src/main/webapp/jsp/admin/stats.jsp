@@ -24,46 +24,70 @@
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Person</th>
+            <th scope="col">Email</th>
+            <th scope="col">Test</th>
+            <th scope="col">Score</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-        </tr>
+        <c:forEach items="${requestScope.stats}" var="stat" varStatus="number">
+            <tr>
+                <th scope="row">${(requestScope.recordsPerPage * (requestScope.currentPage - 1)) + number.index+1}</th>
+                <td>${stat.user.name} ${stat.user.surname}</td>
+                <td>${stat.user.email}</td>
+                <td>${stat.test.header}</td>
+                <td>${stat.score}</td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 
     <nav aria-label="...">
         <ul class="pagination">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <c:choose>
+                <c:when test="${requestScope.currentPage gt 1}">
+                    <li class="page-item">
+                        <a class="page-link" href="${pageContext.request.contextPath}/Home/Stats?page=${currentPage - 1}" tabindex="-1">Previous</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+            <c:choose>
+                <c:when test="${requestScope.currentPage gt 1}">
+                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/Home/Stats?page=${currentPage - 1}">${requestScope.currentPage-1}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item"><a class="page-link disabled" href="#">&nbsp;</a></li>
+                </c:otherwise>
+            </c:choose>
             <li class="page-item active">
-                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                <a class="page-link" href="#">${requestScope.currentPage} <span class="sr-only">(current)</span></a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
+            <c:choose>
+                <c:when test="${requestScope.currentPage lt requestScope.pages}">
+                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/Home/Stats?page=${currentPage + 1}">${requestScope.currentPage+1}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item"><a class="page-link disabled" href="#">&nbsp;</a></li>
+                </c:otherwise>
+            </c:choose>
+            <c:choose>
+                <c:when test="${requestScope.currentPage lt requestScope.pages}">
+                    <li class="page-item">
+                        <a class="page-link" href="${pageContext.request.contextPath}/Home/Stats?page=${currentPage + 1}">Next</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Next</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
         </ul>
     </nav>
 
