@@ -40,15 +40,10 @@ public class UserService{
     }
 
     public boolean create(User user){
-        logger.debug("in create");
         try(SqlConnection connection = new SqlConnection()){
-            logger.debug("in create try");
             UserDAO userDao = factory.createUserDAO(connection);
-            logger.debug("after userdao");
             RoleDAO roleDAO = factory.createRoleDAO(connection);
-            logger.debug("after roledao");
             user.getRole().setId(roleDAO.getRoleIdByName(user.getRole().getName()));
-            logger.debug("before create");
             userDao.create(user);
             return true;
         } catch (UnsuccessfulQueryException | SQLException e) {
