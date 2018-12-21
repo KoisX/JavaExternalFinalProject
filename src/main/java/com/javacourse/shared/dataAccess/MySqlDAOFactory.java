@@ -1,4 +1,4 @@
-package com.javacourse.shared;
+package com.javacourse.shared.dataAccess;
 
 import com.javacourse.stats.StatsDAO;
 import com.javacourse.stats.StatsDAOMySql;
@@ -19,7 +19,7 @@ import com.javacourse.user.role.RoleDAOMySql;
  * The concrete implementation of the DAOFactory
  * for the MySQL relational database
  */
-public class MySqlDAOFactory implements DAOFactory{
+public class MySqlDAOFactory implements DAOFactory {
 
     @Override
     public UserDAO createUserDAO(SqlConnection sqlConnection) {

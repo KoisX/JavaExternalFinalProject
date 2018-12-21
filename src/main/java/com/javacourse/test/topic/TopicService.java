@@ -1,9 +1,9 @@
 package com.javacourse.test.topic;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
-import com.javacourse.shared.DAOFactory;
-import com.javacourse.shared.MySqlDAOFactory;
-import com.javacourse.shared.SqlConnection;
+import com.javacourse.shared.dataAccess.DAOFactory;
+import com.javacourse.shared.dataAccess.MySqlDAOFactory;
+import com.javacourse.shared.dataAccess.SqlConnection;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 

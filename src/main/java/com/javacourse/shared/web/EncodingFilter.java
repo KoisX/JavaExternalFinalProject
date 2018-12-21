@@ -1,4 +1,4 @@
-package com.javacourse.shared;
+package com.javacourse.shared.web;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

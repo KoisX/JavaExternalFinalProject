@@ -1,6 +1,6 @@
 package com.javacourse.stats;
 
-import com.javacourse.shared.Entity;
+import com.javacourse.shared.dataAccess.Entity;
 import com.javacourse.test.Test;
 import com.javacourse.user.User;
 

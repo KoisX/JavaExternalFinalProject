@@ -1,4 +1,4 @@
-package com.javacourse.shared;
+package com.javacourse.shared.dataAccess;
 
 /**
  * Marker interface for marking all database entities of this application

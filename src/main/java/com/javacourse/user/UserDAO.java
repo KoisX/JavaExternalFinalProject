@@ -1,7 +1,7 @@
 package com.javacourse.user;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
-import com.javacourse.shared.AbstractDAO;
+import com.javacourse.shared.dataAccess.AbstractDAO;
 import com.javacourse.user.role.Role;
 
 /**

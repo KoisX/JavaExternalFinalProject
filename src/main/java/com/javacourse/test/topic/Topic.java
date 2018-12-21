@@ -1,6 +1,6 @@
 package com.javacourse.test.topic;
 
-import com.javacourse.shared.Entity;
+import com.javacourse.shared.dataAccess.Entity;
 
 import java.util.Objects;
 

@@ -1,6 +1,6 @@
 package com.javacourse.test.task;
 
-import com.javacourse.shared.Entity;
+import com.javacourse.shared.dataAccess.Entity;
 import com.javacourse.test.image.Image;
 import com.javacourse.test.answer.Answer;
 

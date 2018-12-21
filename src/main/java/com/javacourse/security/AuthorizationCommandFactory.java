@@ -2,10 +2,9 @@ package com.javacourse.security;
 
 import com.javacourse.exceptions.UnexistingUrlException;
 import com.javacourse.security.command.LoginCommandEnum;
-import com.javacourse.security.command.SignInCommand;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
-import com.javacourse.shared.HttpMethod;
+import com.javacourse.shared.web.HttpMethod;
 import com.javacourse.utils.UriMarshaller;
 
 import javax.servlet.http.HttpServletRequest;

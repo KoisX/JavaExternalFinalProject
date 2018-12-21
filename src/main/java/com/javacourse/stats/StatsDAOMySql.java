@@ -1,7 +1,6 @@
 package com.javacourse.stats;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
-import com.javacourse.shared.AbstractDAO;
 import com.javacourse.test.Test;
 import com.javacourse.test.task.TaskDAOMySql;
 import com.javacourse.user.User;

@@ -1,4 +1,4 @@
-package com.javacourse.shared;
+package com.javacourse.shared.dataAccess;
 
 import com.javacourse.stats.StatsDAO;
 import com.javacourse.test.TestDAO;

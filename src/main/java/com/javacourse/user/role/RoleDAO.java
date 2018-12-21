@@ -1,7 +1,7 @@
 package com.javacourse.user.role;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
-import com.javacourse.shared.AbstractDAO;
+import com.javacourse.shared.dataAccess.AbstractDAO;
 
 /**
  * Basic interface used for implementing DAOFactory for switching between databases easily

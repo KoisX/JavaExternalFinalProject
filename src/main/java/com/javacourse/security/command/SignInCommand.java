@@ -5,8 +5,6 @@ import com.javacourse.WebKeys;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
 import com.javacourse.shared.Command;
-import com.javacourse.shared.SqlConnection;
-import com.javacourse.user.UserDAOMySql;
 import com.javacourse.user.UserService;
 import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;

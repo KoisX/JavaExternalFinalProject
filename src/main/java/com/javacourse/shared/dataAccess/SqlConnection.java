@@ -1,4 +1,4 @@
-package com.javacourse.shared;
+package com.javacourse.shared.dataAccess;
 
 import com.javacourse.utils.DBConnectionPool;
 import com.javacourse.utils.LogConfigurator;

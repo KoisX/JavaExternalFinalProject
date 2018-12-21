@@ -1,6 +1,6 @@
 package com.javacourse.user.role;
 
-import com.javacourse.shared.Entity;
+import com.javacourse.shared.dataAccess.Entity;
 
 /**
  * A model class for role database table

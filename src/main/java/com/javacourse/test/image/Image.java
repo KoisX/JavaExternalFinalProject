@@ -1,7 +1,7 @@
 package com.javacourse.test.image;
 
 
-import com.javacourse.shared.Entity;
+import com.javacourse.shared.dataAccess.Entity;
 
 import java.util.Arrays;
 import java.util.Objects;

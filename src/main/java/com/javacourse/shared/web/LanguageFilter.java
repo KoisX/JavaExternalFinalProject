@@ -1,4 +1,4 @@
-package com.javacourse.shared;
+package com.javacourse.shared.web;
 
 import com.javacourse.WebKeys;
 

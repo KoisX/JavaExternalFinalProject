@@ -1,8 +1,7 @@
-package com.javacourse.shared;
+package com.javacourse.shared.dataAccess;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 
-import java.sql.Connection;
 import java.util.List;
 
 /**

@@ -2,7 +2,6 @@ package com.javacourse.user.role;
 
 import com.javacourse.exceptions.DangerousQueryDeniedException;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
-import com.javacourse.shared.AbstractDAO;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
