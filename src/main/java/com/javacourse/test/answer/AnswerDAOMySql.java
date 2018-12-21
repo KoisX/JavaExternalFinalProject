@@ -1,7 +1,6 @@
 package com.javacourse.test.answer;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
-import com.javacourse.shared.AbstractDAO;
 import com.javacourse.test.task.TaskDAOMySql;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
@@ -13,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO implementation for the MySQL relational database
+ */
 public class AnswerDAOMySql implements AnswerDAO{
 
     private Connection connection;

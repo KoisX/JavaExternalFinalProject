@@ -12,6 +12,10 @@ import org.apache.log4j.Logger;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Business logic layer representative, used for communicating with database
+ * abstracting from concrete database realization
+ */
 public class TestService {
     private DAOFactory factory;
     private final static Logger logger;

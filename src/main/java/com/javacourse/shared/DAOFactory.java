@@ -8,6 +8,10 @@ import com.javacourse.test.topic.TopicDAO;
 import com.javacourse.user.UserDAO;
 import com.javacourse.user.role.RoleDAO;
 
+/**
+ * Basic interface for implementing DAO factories,
+ * so that switching between databases would be much easier
+ */
 public interface DAOFactory {
     UserDAO createUserDAO(SqlConnection connection);
     RoleDAO createRoleDAO(SqlConnection connection);

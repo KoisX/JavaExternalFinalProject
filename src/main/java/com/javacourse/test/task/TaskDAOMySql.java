@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO implementation for the MySQL relational database
+ */
 public class TaskDAOMySql implements TaskDAO {
 
     private Connection connection;

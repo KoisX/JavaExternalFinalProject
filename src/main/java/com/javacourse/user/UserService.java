@@ -1,7 +1,6 @@
 package com.javacourse.user;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
-import com.javacourse.security.command.SignUpCommand;
 import com.javacourse.shared.DAOFactory;
 import com.javacourse.shared.MySqlDAOFactory;
 import com.javacourse.shared.SqlConnection;
@@ -12,6 +11,10 @@ import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 
+/**
+ * Business logic layer representative, used for communicating with database
+ * abstracting from concrete database realization
+ */
 public class UserService{
     private DAOFactory factory;
     private final static Logger logger;

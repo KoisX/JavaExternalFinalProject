@@ -10,6 +10,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Database connection pool with DataSource,
+ * using Apache Commons connection pooling resources
+ */
 public class DBConnectionPool {
     private static BasicDataSource ds = new BasicDataSource();
     private static Properties property = new Properties();

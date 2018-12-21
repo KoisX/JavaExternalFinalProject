@@ -14,6 +14,7 @@ import java.sql.SQLException;
 /**
  * Utility class which provides an easy way for
  * using database connections from a connection pool
+ * specially for Tomcat container
  */
 public class DBCPTomcat {
 

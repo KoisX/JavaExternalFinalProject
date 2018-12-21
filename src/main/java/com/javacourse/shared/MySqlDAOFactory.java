@@ -15,6 +15,10 @@ import com.javacourse.user.UserDAOMySql;
 import com.javacourse.user.role.RoleDAO;
 import com.javacourse.user.role.RoleDAOMySql;
 
+/**
+ * The concrete implementation of the DAOFactory
+ * for the MySQL relational database
+ */
 public class MySqlDAOFactory implements DAOFactory{
 
     @Override

@@ -15,6 +15,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO implementation for the MySQL relational database
+ */
 public class StatsDAOMySql implements StatsDAO {
 
     private final static Logger logger;

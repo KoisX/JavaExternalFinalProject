@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an AbstractDAO implementation class,
- * which provides an easy way of interacting with database
+ * DAO implementation for the MySQL relational database
  */
 public class UserDAOMySql implements UserDAO {
 

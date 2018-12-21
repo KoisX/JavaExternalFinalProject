@@ -9,7 +9,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Wrapper class for sql Connection object
+ * Wrapper class for sql Connection object.
+ * Simplifies performing basic operations with the connection to DB
  */
 public class SqlConnection implements Closeable {
 

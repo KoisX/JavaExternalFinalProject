@@ -5,6 +5,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import java.io.IOException;
 
+/**
+ * Sets the encoding of the pages to default encoding (UTF-8)
+ */
 @WebFilter(filterName = "EncodingFilter",
            urlPatterns = {"/*"},
            initParams = @WebInitParam(name="requestEncoding", value = "UTF-8"))

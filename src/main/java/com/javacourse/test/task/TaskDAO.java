@@ -5,6 +5,9 @@ import com.javacourse.shared.AbstractDAO;
 
 import java.util.List;
 
+/**
+ * Basic interface used for implementing DAOFactory for switching between databases easily
+ */
 public interface TaskDAO extends AbstractDAO<Integer, Task> {
     List<Task> findTasksByTestId(String test_id) throws UnsuccessfulQueryException;
 }
