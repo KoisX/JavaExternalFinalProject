@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskDAOMySql implements AbstractDAO<Integer, Task> {
+public class TaskDAOMySql implements TaskDAO {
 
     private Connection connection;
     private final static Logger logger;

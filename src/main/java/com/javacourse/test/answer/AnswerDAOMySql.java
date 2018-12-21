@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnswerDAOMySql implements AbstractDAO<Integer, Answer> {
+public class AnswerDAOMySql implements AnswerDAO{
 
     private Connection connection;
     private final static Logger logger;
