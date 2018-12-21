@@ -1,5 +1,7 @@
 package com.javacourse.shared;
 
+import com.javacourse.stats.StatsDAO;
+import com.javacourse.stats.StatsDAOMySql;
 import com.javacourse.test.TestDAO;
 import com.javacourse.test.TestDAOMySql;
 import com.javacourse.test.answer.AnswerDAO;
@@ -43,5 +45,10 @@ public class MySqlDAOFactory implements DAOFactory{
     @Override
     public AnswerDAO createAnswerDAO(SqlConnection connection) {
         return new AnswerDAOMySql(connection.getConnection());
+    }
+
+    @Override
+    public StatsDAO createStatsDAO(SqlConnection connection) {
+        return new StatsDAOMySql(connection.getConnection());
     }
 }

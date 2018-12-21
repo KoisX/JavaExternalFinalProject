@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatsDAOMySql implements AbstractDAO<Integer, Stats> {
+public class StatsDAOMySql implements StatsDAO {
 
     private final static Logger logger;
     private Connection connection;

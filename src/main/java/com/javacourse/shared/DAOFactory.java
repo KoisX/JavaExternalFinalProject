@@ -1,5 +1,6 @@
 package com.javacourse.shared;
 
+import com.javacourse.stats.StatsDAO;
 import com.javacourse.test.TestDAO;
 import com.javacourse.test.answer.AnswerDAO;
 import com.javacourse.test.task.TaskDAO;
@@ -14,4 +15,5 @@ public interface DAOFactory {
     TestDAO createTestDAO(SqlConnection connection);
     TaskDAO createTaskDAO(SqlConnection connection);
     AnswerDAO createAnswerDAO(SqlConnection connection);
+    StatsDAO createStatsDAO(SqlConnection connection);
 }

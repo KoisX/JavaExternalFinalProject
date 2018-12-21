@@ -4,12 +4,14 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
 import com.javacourse.stats.Stats;
 import com.javacourse.stats.StatsDAOMySql;
+import com.javacourse.stats.StatsService;
 import com.javacourse.test.commands.ShowTopicsCommand;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ShowStatsCommand implements Command {
@@ -23,7 +25,7 @@ public class ShowStatsCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        StatsDAOMySql statsDAOMysql = new StatsDAOMySql(null);
+        StatsService statsService = new StatsService();
         List<Stats> stats;
 
         int page = 1;
@@ -32,9 +34,9 @@ public class ShowStatsCommand implements Command {
         if(request.getParameter("page") != null)
             page = Integer.parseInt(request.getParameter("page"));
         try {
-            stats = statsDAOMysql.findAllWithPagination((page-1)*recordsPerPage, recordsPerPage);
-            pages = statsDAOMysql.getNumberOfPages(recordsPerPage);
-        } catch (UnsuccessfulQueryException e) {
+            stats = statsService.findAllWithPagination((page-1)*recordsPerPage, recordsPerPage);
+            pages = statsService.getNumberOfPages(recordsPerPage);
+        } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
             return "/Error";
         }
