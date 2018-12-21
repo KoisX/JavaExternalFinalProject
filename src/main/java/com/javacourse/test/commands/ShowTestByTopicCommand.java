@@ -6,12 +6,14 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
 import com.javacourse.test.Test;
 import com.javacourse.test.TestDAOMySql;
+import com.javacourse.test.TestService;
 import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ShowTestByTopicCommand implements Command {
@@ -25,14 +27,14 @@ public class ShowTestByTopicCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        TestDAOMySql testDAOMySql = new TestDAOMySql(null);
+        TestService testService = new TestService();
         List<Test> tests;
         String topicId = request.getParameter("id");
         if(topicId==null)
             return ApplicationResources.getErrorAction();
         try{
-            tests = testDAOMySql.findByTopicId(topicId);
-        } catch (UnsuccessfulQueryException e) {
+            tests = testService.findByTopicId(topicId);
+        } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
             return ApplicationResources.getErrorAction();
         }

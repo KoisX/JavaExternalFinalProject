@@ -4,12 +4,14 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
 import com.javacourse.test.topic.Topic;
 import com.javacourse.test.topic.TopicDAOMySql;
+import com.javacourse.test.topic.TopicService;
 import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ShowTopicsCommand implements Command {
@@ -23,11 +25,11 @@ public class ShowTopicsCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        TopicDAOMySql topicDAOMySql = new TopicDAOMySql(null);
+        TopicService topicService = new TopicService();
         List<Topic> topics;
         try {
-            topics = topicDAOMySql.findAll();
-        } catch (UnsuccessfulQueryException e) {
+            topics = topicService.findAll();
+        } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
             return "/Error";
         }

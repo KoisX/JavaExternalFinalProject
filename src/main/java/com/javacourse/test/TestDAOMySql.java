@@ -17,7 +17,7 @@ import java.util.List;
  * Represents an AbstractDAO implementation class,
  * which provides an easy way of interacting with database
  */
-public class TestDAOMySql implements AbstractDAO<Integer, Test> {
+public class TestDAOMySql implements TestDAO {
 
     private final static Logger logger;
     private Connection connection;
