@@ -6,11 +6,12 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
 import com.javacourse.security.command.SignUpCommand;
 import com.javacourse.user.role.Role;
-import com.javacourse.user.role.RoleDAO;
+import com.javacourse.user.role.RoleDAOMySql;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 
 /**
  * Helper class for sihning up new users.
@@ -24,7 +25,7 @@ public class UserCreationUtils {
 
     //logger configuration
     static {
-        logger = LogConfigurator.getLogger(SignUpCommand.class);
+        logger = LogConfigurator.getLogger(UserCreationUtils.class);
     }
 
     /**
@@ -35,15 +36,16 @@ public class UserCreationUtils {
      * @return url to forward or redirect to
      */
     public static String handleUserInsert(HttpServletRequest request){
-        UserDAO userDAO = new UserDAO();
         String resultPage;
 
-        if(!checkInputFields(request) || !validateInDb(request, userDAO)){
+        if(!checkInputFields(request) || !validateInDb(request)){
             resultPage = ApplicationResources.getSignUpPage();
             return  resultPage;
         }
 
-        if(insertUser(constructUser(request), userDAO)){
+        logger.debug("validation");
+        if(insertUser(constructUser(request))){
+            logger.debug("after insert");
             resultPage = ApplicationResources.getLoginAction();
             /*If new account was created successfully, we want to
              * redirect user to login page, not forward*/
@@ -81,12 +83,13 @@ public class UserCreationUtils {
         return true;
     }
 
-    static boolean validateInDb(HttpServletRequest request, UserDAO userDAO){
+    static boolean validateInDb(HttpServletRequest request){
         String userEmail = request.getParameter("login");
         boolean doesEmailExist = false;
+        UserService userService = new UserService();
         try {
-            doesEmailExist = userDAO.doesEmailExist(userEmail);
-        } catch (UnsuccessfulQueryException e) {
+            doesEmailExist = userService.doesUserWithEmailExist(userEmail);
+        } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
             request.setAttribute(WebKeys.getErrorRequestMessage(), "Unsuccessful signing up. Try again.");
             return false;
@@ -109,19 +112,10 @@ public class UserCreationUtils {
         return user;
     }
 
-    static boolean insertUser(User user, UserDAO userDAO) {
-        RoleDAO roleDAO = new RoleDAO();
-        int roleId;
-
-        try {
-            roleId = roleDAO.getRoleIdByName(user.getRole().getName());
-            user.getRole().setId(roleId);
-            userDAO.create(user);
-        } catch (UnsuccessfulQueryException e) {
-            logger.error(e.getMessage());
-            return false;
-        }
-        return true;
+    static boolean insertUser(User user) {
+        UserService userService = new UserService();
+        logger.debug("in insert");
+        return userService.create(user);
     }
 
     static boolean containsEmptyFields(String name, String surname, String email, String password, String passwordValidation){

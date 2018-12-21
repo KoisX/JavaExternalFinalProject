@@ -2,7 +2,6 @@ package com.javacourse.test;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.test.topic.Topic;
-import com.javacourse.test.topic.TopicDAO;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -24,22 +23,22 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestDAOTest {
+public class TestDAOTestMySql {
 
     @Mock
     private Connection connection;
 
-    private TestDAO testDAO;
+    private TestDAOMySql testDAOMySql;
 
     @Before
     public void setUp() throws Exception {
-        testDAO = new TestDAO();
+        testDAOMySql = new TestDAOMySql(null);
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
     public void findAll_unableToPrepareConnectionStatement_throwCustomException() throws UnsuccessfulQueryException, SQLException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        testDAO.findAll();
+        testDAOMySql.findAll();
     }
 
     @Test
@@ -55,14 +54,14 @@ public class TestDAOTest {
 
         List<com.javacourse.test.Test> expected = new LinkedList<>();
         expected.add(test);
-        List<com.javacourse.test.Test> actual = testDAO.parseToEntityList(rs);
+        List<com.javacourse.test.Test> actual = testDAOMySql.parseToEntityList(rs);
         assertEquals(expected, actual);
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
     public void findById_unableToPrepareConnectionStatement_throwCustomException() throws SQLException, UnsuccessfulQueryException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        testDAO.findById(anyInt());
+        testDAOMySql.findById(anyInt());
     }
 
     @Test
@@ -76,20 +75,20 @@ public class TestDAOTest {
         when(rs.getLong(3)).thenReturn(topic.getId());
         when(rs.getString(4)).thenReturn(topic.getName());
 
-        com.javacourse.test.Test actual = testDAO.parseSingleEntity(rs);
+        com.javacourse.test.Test actual = testDAOMySql.parseSingleEntity(rs);
         assertEquals(expected, actual);
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
     public void delete_unableToPrepareConnectionStatement_throwCustomException() throws SQLException, UnsuccessfulQueryException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        testDAO.delete(anyInt());
+        testDAOMySql.delete(anyInt());
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
     public void create_unableToPrepareConnectionStatement_throwCustomException() throws SQLException, UnsuccessfulQueryException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        testDAO.create(anyObject());
+        testDAOMySql.create(anyObject());
     }
 
     @Test

@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -28,17 +27,17 @@ public class TopicDAOTest {
     @Mock
     private Connection connection;
 
-    private TopicDAO topicDAO;
+    private TopicDAOMySql topicDAOMySql;
 
     @Before
     public void setUp() throws Exception {
-        topicDAO = new TopicDAO();
+        topicDAOMySql = new TopicDAOMySql(null);
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
     public void findAll_unableToPrepareConnectionStatement_throwCustomException() throws SQLException, UnsuccessfulQueryException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        topicDAO.findAll();
+        topicDAOMySql.findAll();
     }
 
     @Test
@@ -51,7 +50,7 @@ public class TopicDAOTest {
 
         List<Topic> expected = new LinkedList<>();
         expected.add(topic);
-        List<Topic> actual = topicDAO.parseToEntityList(rs);
+        List<Topic> actual = topicDAOMySql.parseToEntityList(rs);
 
         assertEquals(expected, actual);
     }
@@ -59,7 +58,7 @@ public class TopicDAOTest {
     @Test(expected = UnsuccessfulQueryException.class)
     public void findById_unableToPrepareConnectionStatement_throwCustomException() throws SQLException, UnsuccessfulQueryException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        topicDAO.findById(anyInt());
+        topicDAOMySql.findById(anyInt());
     }
 
     @Test
@@ -70,7 +69,7 @@ public class TopicDAOTest {
         when(rs.getLong(1)).thenReturn(expected.getId());
         when(rs.getString(2)).thenReturn(expected.getName());
 
-        Topic actual = topicDAO.parseSingleEntity(rs);
+        Topic actual = topicDAOMySql.parseSingleEntity(rs);
 
         assertEquals(expected, actual);
     }
@@ -78,13 +77,13 @@ public class TopicDAOTest {
     @Test(expected = UnsuccessfulQueryException.class)
     public void delete_unableToPrepareConnectionStatement_throwCustomException() throws SQLException, UnsuccessfulQueryException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        topicDAO.delete(anyInt());
+        topicDAOMySql.delete(anyInt());
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
     public void create_unableToPrepareConnectionStatement_throwCustomException() throws SQLException, UnsuccessfulQueryException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        topicDAO.create(anyObject());
+        topicDAOMySql.create(anyObject());
     }
 
     @Test

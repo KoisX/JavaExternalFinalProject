@@ -3,9 +3,8 @@ package com.javacourse.stats;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.test.Test;
-import com.javacourse.test.task.TaskDAO;
+import com.javacourse.test.task.TaskDAOMySql;
 import com.javacourse.user.User;
-import com.javacourse.utils.DBConnectionPool;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -14,24 +13,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class StatsDAO extends AbstractDAO<Integer, Stats> {
+public class StatsDAOMySql implements AbstractDAO<Integer, Stats> {
 
     private final static Logger logger;
     private Connection connection;
 
     //logger configuration
     static {
-        logger = LogConfigurator.getLogger(TaskDAO.class);
+        logger = LogConfigurator.getLogger(TaskDAOMySql.class);
     }
 
-    public StatsDAO(Connection connection) {
+    public StatsDAOMySql(Connection connection) {
         this.connection = connection;
     }
 
-    private StatsDAO() {
+    private StatsDAOMySql() {
         throw new UnsupportedOperationException();
     }
 
@@ -100,11 +98,6 @@ public class StatsDAO extends AbstractDAO<Integer, Stats> {
 
     @Override
     public boolean create(Stats entity) throws UnsuccessfulQueryException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Stats update(Stats entity) throws UnsuccessfulQueryException {
         throw new UnsupportedOperationException();
     }
 

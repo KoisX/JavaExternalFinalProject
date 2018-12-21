@@ -3,7 +3,7 @@ package com.javacourse.home.commands;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
 import com.javacourse.stats.Stats;
-import com.javacourse.stats.StatsDAO;
+import com.javacourse.stats.StatsDAOMySql;
 import com.javacourse.test.commands.ShowTopicsCommand;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
@@ -23,7 +23,7 @@ public class ShowStatsCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        StatsDAO statsDAO = new StatsDAO();
+        StatsDAOMySql statsDAOMysql = new StatsDAOMySql(null);
         List<Stats> stats;
 
         int page = 1;
@@ -32,8 +32,8 @@ public class ShowStatsCommand implements Command {
         if(request.getParameter("page") != null)
             page = Integer.parseInt(request.getParameter("page"));
         try {
-            stats = statsDAO.findAllWithPagination((page-1)*recordsPerPage, recordsPerPage);
-            pages = statsDAO.getNumberOfPages(recordsPerPage);
+            stats = statsDAOMysql.findAllWithPagination((page-1)*recordsPerPage, recordsPerPage);
+            pages = statsDAOMysql.getNumberOfPages(recordsPerPage);
         } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return "/Error";

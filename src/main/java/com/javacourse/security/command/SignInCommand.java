@@ -5,7 +5,9 @@ import com.javacourse.WebKeys;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
 import com.javacourse.shared.Command;
-import com.javacourse.user.UserDAO;
+import com.javacourse.shared.SqlConnection;
+import com.javacourse.user.UserDAOMySql;
+import com.javacourse.user.UserService;
 import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
@@ -13,6 +15,7 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 
 public class SignInCommand implements Command {
     private final static Logger logger;
@@ -24,20 +27,20 @@ public class SignInCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request , HttpServletResponse response) {
-        UserDAO userDAO = new UserDAO();
-        return tryLogInByUserCredentials(request, userDAO);
+        UserService userService = new UserService();
+        return tryLogInByUserCredentials(request, userService);
     }
 
-    String tryLogInByUserCredentials(HttpServletRequest request,UserDAO userDAO){
+    String tryLogInByUserCredentials(HttpServletRequest request, UserService userService){
         String userEmail = request.getParameter("login");
         String userPassword = request.getParameter("password");
         try {
             String hash = PasswordManager.hash(userPassword, userEmail);
-            if(userDAO.doesUserExist(userEmail, hash)){
-                setUserAttributes(userDAO, hash, request);
+            if(userService.doesUserExist(userEmail, hash)){
+                setUserAttributes(userService, hash, request);
                 return  ApplicationResources.getIndexAction();
             }
-        }catch (UnsuccessfulQueryException e) {
+        }catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
             return ApplicationResources.getErrorAction();
         }
@@ -46,12 +49,12 @@ public class SignInCommand implements Command {
         return ApplicationResources.getLoginPage();
     }
 
-    void setUserAttributes(UserDAO userDAO, String hash, HttpServletRequest request) throws UnsuccessfulQueryException {
+    void setUserAttributes(UserService userService, String hash, HttpServletRequest request) throws UnsuccessfulQueryException, SQLException {
         String userEmail = request.getParameter("login");
         String userPassword = request.getParameter("password");
         HttpSession session = request.getSession();
 
-        Role role = userDAO.getRoleByEmailAndPassword(userEmail, hash);
+        Role role = userService.getUserRoleByEmail(userEmail);
         session.setAttribute("login", userEmail);
         session.setAttribute("password", userPassword);
         session.setAttribute("role", role);

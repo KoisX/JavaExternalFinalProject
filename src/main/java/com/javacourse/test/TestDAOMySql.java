@@ -3,8 +3,6 @@ package com.javacourse.test;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
 import com.javacourse.test.topic.Topic;
-import com.javacourse.utils.DBCPTomcat;
-import com.javacourse.utils.DBConnectionPool;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -13,31 +11,30 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Represents an AbstractDAO implementation class,
  * which provides an easy way of interacting with database
  */
-public class TestDAO extends AbstractDAO<Integer, Test> {
+public class TestDAOMySql implements AbstractDAO<Integer, Test> {
 
     private final static Logger logger;
     private Connection connection;
 
     //logger configuration
     static {
-        logger = LogConfigurator.getLogger(TestDAO.class);
+        logger = LogConfigurator.getLogger(TestDAOMySql.class);
     }
 
     /**
-     * Created TestDAO entity
+     * Created TestDAOMySql entity
      */
-    public TestDAO(Connection connection){
+    public TestDAOMySql(Connection connection){
         this.connection = connection;
     }
 
-    private TestDAO(){
+    private TestDAOMySql(){
         throw new UnsupportedOperationException();
     }
 
@@ -181,12 +178,6 @@ public class TestDAO extends AbstractDAO<Integer, Test> {
             closeResultSet(resultSet);
         }
         return items;
-    }
-
-    //TODO: implement it
-    @Override
-    public Test update(Test entity) throws UnsuccessfulQueryException {
-        throw new UnsupportedOperationException();
     }
 
     /**

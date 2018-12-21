@@ -2,8 +2,6 @@ package com.javacourse.test.task;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
-import com.javacourse.test.answer.AnswerDAO;
-import com.javacourse.utils.DBConnectionPool;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -12,27 +10,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class TaskDAO extends AbstractDAO<Integer, Task> {
+public class TaskDAOMySql implements AbstractDAO<Integer, Task> {
 
     private Connection connection;
     private final static Logger logger;
 
     //logger configuration
     static {
-        logger = LogConfigurator.getLogger(TaskDAO.class);
+        logger = LogConfigurator.getLogger(TaskDAOMySql.class);
     }
 
     /**
-     * Created TaskDAO entity
+     * Created TaskDAOMySql entity
      */
-    public TaskDAO(Connection connection){
+    public TaskDAOMySql(Connection connection){
         this.connection = connection;
     }
 
-    private TaskDAO(){
+    private TaskDAOMySql(){
         throw new UnsupportedOperationException();
     }
 
@@ -75,11 +72,6 @@ public class TaskDAO extends AbstractDAO<Integer, Task> {
     @Override
     public boolean create(Task entity) throws UnsuccessfulQueryException {
         return false;
-    }
-
-    @Override
-    public Task update(Task entity) throws UnsuccessfulQueryException {
-        return null;
     }
 
     public List<Task> findTasksByTestId(String test_id) throws UnsuccessfulQueryException{

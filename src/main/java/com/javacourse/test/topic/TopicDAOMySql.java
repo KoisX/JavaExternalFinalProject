@@ -2,8 +2,6 @@ package com.javacourse.test.topic;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
-import com.javacourse.utils.DBCPTomcat;
-import com.javacourse.utils.DBConnectionPool;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -12,27 +10,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class TopicDAO extends AbstractDAO<Integer, Topic> {
+public class TopicDAOMySql implements AbstractDAO<Integer, Topic> {
 
     private final static Logger logger;
     private Connection connection;
 
     //logger configuration
     static {
-        logger = LogConfigurator.getLogger(TopicDAO.class);
+        logger = LogConfigurator.getLogger(TopicDAOMySql.class);
     }
 
     /**
-     * Created TopicDAO entity
+     * Created TopicDAOMySql entity
      */
-    public TopicDAO(Connection connection) {
+    public TopicDAOMySql(Connection connection) {
         this.connection = connection;
     }
 
-    private TopicDAO() {
+    private TopicDAOMySql() {
         throw new UnsupportedOperationException();
     }
 
@@ -125,11 +122,6 @@ public class TopicDAO extends AbstractDAO<Integer, Topic> {
             throw new UnsuccessfulQueryException();
         }
         return changes>0;
-    }
-
-    @Override
-    public Topic update(Topic entity) throws UnsuccessfulQueryException {
-        throw new UnsupportedOperationException();
     }
 
     /**

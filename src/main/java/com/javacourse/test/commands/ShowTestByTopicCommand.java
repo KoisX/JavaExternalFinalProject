@@ -5,7 +5,7 @@ import com.javacourse.WebKeys;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
 import com.javacourse.test.Test;
-import com.javacourse.test.TestDAO;
+import com.javacourse.test.TestDAOMySql;
 import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
@@ -25,13 +25,13 @@ public class ShowTestByTopicCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        TestDAO testDAO = new TestDAO();
+        TestDAOMySql testDAOMySql = new TestDAOMySql(null);
         List<Test> tests;
         String topicId = request.getParameter("id");
         if(topicId==null)
             return ApplicationResources.getErrorAction();
         try{
-            tests = testDAO.findByTopicId(topicId);
+            tests = testDAOMySql.findByTopicId(topicId);
         } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return ApplicationResources.getErrorAction();

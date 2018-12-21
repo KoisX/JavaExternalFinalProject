@@ -4,7 +4,7 @@ import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
 import com.javacourse.test.task.Task;
-import com.javacourse.test.task.TaskDAO;
+import com.javacourse.test.task.TaskDAOMySql;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -23,13 +23,13 @@ public class ShowExamCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        TaskDAO taskDAO = new TaskDAO();
+        TaskDAOMySql taskDAOMySql = new TaskDAOMySql(null);
         String testId = request.getParameter("id");
         if(testId==null)
             return ApplicationResources.getErrorAction();
         List<Task> tasks;
         try{
-            tasks = taskDAO.findTasksByTestId(testId);
+            tasks = taskDAOMySql.findTasksByTestId(testId);
         } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return ApplicationResources.getErrorAction();

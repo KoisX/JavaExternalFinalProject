@@ -2,8 +2,7 @@ package com.javacourse.test.answer;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.AbstractDAO;
-import com.javacourse.test.task.TaskDAO;
-import com.javacourse.utils.DBConnectionPool;
+import com.javacourse.test.task.TaskDAOMySql;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -14,21 +13,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnswerDAO extends AbstractDAO<Integer, Answer> {
+public class AnswerDAOMySql implements AbstractDAO<Integer, Answer> {
 
     private Connection connection;
     private final static Logger logger;
 
     //logger configuration
     static {
-        logger = LogConfigurator.getLogger(TaskDAO.class);
+        logger = LogConfigurator.getLogger(TaskDAOMySql.class);
     }
 
-    public AnswerDAO(Connection connection) {
+    public AnswerDAOMySql(Connection connection) {
         this.connection = connection;
     }
 
-    private AnswerDAO(){
+    private AnswerDAOMySql(){
         throw new UnsupportedOperationException();
     }
 
@@ -63,11 +62,6 @@ public class AnswerDAO extends AbstractDAO<Integer, Answer> {
     @Override
     public boolean create(Answer entity) throws UnsuccessfulQueryException {
         return false;
-    }
-
-    @Override
-    public Answer update(Answer entity) throws UnsuccessfulQueryException {
-        return null;
     }
 
     public List<Answer> findCorrectAnswersByTaskId(long task_id) throws UnsuccessfulQueryException {

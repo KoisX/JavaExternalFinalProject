@@ -1,7 +1,6 @@
 package com.javacourse.user;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
-import com.javacourse.test.TestDAO;
 import com.javacourse.user.role.Role;
 import com.javacourse.user.role.RoleFactory;
 import org.junit.Before;
@@ -33,17 +32,17 @@ public class UserDAOTest {
     @Mock
     private RoleFactory roleFactory;
 
-    private UserDAO userDAO;
+    private UserDAOMySql userDAOMySql;
 
     @Before
     public void setUp() throws Exception {
-        userDAO = new UserDAO(roleFactory);
+        userDAOMySql = new UserDAOMySql();
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
     public void findAll_unableToPrepareConnectionStatement_throwCustomException() throws SQLException, UnsuccessfulQueryException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        userDAO.findAll();
+        userDAOMySql.findAll();
     }
 
     @Test
@@ -63,14 +62,14 @@ public class UserDAOTest {
 
         List<User> expected = new LinkedList<>();
         expected.add(user);
-        List<User> actual = userDAO.parseToEntityList(rs);
+        List<User> actual = userDAOMySql.parseToEntityList(rs);
         assertEquals(expected, actual);
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
     public void findById_unableToPrepareConnectionStatement_throwCustomException() throws SQLException, UnsuccessfulQueryException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        userDAO.findById(anyInt());
+        userDAOMySql.findById(anyInt());
     }
 
     @Test
@@ -88,20 +87,20 @@ public class UserDAOTest {
         when(rs.getString(7)).thenReturn(expected.getPassword());
         when(roleFactory.createRole(expected.getRole().getName(), expected.getRole().getId())).thenReturn(Role.USER);
 
-        User actual = userDAO.parseSingleEntity(rs);
+        User actual = userDAOMySql.parseSingleEntity(rs);
         assertEquals(expected, actual);
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
     public void delete_unableToPrepareConnectionStatement_throwCustomException() throws SQLException, UnsuccessfulQueryException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        userDAO.delete(anyInt());
+        userDAOMySql.delete(anyInt());
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
     public void create_unableToPrepareConnectionStatement_throwCustomException() throws SQLException, UnsuccessfulQueryException {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
-        userDAO.create(anyObject());
+        userDAOMySql.create(anyObject());
     }
 
     @Test
