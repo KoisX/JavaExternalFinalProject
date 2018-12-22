@@ -13,6 +13,7 @@ public enum WebPage {
     LOGIN_PAGE("/login.jsp"),
     ABOUT_PAGE("/about.jsp"),
     RULES_PAGE("/rules.jsp"),
+    ERROR_PAGE("/error.jsp"),
     STATS_ADMIN_PAGE("/jsp/admin/stats.jsp"),
     EXAM_USER_PAGE("/jsp/user/exam.jsp"),
     TESTS_USER_PAGE("/jsp/user/tests.jsp"),

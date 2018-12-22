@@ -1,6 +1,8 @@
 package com.javacourse.shared.web;
 
+import com.javacourse.shared.WebPage;
 import com.javacourse.utils.LogConfigurator;
+import com.javacourse.utils.WebPageDispatcher;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -16,15 +18,6 @@ import java.io.IOException;
 @WebServlet(name = "Error", urlPatterns = "/Error")
 public class ErrorServlet extends HttpServlet {
 
-    private static final String ERROR_PAGE = "/error.jsp";
-    private Logger logger;
-
-    @Override
-    public void init() throws ServletException {
-        //configuring log4j logger
-        String contextPath = getServletContext().getRealPath("/");
-        logger = LogConfigurator.getLogger(contextPath, this.getClass());
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,6 +30,6 @@ public class ErrorServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(ERROR_PAGE).forward(req, resp);
+        new WebPageDispatcher(req, resp, WebPage.ERROR_PAGE).dispatch();
     }
 }
