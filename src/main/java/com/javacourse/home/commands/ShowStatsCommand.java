@@ -17,39 +17,61 @@ import java.util.List;
 
 public class ShowStatsCommand implements Command {
 
+    private List<Stats> stats;
+    private int currentPage = 1;
+    private int numberOfPages = 0;
     private final static Logger logger;
+    private final static int RECORDS_PER_PAGE = 10;
+    private final static String PAGE_PARAM = "page";
+    private final static String STATS_ATTRIBUTE = "stats";
+    private final static String CURRENT_PAGE_ATTRIBUTE = "currentPage";
+    private final static String PAGES_ATTRIBUTE = "pages";
+    private final static String RECORDS_PER_PAGE_ATTRIBUTE = "recordsPerPage";
 
     //logger configuration
     static {
-        logger = LogConfigurator.getLogger(ShowTopicsCommand.class);
+        logger = LogConfigurator.getLogger(ShowStatsCommand.class);
     }
 
     @Override
     public WebPage execute(HttpServletRequest request) {
-        StatsService statsService = new StatsService();
-        List<Stats> stats;
+        WebPage resultingPage = WebPage.STATS_ADMIN_PAGE;
 
-        int page = 1;
-        int recordsPerPage = 10;
-        int pages = 0;
-        if(request.getParameter("page") != null)
-            page = Integer.parseInt(request.getParameter("page"));
+        if(!getPageInfo(request)){
+            resultingPage = WebPage.ERROR_ACTION;
+        }
+
+        if(currentPage<0 || currentPage>numberOfPages){
+            resultingPage = WebPage.ERROR_ACTION;
+        }
+
+        initRequestAttributes(request);
+        return resultingPage;
+    }
+
+    private boolean getPageInfo(HttpServletRequest request){
+        StatsService statsService = new StatsService();
+
+        if(request.getParameter(PAGE_PARAM) != null)
+            currentPage = Integer.parseInt(request.getParameter(PAGE_PARAM));
         try {
-            stats = statsService.findAllWithPagination((page-1)*recordsPerPage, recordsPerPage);
-            pages = statsService.getNumberOfPages(recordsPerPage);
+            stats = statsService.findAllWithPagination(getOffset(), RECORDS_PER_PAGE);
+            numberOfPages = statsService.getNumberOfPages(RECORDS_PER_PAGE);
         } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
-            return WebPage.ERROR_ACTION;
+            return false;
         }
+        return true;
+    }
 
-        if(page<0 || page>pages){
-            return WebPage.ERROR_ACTION;
-        }
+    private void initRequestAttributes(HttpServletRequest request){
+        request.setAttribute(STATS_ATTRIBUTE, stats);
+        request.setAttribute(CURRENT_PAGE_ATTRIBUTE, currentPage);
+        request.setAttribute(PAGES_ATTRIBUTE, numberOfPages);
+        request.setAttribute(RECORDS_PER_PAGE_ATTRIBUTE, RECORDS_PER_PAGE);
+    }
 
-        request.setAttribute("stats", stats);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("pages", pages);
-        request.setAttribute("recordsPerPage", recordsPerPage);
-        return WebPage.STATS_ADMIN_PAGE;
+    private int getOffset(){
+        return (currentPage-1)*RECORDS_PER_PAGE;
     }
 }

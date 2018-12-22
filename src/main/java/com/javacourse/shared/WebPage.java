@@ -1,5 +1,8 @@
 package com.javacourse.shared;
 
+import javax.servlet.ServletException;
+import java.io.IOException;
+
 /**
  * Represents a wrapper for a path,
  * which the request will be forwarded or redirected to

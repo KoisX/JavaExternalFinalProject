@@ -4,7 +4,6 @@ import com.javacourse.ApplicationResources;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
 import com.javacourse.shared.WebPage;
-import com.javacourse.utils.DispatchHelper;
 import com.javacourse.utils.LogConfigurator;
 import com.javacourse.utils.WebPageDispatcher;
 import org.apache.log4j.Logger;
