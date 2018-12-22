@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 public class LogoutCommand implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
         request.setAttribute(WebKeys.getShouldRedirect(), "true");
         session.removeAttribute("password");

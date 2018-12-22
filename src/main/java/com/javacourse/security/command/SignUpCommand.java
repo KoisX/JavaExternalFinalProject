@@ -10,7 +10,7 @@ import java.io.IOException;
 public class SignUpCommand implements Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request) {
         return UserCreationUtils.handleUserInsert(request);
     }
 

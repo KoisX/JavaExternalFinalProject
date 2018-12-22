@@ -24,7 +24,7 @@ public class ShowTopicsCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request) {
         TopicService topicService = new TopicService();
         List<Topic> topics;
         try {

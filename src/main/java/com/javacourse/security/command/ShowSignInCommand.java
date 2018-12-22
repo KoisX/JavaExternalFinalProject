@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowSignInCommand implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request) {
         return ApplicationResources.getLoginPage();
     }
 }

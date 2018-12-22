@@ -26,7 +26,7 @@ public class ShowTestByTopicCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request) {
         TestService testService = new TestService();
         List<Test> tests;
         String topicId = request.getParameter("id");

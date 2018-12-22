@@ -24,7 +24,7 @@ public class ShowStatsCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request) {
         StatsService statsService = new StatsService();
         List<Stats> stats;
 

@@ -24,7 +24,7 @@ public class ShowExamCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request) {
         TaskService taskService = new TaskService();
         String testId = request.getParameter("id");
         if(testId==null)
