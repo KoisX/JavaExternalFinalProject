@@ -41,17 +41,12 @@ public class ShowStatsCommand implements Command {
             resultingPage = WebPage.ERROR_ACTION;
         }
 
-        if(currentPage<0 || currentPage>numberOfPages){
-            resultingPage = WebPage.ERROR_ACTION;
-        }
-
         initRequestAttributes(request);
         return resultingPage;
     }
 
     private boolean getPageInfo(HttpServletRequest request){
         StatsService statsService = new StatsService();
-
         if(request.getParameter(PAGE_PARAM) != null)
             currentPage = Integer.parseInt(request.getParameter(PAGE_PARAM));
         try {
@@ -61,7 +56,9 @@ public class ShowStatsCommand implements Command {
             logger.error(e.getMessage());
             return false;
         }
-        return true;
+
+        //checking if currentPage param is in accepted value segment
+        return currentPage >= 0 && currentPage <= numberOfPages;
     }
 
     private void initRequestAttributes(HttpServletRequest request){

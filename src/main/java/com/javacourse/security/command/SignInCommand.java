@@ -17,6 +17,9 @@ import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 
 public class SignInCommand implements Command {
+
+    String userEmail;
+    String userPassword;
     private final static Logger logger;
 
     //logger configuration
@@ -26,36 +29,33 @@ public class SignInCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request) {
-        UserService userService = new UserService();
-        return tryLogInByUserCredentials(request, userService);
+        userEmail = request.getParameter("login");
+        userPassword = request.getParameter("password");
+        WebPage webPage = getPageBasedOnWhetherUserExists(request);
+        return webPage;
     }
 
-    WebPage tryLogInByUserCredentials(HttpServletRequest request, UserService userService){
-        String userEmail = request.getParameter("login");
-        String userPassword = request.getParameter("password");
+    private WebPage getPageBasedOnWhetherUserExists(HttpServletRequest request){
+        WebPage webPage = WebPage.LOGIN_PAGE;
         try {
+            UserService userService = new UserService();
             String hash = PasswordManager.hash(userPassword, userEmail);
             if(userService.doesUserExist(userEmail, hash)){
-                setUserAttributes(userService, hash, request);
-                return  WebPage.INDEX_ACTION.setDoRedirect(true);
+                Role role = userService.getUserRoleByEmail(userEmail);
+                setUserAttributes(role, hash, request);
+                webPage = WebPage.INDEX_ACTION.setDoRedirect(true);
             }
         }catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
-            return WebPage.ERROR_ACTION;
+            webPage = WebPage.ERROR_ACTION;
         }
-        //if logging in is unsuccessful
-        request.setAttribute(WebKeys.getErrorRequestMessage(), "Incorrect login or password");
-        return WebPage.LOGIN_PAGE;
+        return webPage;
     }
 
-    void setUserAttributes(UserService userService, String hash, HttpServletRequest request) throws UnsuccessfulQueryException, SQLException {
-        String userEmail = request.getParameter("login");
-        String userPassword = request.getParameter("password");
+    private void setUserAttributes(Role role, String hash, HttpServletRequest request) throws UnsuccessfulQueryException, SQLException {
         HttpSession session = request.getSession();
-
-        Role role = userService.getUserRoleByEmail(userEmail);
         session.setAttribute("login", userEmail);
-        session.setAttribute("password", userPassword);
+        session.setAttribute("password", hash);
         session.setAttribute("role", role);
     }
 
