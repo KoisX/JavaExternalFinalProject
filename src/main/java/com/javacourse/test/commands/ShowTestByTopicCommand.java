@@ -1,25 +1,24 @@
 package com.javacourse.test.commands;
 
-import com.javacourse.ApplicationResources;
-import com.javacourse.WebKeys;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
 import com.javacourse.test.Test;
-import com.javacourse.test.TestDAOMySql;
 import com.javacourse.test.TestService;
 import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
 
 public class ShowTestByTopicCommand implements Command {
 
     private final static Logger logger;
+    private final static String TESTS_ATTRIBUTE = "tests";
+    private final static String ROLE_ATTRIBUTE = "role";
+    private final static String ID_PARAM = "id";
 
     //logger configuration
     static {
@@ -28,19 +27,31 @@ public class ShowTestByTopicCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request) {
+        WebPage webPage = WebPage.ERROR_ACTION;
+        if(!setTestsAttribute(request)){
+            return webPage;
+        }
+        webPage = getTestPageForUser(request);
+        return webPage;
+    }
+
+    private boolean setTestsAttribute(HttpServletRequest request){
         TestService testService = new TestService();
-        List<Test> tests;
-        String topicId = request.getParameter("id");
+        String topicId = request.getParameter(ID_PARAM);
         if(topicId==null)
-            return WebPage.ERROR_ACTION;
+            return false;
         try{
-            tests = testService.findByTopicId(topicId);
+            List<Test> tests = testService.findByTopicId(topicId);
+            request.setAttribute(TESTS_ATTRIBUTE, tests);
         } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
-            return WebPage.ERROR_ACTION;
+            return false;
         }
-        request.setAttribute("tests", tests);
-        Role userRole = (Role) request.getSession().getAttribute(WebKeys.getRoleKey());
+        return true;
+    }
+
+    private WebPage getTestPageForUser(HttpServletRequest request){
+        Role userRole = (Role) request.getSession().getAttribute(ROLE_ATTRIBUTE);
         if(userRole == Role.ADMIN)
             return WebPage.TESTS_ADMIN_PAGE;
         return WebPage.TESTS_USER_PAGE;
