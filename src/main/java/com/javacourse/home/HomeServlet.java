@@ -3,7 +3,9 @@ package com.javacourse.home;
 import com.javacourse.ApplicationResources;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
+import com.javacourse.shared.WebPage;
 import com.javacourse.utils.LogConfigurator;
+import com.javacourse.utils.WebPageDispatcher;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -40,14 +42,14 @@ public class HomeServlet extends HttpServlet {
     }
 
     void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String resultPage;
+        WebPage resultPage;
         try{
             CommandFactory factory = new HomeCommandFactory(request, response);
             Command command = factory.defineCommand();
             resultPage = command.execute(request);
         }catch (Exception e){
-            resultPage = ApplicationResources.getErrorPageFull(request.getContextPath());
+            resultPage = WebPage.ERROR_ACTION;
         }
-        request.getRequestDispatcher(resultPage).forward(request, response);
+        new WebPageDispatcher(request, response, resultPage).dispatch();
     }
 }

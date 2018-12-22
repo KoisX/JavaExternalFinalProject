@@ -2,6 +2,7 @@ package com.javacourse.test.commands;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
+import com.javacourse.shared.WebPage;
 import com.javacourse.test.topic.Topic;
 import com.javacourse.test.topic.TopicDAOMySql;
 import com.javacourse.test.topic.TopicService;
@@ -24,19 +25,19 @@ public class ShowTopicsCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request) {
         TopicService topicService = new TopicService();
         List<Topic> topics;
         try {
             topics = topicService.findAll();
         } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
-            return "/Error";
+            return WebPage.ERROR_ACTION;
         }
         request.setAttribute("topics", topics);
         Role userRole = (Role) request.getSession().getAttribute("role");
         if(userRole == Role.ADMIN)
-            return "/jsp/admin/topics.jsp";
-        return "/jsp/user/topics.jsp";
+            return WebPage.TOPICS_ADMIN_PAGE;
+        return WebPage.TESTS_USER_PAGE;
     }
 }

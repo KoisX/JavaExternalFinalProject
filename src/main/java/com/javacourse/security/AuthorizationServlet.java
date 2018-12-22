@@ -3,8 +3,10 @@ package com.javacourse.security;
 import com.javacourse.ApplicationResources;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
+import com.javacourse.shared.WebPage;
 import com.javacourse.utils.DispatchHelper;
 import com.javacourse.utils.LogConfigurator;
+import com.javacourse.utils.WebPageDispatcher;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -37,15 +39,15 @@ public class AuthorizationServlet extends HttpServlet {
     }
 
     void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String resultPage;
+        WebPage resultPage;
         try{
             CommandFactory factory = new AuthorizationCommandFactory(request, response);
             Command command = factory.defineCommand();
             resultPage = command.execute(request);
         }catch (Exception e){
-            resultPage = ApplicationResources.getErrorPageFull(request.getContextPath());
+            resultPage = WebPage.ERROR_ACTION;
         }
-        DispatchHelper.dispatch(request, response, resultPage);
+        new WebPageDispatcher(request, response, resultPage).dispatch();
     }
 
     @Override

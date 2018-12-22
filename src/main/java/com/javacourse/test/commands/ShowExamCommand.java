@@ -3,6 +3,7 @@ package com.javacourse.test.commands;
 import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
+import com.javacourse.shared.WebPage;
 import com.javacourse.test.task.Task;
 import com.javacourse.test.task.TaskDAOMySql;
 import com.javacourse.test.task.TaskService;
@@ -24,19 +25,19 @@ public class ShowExamCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request) {
         TaskService taskService = new TaskService();
         String testId = request.getParameter("id");
         if(testId==null)
-            return ApplicationResources.getErrorAction();
+            return WebPage.ERROR_ACTION;
         List<Task> tasks;
         try{
             tasks = taskService.findTasksByTestId(testId);
         } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
-            return ApplicationResources.getErrorAction();
+            return WebPage.ERROR_ACTION;
         }
         request.setAttribute("tasks", tasks);
-        return request.getContextPath()+"/jsp/user/exam.jsp";
+        return WebPage.EXAM_USER_PAGE;
     }
 }

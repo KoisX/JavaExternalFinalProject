@@ -2,6 +2,7 @@ package com.javacourse.home.commands;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
+import com.javacourse.shared.WebPage;
 import com.javacourse.stats.Stats;
 import com.javacourse.stats.StatsDAOMySql;
 import com.javacourse.stats.StatsService;
@@ -24,7 +25,7 @@ public class ShowStatsCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request) {
         StatsService statsService = new StatsService();
         List<Stats> stats;
 
@@ -38,17 +39,17 @@ public class ShowStatsCommand implements Command {
             pages = statsService.getNumberOfPages(recordsPerPage);
         } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
-            return "/Error";
+            return WebPage.ERROR_ACTION;
         }
 
         if(page<0 || page>pages){
-            return "/Error";
+            return WebPage.ERROR_ACTION;
         }
 
         request.setAttribute("stats", stats);
         request.setAttribute("currentPage", page);
         request.setAttribute("pages", pages);
         request.setAttribute("recordsPerPage", recordsPerPage);
-        return request.getContextPath()+"/jsp/admin/stats.jsp";
+        return WebPage.STATS_ADMIN_PAGE;
     }
 }

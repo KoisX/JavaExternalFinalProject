@@ -5,6 +5,7 @@ import com.javacourse.WebKeys;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
 import com.javacourse.shared.Command;
+import com.javacourse.shared.WebPage;
 import com.javacourse.user.UserService;
 import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
@@ -24,12 +25,12 @@ public class SignInCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request) {
         UserService userService = new UserService();
         return tryLogInByUserCredentials(request, userService);
     }
 
-    String tryLogInByUserCredentials(HttpServletRequest request, UserService userService){
+    WebPage tryLogInByUserCredentials(HttpServletRequest request, UserService userService){
         String userEmail = request.getParameter("login");
         String userPassword = request.getParameter("password");
         try {

@@ -5,6 +5,7 @@ import com.javacourse.WebKeys;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
 import com.javacourse.security.command.SignUpCommand;
+import com.javacourse.shared.WebPage;
 import com.javacourse.user.role.Role;
 import com.javacourse.user.role.RoleDAOMySql;
 import com.javacourse.utils.LogConfigurator;
@@ -35,24 +36,24 @@ public class UserCreationUtils {
      * @param request
      * @return url to forward or redirect to
      */
-    public static String handleUserInsert(HttpServletRequest request){
-        String resultPage;
+    public static WebPage handleUserInsert(HttpServletRequest request){
+        WebPage resultPage;
 
         if(!checkInputFields(request) || !validateInDb(request)){
-            resultPage = ApplicationResources.getSignUpPage();
+            resultPage = WebPage.SIGN_UP_PAGE;
             return  resultPage;
         }
 
         logger.debug("validation");
         if(insertUser(constructUser(request))){
             logger.debug("after insert");
-            resultPage = ApplicationResources.getLoginAction();
+            resultPage = WebPage.LOGIN_ACTION;
             /*If new account was created successfully, we want to
              * redirect user to login page, not forward*/
             request.setAttribute(WebKeys.getShouldRedirect(), "true");
         }else {
             request.setAttribute(WebKeys.getErrorRequestMessage(), "Registration unsuccessful. Try again.");
-            resultPage = ApplicationResources.getSignUpPage();
+            resultPage = WebPage.SIGN_UP_PAGE;
         }
 
         return resultPage;
