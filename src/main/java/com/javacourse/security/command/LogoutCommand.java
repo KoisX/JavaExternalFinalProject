@@ -13,11 +13,10 @@ public class LogoutCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request) {
         final HttpSession session = request.getSession();
-        request.setAttribute(WebKeys.getShouldRedirect(), "true");
         session.removeAttribute("password");
         session.removeAttribute("login");
         session.removeAttribute("role");
         session.invalidate();
-        return WebPage.INDEX_ACTION;
+        return WebPage.INDEX_ACTION.setDoRedirect(true);
     }
 }

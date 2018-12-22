@@ -36,8 +36,10 @@ public enum WebPage {
         return doRedirect;
     }
 
-    public void setDoRedirect(boolean doRedirect) {
+    //allows to set redirect param in declarative style
+    public WebPage setDoRedirect(boolean doRedirect) {
         this.doRedirect = doRedirect;
+        return this;
     }
 
     public String getPath() {

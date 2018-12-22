@@ -37,15 +37,15 @@ public class SignInCommand implements Command {
             String hash = PasswordManager.hash(userPassword, userEmail);
             if(userService.doesUserExist(userEmail, hash)){
                 setUserAttributes(userService, hash, request);
-                return  ApplicationResources.getIndexAction();
+                return  WebPage.INDEX_ACTION.setDoRedirect(true);
             }
         }catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
-            return ApplicationResources.getErrorAction();
+            return WebPage.ERROR_ACTION;
         }
         //if logging in is unsuccessful
         request.setAttribute(WebKeys.getErrorRequestMessage(), "Incorrect login or password");
-        return ApplicationResources.getLoginPage();
+        return WebPage.LOGIN_PAGE;
     }
 
     void setUserAttributes(UserService userService, String hash, HttpServletRequest request) throws UnsuccessfulQueryException, SQLException {
@@ -57,7 +57,6 @@ public class SignInCommand implements Command {
         session.setAttribute("login", userEmail);
         session.setAttribute("password", userPassword);
         session.setAttribute("role", role);
-        request.setAttribute(WebKeys.getShouldRedirect(), "true");
     }
 
 }

@@ -47,10 +47,7 @@ public class UserCreationUtils {
         logger.debug("validation");
         if(insertUser(constructUser(request))){
             logger.debug("after insert");
-            resultPage = WebPage.LOGIN_ACTION;
-            /*If new account was created successfully, we want to
-             * redirect user to login page, not forward*/
-            request.setAttribute(WebKeys.getShouldRedirect(), "true");
+            resultPage = WebPage.LOGIN_ACTION.setDoRedirect(true);
         }else {
             request.setAttribute(WebKeys.getErrorRequestMessage(), "Registration unsuccessful. Try again.");
             resultPage = WebPage.SIGN_UP_PAGE;
