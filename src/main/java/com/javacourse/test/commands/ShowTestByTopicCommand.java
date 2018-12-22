@@ -31,7 +31,7 @@ public class ShowTestByTopicCommand implements Command {
         if(!setTestsAttribute(request)){
             return webPage;
         }
-        webPage = getTestPageForUser(request);
+        webPage = getTestPageForClient(request);
         return webPage;
     }
 
@@ -50,7 +50,7 @@ public class ShowTestByTopicCommand implements Command {
         return true;
     }
 
-    private WebPage getTestPageForUser(HttpServletRequest request){
+    private WebPage getTestPageForClient(HttpServletRequest request){
         Role userRole = (Role) request.getSession().getAttribute(ROLE_ATTRIBUTE);
         if(userRole == Role.ADMIN)
             return WebPage.TESTS_ADMIN_PAGE;
