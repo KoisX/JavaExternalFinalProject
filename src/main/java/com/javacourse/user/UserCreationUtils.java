@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 /**
- * Helper class for sihning up new users.
+ * Helper class for signing up new users.
  * It's main responsibility is to validate user input and
  * insert new user to DB
  */

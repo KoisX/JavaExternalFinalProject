@@ -4,6 +4,9 @@ import com.javacourse.user.role.Role;
 import com.javacourse.shared.dataAccess.Entity;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 /**
@@ -11,11 +14,21 @@ import java.util.Objects;
  */
 public class User implements Entity {
 
+    @PositiveOrZero
     private long id;
+
+    @Size(min = 3, max = 100, message = "{msg.emptyFields}")
     private String name;
+
+    @Size(min = 3, max = 100, message = "{msg.emptyFields}")
     private String surname;
+
+    @Email(message = "{msg.emailNotValid}")
     private String email;
+
     private Role role;
+
+    @Size(min = 3, max = 100, message = "{msg.passwordTooShort}")
     private String password;
 
     public User(long id, String name, String surname, String email, Role role, String password) {
