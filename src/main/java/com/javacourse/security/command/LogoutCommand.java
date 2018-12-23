@@ -11,6 +11,7 @@ public class LogoutCommand implements Command {
     private static final String PASSWORD_ATTRIBUTE = "password";
     private static final String LOGIN_ATTRIBUTE = "login";
     private static final String ROLE_ATTRIBUTE = "role";
+    private static final String LANG_ATTRIBUTE = "lang";
 
     @Override
     public WebPage execute(HttpServletRequest request) {
@@ -23,6 +24,7 @@ public class LogoutCommand implements Command {
         session.removeAttribute(PASSWORD_ATTRIBUTE);
         session.removeAttribute(LOGIN_ATTRIBUTE);
         session.removeAttribute(ROLE_ATTRIBUTE);
+        session.removeAttribute(LANG_ATTRIBUTE);
         session.invalidate();
     }
 }
