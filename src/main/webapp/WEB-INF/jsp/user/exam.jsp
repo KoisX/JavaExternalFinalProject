@@ -24,16 +24,6 @@
                 <fieldset class="form-group">
                     <legend>${task.question}</legend>
                    <c:choose>
-                       <c:when test="${fn:length(task.possibleAnswers) gt 1}">
-                           <c:forEach var="answer" items="${task.possibleAnswers}">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
-                                        ${answer.value}
-                                    </label>
-                                </div>
-                            </c:forEach>
-                       </c:when>
                        <c:when test="${fn:length(task.correctAnswers) gt 1}">
                            <c:forEach var="answer" items="${task.possibleAnswers}">
                                <div class="form-check">
@@ -43,6 +33,16 @@
                                    </label>
                                </div>
                            </c:forEach>
+                       </c:when>
+                       <c:when test="${fn:length(task.possibleAnswers) gt 1}">
+                           <c:forEach var="answer" items="${task.possibleAnswers}">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
+                                        ${answer.value}
+                                    </label>
+                                </div>
+                            </c:forEach>
                        </c:when>
                        <c:otherwise>
                            <div class="form-group">
