@@ -25,7 +25,7 @@ public class SignUpCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request) {
-        return UserCreationUtils.handleUserInsert(constructUser(request), request);
+        return new UserCreationUtils(request).handleUserInsert(constructUser(request));
     }
 
     private User constructUser(HttpServletRequest request) {
