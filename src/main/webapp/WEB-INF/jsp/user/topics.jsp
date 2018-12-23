@@ -4,7 +4,10 @@
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="topics_messages"/>
 <!DOCTYPE html>
-<html lang="${sessionScope.lang}">
+<html
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+        xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,12 +22,12 @@
     <div class="list-group">
         <c:forEach var="topic" items="${requestScope.topics}">
             <a href="${pageContext.request.contextPath}/Test/Tests?id=${topic.id}" class="list-group-item list-group-item-action">
-                ${topic.name}
+                    ${topic.name}
             </a>
         </c:forEach>
     </div>
 
-<jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
+    <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
 </body>
 </html>

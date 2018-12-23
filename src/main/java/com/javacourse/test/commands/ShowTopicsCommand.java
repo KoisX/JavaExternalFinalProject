@@ -50,6 +50,6 @@ public class ShowTopicsCommand implements Command {
         Role userRole = (Role) request.getSession().getAttribute(ROLE_ATTRIBUTE);
         if(userRole == Role.ADMIN)
             return WebPage.TOPICS_ADMIN_PAGE;
-        return WebPage.TESTS_USER_PAGE;
+        return WebPage.TOPICS_USER_PAGE;
     }
 }

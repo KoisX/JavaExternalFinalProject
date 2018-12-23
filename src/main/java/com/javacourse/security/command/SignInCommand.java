@@ -24,6 +24,9 @@ public class SignInCommand implements Command {
     private final static String ERROR_MSG = "error";
     private static final String LANG_PARAM = "lang";
     private static final String ERROR_BUNDLE = "error_message";
+    private static final String LOGIN_PARAM = "login";
+    private static final String PASSWORD_PARAM = "password";
+    private static final String ROLE_PARAM = "role";
 
     //logger configuration
     static {
@@ -32,8 +35,8 @@ public class SignInCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request) {
-        userEmail = request.getParameter("login");
-        userPassword = request.getParameter("password");
+        userEmail = request.getParameter(LOGIN_PARAM);
+        userPassword = request.getParameter(PASSWORD_PARAM);
         WebPage webPage = getPageBasedOnWhetherUserExists(request);
         return webPage;
     }
@@ -59,9 +62,9 @@ public class SignInCommand implements Command {
 
     private void setUserAttributes(Role role, String hash, HttpServletRequest request) throws UnsuccessfulQueryException, SQLException {
         HttpSession session = request.getSession();
-        session.setAttribute("login", userEmail);
-        session.setAttribute("password", hash);
-        session.setAttribute("role", role);
+        session.setAttribute(LOGIN_PARAM, userEmail);
+        session.setAttribute(PASSWORD_PARAM, hash);
+        session.setAttribute(ROLE_PARAM, role);
     }
 
     private void setErrorMessage(HttpServletRequest request){

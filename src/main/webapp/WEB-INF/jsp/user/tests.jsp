@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="tests_messages"/><!DOCTYPE html>
-<!DOCTYPE html>
 <html
         xmlns:c="http://java.sun.com/jsp/jstl/core"
         xmlns:fn="http://java.sun.com/jsp/jstl/functions"
@@ -21,12 +20,12 @@
     <h1><fmt:message key="msg.header"/></h1>
     <div class="list-group">
         <c:forEach var="test" items="${requestScope.tests}">
-            <a class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">
+            <a class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal${test.id}" style="cursor: pointer;">
                 <h3>${test.header}</h3>
                 <p>${test.description}</p>
             </a>
             <!-- Modal -->
-            <div id="myModal" class="modal fade" role="dialog">
+            <div id="myModal${test.id}" class="modal fade" role="dialog">
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
@@ -48,6 +47,7 @@
             </div>
         </c:forEach>
     </div>
+
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
 </body>
