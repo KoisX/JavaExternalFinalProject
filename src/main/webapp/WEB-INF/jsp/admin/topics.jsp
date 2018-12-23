@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/bootstrap.css"/>
 </head>
 <body>
-<jsp:include page="${pageContext.request.contextPath}/jsp/layout/header.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/header.jsp"/>
 <div class="container body-content">
     <h1><fmt:message key="msg.header"/></h1>
     <div class="list-group">
@@ -27,7 +27,7 @@
         </c:forEach>
     </div>
 
-    <jsp:include page="${pageContext.request.contextPath}/jsp/layout/footer.jsp"/>
+    <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
 </body>
 </html>

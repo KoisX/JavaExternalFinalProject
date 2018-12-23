@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/bootstrap.css"/>
 </head>
 <body>
-<jsp:include page="${pageContext.request.contextPath}/jsp/layout/header.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/header.jsp"/>
 <form method="post" action="${pageContext.request.contextPath}/Test/Revise">
 <div class="container body-content">
     <h1>Choose correct answer for tests:</h1>
@@ -59,7 +59,7 @@
         </c:if>
     </div>
 
-    <jsp:include page="${pageContext.request.contextPath}/jsp/layout/footer.jsp"/>
+    <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
 </form>
 </body>

@@ -11,10 +11,10 @@
 </head>
 <body>
 <div class="container body-content">
-<jsp:include page="${pageContext.request.contextPath}/jsp/layout/header.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/header.jsp"/>
 <h1>An error occurred while processing your request :(</h1>
     <%--Add link GO TO HOME PAGE--%>
-<jsp:include page="${pageContext.request.contextPath}/jsp/layout/footer.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
 </div>
 </body>

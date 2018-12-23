@@ -6,8 +6,10 @@
 <footer>
     <p>&copy; <c:out value="${currentYear}"/> - Igor Konobas</p>
     <ul class="lang-list">
-    <li class="lang-flag"><a href="?${empty param.lang ? 'lang=ukr&' : ''}${pageContext.request.queryString}" title="UA"><img class="lang-pic" src="${pageContext.request.contextPath}/images/ukraine.jpg"/></a></li>
-    <li class="lang-flag"><a href="?${empty param.lang ? 'lang=en&'  : ''}${pageContext.request.queryString}" title="ENG"><img class="lang-pic" src="${pageContext.request.contextPath}/images/england.png"/></a></li>
+    <li class="lang-flag"><a href="?${empty param.lang ? 'lang=ukr&' : ''}${pageContext.request.queryString}" title="UA"><img class="lang-pic" src="${pageContext.request.contextPath}
+    /images/ukraine.jpg"/></a></li>
+    <li class="lang-flag"><a href="?${empty param.lang ? 'lang=en&'  : ''}${pageContext.request.queryString}" title="ENG"><img class="lang-pic" src="${pageContext.request.contextPath}
+    /images/england.png"/></a></li>
     </ul>
 </footer>
 <script src="${pageContext.request.contextPath}/scripts/jquery-1.10.2.js"></script>
