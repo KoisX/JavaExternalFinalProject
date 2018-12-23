@@ -18,6 +18,7 @@ public class SignInCommand implements Command {
     String userEmail;
     String userPassword;
     private final static Logger logger;
+    private final static String ERROR_MSG = "error";
 
     //logger configuration
     static {
@@ -46,6 +47,8 @@ public class SignInCommand implements Command {
             logger.error(e.getMessage());
             webPage = WebPage.ERROR_ACTION;
         }
+        //if logging in is unsuccessful
+        request.setAttribute(ERROR_MSG, "Incorrect login or password");
         return webPage;
     }
 
