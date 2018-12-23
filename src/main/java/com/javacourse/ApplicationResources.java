@@ -21,6 +21,11 @@ public class ApplicationResources {
     private final static String DB_PROPERTIES_PATH = "C:\\Users\\kois\\Desktop\\Final_Project\\src\\main\\resources\\database.properties";
 
     /*---------- /Paths to files -------------*/
+    /*---------- Predefined constants -------------*/
+
+    private final static String DEFAULT_LANG = "en";
+
+    /*---------- /Predefined constants -------------*/
 
     public static String getContextPath() {
         return CONTEXT_PATH;
@@ -32,6 +37,10 @@ public class ApplicationResources {
 
     public static String getDbPropertiesPath() {
         return DB_PROPERTIES_PATH;
+    }
+
+    public static String getDefaultLang() {
+        return DEFAULT_LANG;
     }
 
 }

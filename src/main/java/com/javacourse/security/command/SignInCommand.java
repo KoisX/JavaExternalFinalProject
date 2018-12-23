@@ -1,5 +1,6 @@
 package com.javacourse.security.command;
 
+import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
 import com.javacourse.shared.Command;
@@ -12,6 +13,8 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class SignInCommand implements Command {
 
@@ -19,6 +22,8 @@ public class SignInCommand implements Command {
     String userPassword;
     private final static Logger logger;
     private final static String ERROR_MSG = "error";
+    private static final String LANG_PARAM = "lang";
+    private static final String ERROR_BUNDLE = "error_message";
 
     //logger configuration
     static {
@@ -48,7 +53,7 @@ public class SignInCommand implements Command {
             webPage = WebPage.ERROR_ACTION;
         }
         //if logging in is unsuccessful
-        request.setAttribute(ERROR_MSG, "Incorrect login or password");
+        setErrorMessage(request);
         return webPage;
     }
 
@@ -57,6 +62,12 @@ public class SignInCommand implements Command {
         session.setAttribute("login", userEmail);
         session.setAttribute("password", hash);
         session.setAttribute("role", role);
+    }
+
+    private void setErrorMessage(HttpServletRequest request){
+        Locale locale= new Locale(request.getParameter(LANG_PARAM)!=null?request.getParameter(LANG_PARAM) : ApplicationResources.getDefaultLang());
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(ERROR_BUNDLE, locale);
+        request.setAttribute(ERROR_MSG, resourceBundle.getString("msg.incorrectCredentials"));
     }
 
 }
