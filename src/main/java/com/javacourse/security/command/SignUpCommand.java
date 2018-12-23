@@ -18,45 +18,25 @@ import java.util.Set;
 
 public class SignUpCommand implements Command {
 
-    private static final String LANG_PARAM = "lang";
-    private static final String ERROR_BUNDLE = "error_message";
+    private static final String LOGIN_PARAM = "login";
+    private static final String PASSWORD_PARAM = "password";
+    private static final String NAME_PARAM = "name";
+    private static final String SURNAME_PARAM = "surname";
 
     @Override
     public WebPage execute(HttpServletRequest request) {
-        String lang = (String)request.getSession().getAttribute(LANG_PARAM);
-        if(lang==null) lang = "en";
-        Locale locale2= new Locale(lang);
-        Validator validator;
-        Locale.setDefault(locale2);
-        Configuration<?> config = Validation.byDefaultProvider().configure();
-        ValidatorFactory factory = config.buildValidatorFactory();
-        validator = factory.getValidator();
-        factory.close();
-
-
-
-        User user = constructUser(request);
-        Set<ConstraintViolation<User>> violations = validator.validate(user);
-        if(!violations.isEmpty()){
-            Locale locale= new Locale(request.getParameter(LANG_PARAM)!=null?request.getParameter(LANG_PARAM) : ApplicationResources.getDefaultLang());
-            ResourceBundle resourceBundle = ResourceBundle.getBundle(ERROR_BUNDLE, locale);
-
-            request.setAttribute("error", violations.iterator().next().getMessage());
-            return WebPage.SIGN_UP_PAGE;
-        }
-
-
-        return WebPage.INDEX_ACTION;
+        return UserCreationUtils.handleUserInsert(constructUser(request), request);
     }
 
     private User constructUser(HttpServletRequest request) {
         User user = new User();
-        user.setEmail(request.getParameter("login"));
-        user.setPassword(PasswordManager.hash(request.getParameter("password"), request.getParameter("login")));
-        user.setName(request.getParameter("name"));
-        user.setSurname(request.getParameter("surname"));
+        user.setEmail(request.getParameter(LOGIN_PARAM));
+        user.setPassword((request.getParameter(PASSWORD_PARAM)));
+        user.setName(request.getParameter(NAME_PARAM));
+        user.setSurname(request.getParameter(SURNAME_PARAM));
         user.setRole(Role.USER);
         return user;
     }
+
 
 }

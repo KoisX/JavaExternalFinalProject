@@ -18,8 +18,8 @@ import java.util.ResourceBundle;
 
 public class SignInCommand implements Command {
 
-    String userEmail;
-    String userPassword;
+    private String userEmail;
+    private String userPassword;
     private final static Logger logger;
     private final static String ERROR_MSG = "error";
     private static final String LANG_PARAM = "lang";

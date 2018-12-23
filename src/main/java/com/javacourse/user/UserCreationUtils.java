@@ -1,5 +1,6 @@
 package com.javacourse.user;
 
+import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
 import com.javacourse.shared.WebPage;
@@ -8,7 +9,11 @@ import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.*;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * Helper class for signing up new users.
@@ -17,8 +22,12 @@ import java.sql.SQLException;
  */
 public class UserCreationUtils {
 
-    private static final int PASSWORD_MIN_LENGTH = 3;
+    private static Locale locale;
+    private static ResourceBundle resourceBundle;
+    private static Validator validator;
     private static final String ERROR_REQUEST_MESSAGE = "error";
+    private static final String LANG_PARAM = "lang";
+    private static final String ERROR_BUNDLE = "error_message";
     private final static Logger logger;
 
     //logger configuration
@@ -30,18 +39,28 @@ public class UserCreationUtils {
      * Checks if input fields are valid.
      * If yes, inserts a new user.
      * Otherwise sets error messages
-     * @param request
+     * @param user
      * @return url to forward or redirect to
      */
-    public static WebPage handleUserInsert(HttpServletRequest request){
+    public static WebPage handleUserInsert(User user, HttpServletRequest request){
+
+        String lang = (String)request.getSession().getAttribute(LANG_PARAM);
+        initValidator(lang);
+        setResourceBundle(lang);
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        if(!violations.isEmpty()){
+            request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
+            return WebPage.SIGN_UP_PAGE;
+        }
+
         WebPage resultPage;
 
-        if(!checkInputFields(request) || !validateInDb(request)){
+        if(!validateInDb(user, request)){
             resultPage = WebPage.SIGN_UP_PAGE;
             return  resultPage;
         }
 
-        if(insertUser(constructUser(request))){
+        if(insertUser(user)){
             resultPage = WebPage.LOGIN_ACTION.setDoRedirect(true);
         }else {
             request.setAttribute(ERROR_REQUEST_MESSAGE, "Registration unsuccessful. Try again.");
@@ -51,37 +70,11 @@ public class UserCreationUtils {
         return resultPage;
     }
 
-    static boolean checkInputFields(HttpServletRequest request){
-        String userEmail = request.getParameter("login");
-        String userPassword = request.getParameter("password");
-        String userPasswordConfirm = request.getParameter("password-confirm");
-        String userName = request.getParameter("name");
-        String userSurname = request.getParameter("surname");
-
-        if(containsEmptyFields(userName, userSurname, userEmail, userPassword, userPasswordConfirm)){
-            request.setAttribute(ERROR_REQUEST_MESSAGE, "Field(s) can't be empty");
-            return false;
-        }
-
-        if(!arePasswordsEqual(userPassword, userPasswordConfirm)){
-            request.setAttribute(ERROR_REQUEST_MESSAGE, "Password confirmation is unsuccessful");
-            return false;
-        }
-
-        if(!isPasswordLongEnough(userPassword)){
-            request.setAttribute(ERROR_REQUEST_MESSAGE, "Password must me at least 3 symbols long");
-            return false;
-        }
-
-        return true;
-    }
-
-    static boolean validateInDb(HttpServletRequest request){
-        String userEmail = request.getParameter("login");
+    static boolean validateInDb(User user, HttpServletRequest request){
         boolean doesEmailExist = false;
         UserService userService = new UserService();
         try {
-            doesEmailExist = userService.doesUserWithEmailExist(userEmail);
+            doesEmailExist = userService.doesUserWithEmailExist(user.getEmail());
         } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
             request.setAttribute(ERROR_REQUEST_MESSAGE, "Unsuccessful signing up. Try again.");
@@ -95,44 +88,27 @@ public class UserCreationUtils {
         return true;
     }
 
-    static User constructUser(HttpServletRequest request){
-        User user = new User();
-        user.setEmail(request.getParameter("login"));
-        user.setPassword(PasswordManager.hash(request.getParameter("password"), request.getParameter("login")));
-        user.setName(request.getParameter("name"));
-        user.setSurname(request.getParameter("surname"));
-        user.setRole(Role.USER);
-        return user;
-    }
-
     static boolean insertUser(User user) {
         UserService userService = new UserService();
-        logger.debug("in insert");
+        user.setPassword(PasswordManager.hash(user.getPassword(), user.getEmail()));
         return userService.create(user);
     }
 
-    static boolean containsEmptyFields(String name, String surname, String email, String password, String passwordValidation){
-        if(isFieldEmpty(name) ||
-                isFieldEmpty(surname) ||
-                isFieldEmpty(email) ||
-                isFieldEmpty(password) ||
-                isFieldEmpty(passwordValidation)){
-            return true;
-        }
-        return false;
+    static private void initValidator(String lang){
+        if(lang==null)
+            lang = ApplicationResources.getDefaultLang();
+        Locale.setDefault(new Locale(lang));
+        Configuration<?> config = Validation.byDefaultProvider().configure();
+        ValidatorFactory factory = config.buildValidatorFactory();
+        validator = factory.getValidator();
+        factory.close();
     }
 
-    static boolean arePasswordsEqual(String p1, String p2){
-        return p1.equals(p2);
+    private static void setResourceBundle(String lang){
+        if(lang==null)
+            lang = ApplicationResources.getDefaultLang();
+        locale= new Locale(lang);
+        resourceBundle = ResourceBundle.getBundle(ERROR_BUNDLE, locale);
     }
 
-    static boolean isPasswordLongEnough(String password){
-        return password.length() >= PASSWORD_MIN_LENGTH;
-    }
-
-    static boolean isFieldEmpty(String s){
-        if(s==null || s.equals(""))
-            return true;
-        else return false;
-    }
 }

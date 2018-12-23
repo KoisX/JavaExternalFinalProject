@@ -40,7 +40,7 @@
                     <div class="form-group">
                         <label for="email" class="col-md-2 control-label"><fmt:message key="msg.email"/></label>
                         <div class="col-md-10">
-                            <input type="text" id="email" name="login" class="col-md-2 form-control" required>
+                            <input type="email" id="email" name="login" class="col-md-2 form-control" required>
                             <%--Error msg here--%>
                         </div>
                     </div>
