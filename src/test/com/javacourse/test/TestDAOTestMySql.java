@@ -32,7 +32,7 @@ public class TestDAOTestMySql {
 
     @Before
     public void setUp() throws Exception {
-        testDAOMySql = new TestDAOMySql(null);
+        testDAOMySql = new TestDAOMySql(connection);
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
@@ -47,11 +47,11 @@ public class TestDAOTestMySql {
         com.javacourse.test.Test test = new com.javacourse.test.Test(1, topic, "description", "header");
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
-        when(rs.getLong(1)).thenReturn(test.getId());
-        when(rs.getString(2)).thenReturn(test.getDescription());
-        when(rs.getLong(3)).thenReturn(topic.getId());
-        when(rs.getString(4)).thenReturn(topic.getName());
-
+        when(rs.getLong("id")).thenReturn(test.getId());
+        when(rs.getString("description")).thenReturn(test.getDescription());
+        when(rs.getLong("topicId")).thenReturn(topic.getId());
+        when(rs.getString("topicName")).thenReturn(topic.getName());
+        when(rs.getString("header")).thenReturn(test.getHeader());
         List<com.javacourse.test.Test> expected = new LinkedList<>();
         expected.add(test);
         List<com.javacourse.test.Test> actual = testDAOMySql.parseToEntityList(rs);
@@ -70,10 +70,11 @@ public class TestDAOTestMySql {
         com.javacourse.test.Test expected = new com.javacourse.test.Test(1, topic, "description", "header");
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
-        when(rs.getLong(1)).thenReturn(expected.getId());
-        when(rs.getString(2)).thenReturn(expected.getDescription());
-        when(rs.getLong(3)).thenReturn(topic.getId());
-        when(rs.getString(4)).thenReturn(topic.getName());
+        when(rs.getLong("id")).thenReturn(expected.getId());
+        when(rs.getString("description")).thenReturn(expected.getDescription());
+        when(rs.getLong("topicId")).thenReturn(topic.getId());
+        when(rs.getString("topicName")).thenReturn(topic.getName());
+        when(rs.getString("header")).thenReturn(expected.getHeader());
 
         com.javacourse.test.Test actual = testDAOMySql.parseSingleEntity(rs);
         assertEquals(expected, actual);

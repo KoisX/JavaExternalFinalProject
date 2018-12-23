@@ -36,7 +36,7 @@ public class UserDAOTest {
 
     @Before
     public void setUp() throws Exception {
-        userDAOMySql = new UserDAOMySql();
+        userDAOMySql = new UserDAOMySql(connection);
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
@@ -51,13 +51,13 @@ public class UserDAOTest {
         Role role = Role.USER;
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
-        when(rs.getLong(1)).thenReturn(user.getId());
-        when(rs.getString(2)).thenReturn(user.getName());
-        when(rs.getString(3)).thenReturn(user.getSurname());
-        when(rs.getString(4)).thenReturn(user.getEmail());
-        when(rs.getString(5)).thenReturn(role.getName());
-        when(rs.getLong(6)).thenReturn(role.getId());
-        when(rs.getString(7)).thenReturn(user.getPassword());
+        when(rs.getLong("id")).thenReturn(user.getId());
+        when(rs.getString("name")).thenReturn(user.getName());
+        when(rs.getString("surname")).thenReturn(user.getSurname());
+        when(rs.getString("email")).thenReturn(user.getEmail());
+        when(rs.getString("roleName")).thenReturn(role.getName());
+        when(rs.getLong("roleId")).thenReturn(role.getId());
+        when(rs.getString("password")).thenReturn(user.getPassword());
         when(roleFactory.createRole(user.getRole().getName(), user.getRole().getId())).thenReturn(Role.USER);
 
         List<User> expected = new LinkedList<>();
@@ -78,13 +78,13 @@ public class UserDAOTest {
         Role role = Role.USER;
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
-        when(rs.getLong(1)).thenReturn(expected.getId());
-        when(rs.getString(2)).thenReturn(expected.getName());
-        when(rs.getString(3)).thenReturn(expected.getSurname());
-        when(rs.getString(4)).thenReturn(expected.getEmail());
-        when(rs.getString(5)).thenReturn(role.getName());
-        when(rs.getLong(6)).thenReturn(role.getId());
-        when(rs.getString(7)).thenReturn(expected.getPassword());
+        when(rs.getLong("id")).thenReturn(expected.getId());
+        when(rs.getString("name")).thenReturn(expected.getName());
+        when(rs.getString("surname")).thenReturn(expected.getSurname());
+        when(rs.getString("email")).thenReturn(expected.getEmail());
+        when(rs.getString("roleName")).thenReturn(role.getName());
+        when(rs.getLong("roleId")).thenReturn(role.getId());
+        when(rs.getString("password")).thenReturn(expected.getPassword());
         when(roleFactory.createRole(expected.getRole().getName(), expected.getRole().getId())).thenReturn(Role.USER);
 
         User actual = userDAOMySql.parseSingleEntity(rs);

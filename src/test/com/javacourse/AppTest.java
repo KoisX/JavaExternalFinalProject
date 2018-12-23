@@ -13,11 +13,6 @@ public class AppTest {
 
     @Test
     public void name() throws SQLException {
-        Connection connection = DBCPTomcat.getConnection();
-        Assert.assertNotNull(connection);
-        connection.close();
-        connection = DBCPTomcat.getConnection();
-        Assert.assertNotNull(connection);
-        connection.close();
+
     }
 }

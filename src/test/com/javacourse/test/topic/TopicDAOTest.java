@@ -31,7 +31,7 @@ public class TopicDAOTest {
 
     @Before
     public void setUp() throws Exception {
-        topicDAOMySql = new TopicDAOMySql(null);
+        topicDAOMySql = new TopicDAOMySql(connection);
     }
 
     @Test(expected = UnsuccessfulQueryException.class)
@@ -45,8 +45,8 @@ public class TopicDAOTest {
         Topic topic = new Topic(1, "topic");
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
-        when(rs.getLong(1)).thenReturn(topic.getId());
-        when(rs.getString(2)).thenReturn(topic.getName());
+        when(rs.getLong("id")).thenReturn(topic.getId());
+        when(rs.getString("name")).thenReturn(topic.getName());
 
         List<Topic> expected = new LinkedList<>();
         expected.add(topic);
@@ -66,8 +66,8 @@ public class TopicDAOTest {
         Topic expected = new Topic(1, "topic");
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
-        when(rs.getLong(1)).thenReturn(expected.getId());
-        when(rs.getString(2)).thenReturn(expected.getName());
+        when(rs.getLong("id")).thenReturn(expected.getId());
+        when(rs.getString("name")).thenReturn(expected.getName());
 
         Topic actual = topicDAOMySql.parseSingleEntity(rs);
 
