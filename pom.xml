@@ -96,6 +96,13 @@
       <artifactId>commons-dbcp</artifactId>
       <version>1.4</version>
     </dependency>
+    <!--Validation J2EE specification-->
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>2.0.1.Final</version>
+    </dependency>
+
   </dependencies>
 
   <build>

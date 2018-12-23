@@ -14,11 +14,12 @@ import java.io.IOException;
 public class EncodingFilter implements Filter {
 
     private String encoding;
+    private static final  String DEFAULT_ENCODING = "UTF-8";
 
     public void init(FilterConfig config) throws ServletException {
         encoding = config.getInitParameter("requestEncoding");
         if(encoding==null)
-            encoding = "UTF-8";
+            encoding = DEFAULT_ENCODING;
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {

@@ -3,6 +3,7 @@ package com.javacourse.user;
 import com.javacourse.user.role.Role;
 import com.javacourse.shared.dataAccess.Entity;
 
+import javax.validation.constraints.Email;
 import java.util.Objects;
 
 /**

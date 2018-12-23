@@ -19,6 +19,7 @@
           <element id="library" level="project" name="Maven: org.jetbrains:annotations:13.0" />
           <element id="library" level="project" name="Maven: commons-dbcp:commons-dbcp:1.4" />
           <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.5.4" />
+          <element id="library" level="project" name="Maven: javax.validation:validation-api:2.0.1.Final" />
         </element>
       </element>
       <element id="directory" name="META-INF">
