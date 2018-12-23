@@ -1,7 +1,5 @@
 package com.javacourse.security.command;
 
-import com.javacourse.ApplicationResources;
-import com.javacourse.WebKeys;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
 import com.javacourse.shared.Command;
@@ -12,7 +10,6 @@ import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 

@@ -1,13 +1,9 @@
 package com.javacourse.user;
 
-import com.javacourse.ApplicationResources;
-import com.javacourse.WebKeys;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
-import com.javacourse.security.command.SignUpCommand;
 import com.javacourse.shared.WebPage;
 import com.javacourse.user.role.Role;
-import com.javacourse.user.role.RoleDAOMySql;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -22,6 +18,7 @@ import java.sql.SQLException;
 public class UserCreationUtils {
 
     private static final int PASSWORD_MIN_LENGTH = 3;
+    private static final String ERROR_REQUEST_MESSAGE = "error";
     private final static Logger logger;
 
     //logger configuration
@@ -44,12 +41,10 @@ public class UserCreationUtils {
             return  resultPage;
         }
 
-        logger.debug("validation");
         if(insertUser(constructUser(request))){
-            logger.debug("after insert");
             resultPage = WebPage.LOGIN_ACTION.setDoRedirect(true);
         }else {
-            request.setAttribute(WebKeys.getErrorRequestMessage(), "Registration unsuccessful. Try again.");
+            request.setAttribute(ERROR_REQUEST_MESSAGE, "Registration unsuccessful. Try again.");
             resultPage = WebPage.SIGN_UP_PAGE;
         }
 
@@ -64,17 +59,17 @@ public class UserCreationUtils {
         String userSurname = request.getParameter("surname");
 
         if(containsEmptyFields(userName, userSurname, userEmail, userPassword, userPasswordConfirm)){
-            request.setAttribute(WebKeys.getErrorRequestMessage(), "Field(s) can't be empty");
+            request.setAttribute(ERROR_REQUEST_MESSAGE, "Field(s) can't be empty");
             return false;
         }
 
         if(!arePasswordsEqual(userPassword, userPasswordConfirm)){
-            request.setAttribute(WebKeys.getErrorRequestMessage(), "Password confirmation is unsuccessful");
+            request.setAttribute(ERROR_REQUEST_MESSAGE, "Password confirmation is unsuccessful");
             return false;
         }
 
         if(!isPasswordLongEnough(userPassword)){
-            request.setAttribute(WebKeys.getErrorRequestMessage(), "Password must me at least 3 symbols long");
+            request.setAttribute(ERROR_REQUEST_MESSAGE, "Password must me at least 3 symbols long");
             return false;
         }
 
@@ -89,12 +84,12 @@ public class UserCreationUtils {
             doesEmailExist = userService.doesUserWithEmailExist(userEmail);
         } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
-            request.setAttribute(WebKeys.getErrorRequestMessage(), "Unsuccessful signing up. Try again.");
+            request.setAttribute(ERROR_REQUEST_MESSAGE, "Unsuccessful signing up. Try again.");
             return false;
         }
 
         if(doesEmailExist){
-            request.setAttribute(WebKeys.getErrorRequestMessage(), "User with this email already exists");
+            request.setAttribute(ERROR_REQUEST_MESSAGE, "User with this email already exists");
             return false;
         }
         return true;

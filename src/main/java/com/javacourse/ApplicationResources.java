@@ -26,10 +26,6 @@ public class ApplicationResources {
         return CONTEXT_PATH;
     }
 
-    public static String getLogInnerLocation() {
-        return LOG_INNER_LOCATION;
-    }
-
     public static String getLogConfigFile() {
         return CONTEXT_PATH + LOG_INNER_LOCATION;
     }
