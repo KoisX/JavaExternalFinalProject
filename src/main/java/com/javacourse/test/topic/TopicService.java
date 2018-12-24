@@ -5,6 +5,7 @@ import com.javacourse.shared.dataAccess.DAOFactory;
 import com.javacourse.shared.dataAccess.DBConnection;
 import com.javacourse.shared.dataAccess.MySqlDAOFactory;
 import com.javacourse.shared.dataAccess.SqlConnection;
+import com.javacourse.test.TestDAO;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -32,6 +33,17 @@ public class TopicService {
         try(DBConnection connection = factory.createConnection()){
             TopicDAO topicDao = factory.createTopicDAO(connection);
             return topicDao.findAll();
+        }
+    }
+
+    public boolean delete(String id) throws SQLException, UnsuccessfulQueryException {
+        try(DBConnection connection = factory.createConnection()){
+            TopicDAO topicDao = factory.createTopicDAO(connection);
+            TestDAO testDAO = factory.createTestDAO(connection);
+            if(testDAO.findByTopicId(id).size() >0){
+                return false;
+            }
+            return topicDao.delete(Integer.parseInt(id));
         }
     }
 }

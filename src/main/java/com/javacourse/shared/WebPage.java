@@ -22,6 +22,7 @@ public enum WebPage {
     TOPICS_USER_PAGE("/WEB-INF/jsp/user/topics.jsp"),
     ERROR_ACTION("/Error"),
     LOGIN_ACTION("/Login/SignIn"),
+    TOPICS_ACTION("/Test/Topic"),
     INDEX_ACTION("/Home/Index");
 
     String path;

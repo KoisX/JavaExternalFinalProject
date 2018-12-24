@@ -20,9 +20,18 @@
 <div class="container body-content">
     <h1><fmt:message key="msg.header"/></h1>
     <div class="list-group">
+        <c:if test="${not empty requestScope.error}">
+            <div class="alert alert-warning">
+                <strong>Warning!</strong> ${requestScope.error}
+            </div>
+        </c:if>
         <c:forEach var="topic" items="${requestScope.topics}">
             <a href="${pageContext.request.contextPath}/Test/Tests?id=${topic.id}" class="list-group-item list-group-item-action">
                 ${topic.name}
+                <form method="post" action="${pageContext.request.contextPath}/Test/TopicDelete">
+                    <input type="hidden" value="${topic.id}"/>
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </form>
             </a>
         </c:forEach>
     </div>

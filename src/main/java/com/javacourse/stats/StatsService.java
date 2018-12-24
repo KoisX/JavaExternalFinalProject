@@ -4,8 +4,6 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.dataAccess.DAOFactory;
 import com.javacourse.shared.dataAccess.DBConnection;
 import com.javacourse.shared.dataAccess.MySqlDAOFactory;
-import com.javacourse.shared.dataAccess.SqlConnection;
-import com.javacourse.test.topic.TopicService;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
