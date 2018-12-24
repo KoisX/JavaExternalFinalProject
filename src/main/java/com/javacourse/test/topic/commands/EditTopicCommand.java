@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -43,7 +44,10 @@ public class EditTopicCommand implements Command {
                 webPage = WebPage.TOPICS_ACTION.setDoRedirect(true);
             }
         } catch (SQLException | UnsuccessfulQueryException e) {
-            request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.creationUnsuccessful"));
+            request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.editUnsuccessful"));
+            request.setAttribute("name", topic.getName());
+            request.setAttribute("id", topic.getId());
+            request.setAttribute("topic", topic);
             webPage = WebPage.TOPICS_ADMIN_EDIT;
         }
         return webPage;
@@ -51,8 +55,16 @@ public class EditTopicCommand implements Command {
 
     private Topic constructTopic(HttpServletRequest request) {
         Topic topic = new Topic();
-        topic.setName(request.getParameter(NAME_PARAM));
-        topic.setId(Long.parseLong(request.getParameter("id")));
+        String name = Optional
+                .ofNullable(request.getParameter(NAME_PARAM))
+                .orElse((String) request.getAttribute(NAME_PARAM));
+
+        String id = Optional
+                .ofNullable(request.getParameter("id"))
+                .orElse((String) request.getAttribute("id"));
+
+        topic.setName(name);
+        topic.setId(Long.parseLong(id));
         return topic;
     }
 }

@@ -106,7 +106,7 @@ public class TopicDAOMySql implements TopicDAO {
             statement.setInt(1, id);
             changes = statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            logger.debug(e.getMessage());
             throw new UnsuccessfulQueryException();
         }
         return changes>0;
@@ -120,7 +120,7 @@ public class TopicDAOMySql implements TopicDAO {
             statement.setString(1,entity.getName());
             changes = statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            logger.debug(e.getMessage());
             throw new UnsuccessfulQueryException();
         }
         return changes>0;
@@ -137,7 +137,7 @@ public class TopicDAOMySql implements TopicDAO {
             statement.setLong(2,topic.getId());
             changes = statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            logger.debug(e.getMessage());
             throw new UnsuccessfulQueryException();
         }
         return changes>0;
@@ -145,7 +145,7 @@ public class TopicDAOMySql implements TopicDAO {
 
     /**
      * Service method for closing ResultSet object entity
-     * @param resultSet
+     * @param resultSet ResultSet entity to be closed
      */
     private void closeResultSet(ResultSet resultSet){
         try {

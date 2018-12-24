@@ -32,7 +32,9 @@ public class TopicCommandFactory extends CommandFactory {
                         TopicCommandEnum.SHOW_CREATE_PAGE.getCommand() :
                         TopicCommandEnum.ADD_TOPIC.getCommand();
             case "Edit":
-                return getEditCommand();
+                return HttpMethod.isGet(request.getMethod()) ?
+                        TopicCommandEnum.SHOW_TOPICS.getCommand() :
+                        getEditCommand();
             default:
                 return TopicCommandEnum.SHOW_TOPICS.getCommand();
         }
