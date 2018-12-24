@@ -2,6 +2,7 @@ package com.javacourse.test.topic;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.dataAccess.DAOFactory;
+import com.javacourse.shared.dataAccess.DBConnection;
 import com.javacourse.shared.dataAccess.MySqlDAOFactory;
 import com.javacourse.shared.dataAccess.SqlConnection;
 import com.javacourse.utils.LogConfigurator;
@@ -28,7 +29,7 @@ public class TopicService {
     }
 
     public List<Topic> findAll() throws SQLException, UnsuccessfulQueryException {
-        try(SqlConnection connection = new SqlConnection()){
+        try(DBConnection connection = factory.createConnection()){
             TopicDAO topicDao = factory.createTopicDAO(connection);
             return topicDao.findAll();
         }

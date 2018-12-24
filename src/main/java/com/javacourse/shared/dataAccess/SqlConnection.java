@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * Wrapper class for sql Connection object.
  * Simplifies performing basic operations with the connection to DB
  */
-public class SqlConnection implements Closeable {
+public class SqlConnection implements DBConnection, Closeable {
 
     private Connection connection;
     private final static Logger logger;
@@ -30,6 +30,7 @@ public class SqlConnection implements Closeable {
         }
     }
 
+    @Override
     public void setAutoCommit(boolean autoCommit) {
         if(connection!=null){
             try {
@@ -40,6 +41,7 @@ public class SqlConnection implements Closeable {
         }
     }
 
+    @Override
     public void commit() {
         if (connection!=null) {
             try {
@@ -50,6 +52,7 @@ public class SqlConnection implements Closeable {
         }
     }
 
+    @Override
     public void rollback() {
         if (connection!=null) {
             try {
@@ -60,6 +63,7 @@ public class SqlConnection implements Closeable {
         }
     }
 
+    @Override
     public void close(){
         if (connection!=null) {
             try {
@@ -70,6 +74,7 @@ public class SqlConnection implements Closeable {
         }
     }
 
+    @Override
     public Connection getConnection() {
         return connection;
     }

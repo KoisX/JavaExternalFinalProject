@@ -2,6 +2,7 @@ package com.javacourse.test.task;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.dataAccess.DAOFactory;
+import com.javacourse.shared.dataAccess.DBConnection;
 import com.javacourse.shared.dataAccess.MySqlDAOFactory;
 import com.javacourse.shared.dataAccess.SqlConnection;
 import com.javacourse.test.answer.AnswerDAO;
@@ -31,7 +32,7 @@ public class TaskService {
     }
 
     public List<Task> findTasksByTestId(String test_id) throws UnsuccessfulQueryException, SQLException {
-        try(SqlConnection connection = new SqlConnection()){
+        try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);
             AnswerDAO answerDAO = factory.createAnswerDAO(connection);
             List<Task> tasks = taskDAO.findTasksByTestId(test_id);

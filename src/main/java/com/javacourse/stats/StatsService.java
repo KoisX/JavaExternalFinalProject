@@ -2,6 +2,7 @@ package com.javacourse.stats;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.dataAccess.DAOFactory;
+import com.javacourse.shared.dataAccess.DBConnection;
 import com.javacourse.shared.dataAccess.MySqlDAOFactory;
 import com.javacourse.shared.dataAccess.SqlConnection;
 import com.javacourse.test.topic.TopicService;
@@ -22,7 +23,7 @@ public class StatsService {
 
     //logger configuration
     static {
-        logger = LogConfigurator.getLogger(TopicService.class);
+        logger = LogConfigurator.getLogger(StatsService.class);
     }
 
     public StatsService() {
@@ -30,14 +31,14 @@ public class StatsService {
     }
 
     public List<Stats> findAllWithPagination(int offset, int recordsPerPage) throws UnsuccessfulQueryException, SQLException {
-        try(SqlConnection connection = new SqlConnection()){
+        try(DBConnection connection = factory.createConnection()){
             StatsDAO statsDAO = factory.createStatsDAO(connection);
             return statsDAO.findAllWithPagination(offset, recordsPerPage);
         }
     }
 
     public int getNumberOfPages(int recordsPerPage) throws UnsuccessfulQueryException, SQLException {
-        try(SqlConnection connection = new SqlConnection()){
+        try(DBConnection connection = factory.createConnection()){
             StatsDAO statsDAO = factory.createStatsDAO(connection);
             return statsDAO.getNumberOfPages(recordsPerPage);
         }

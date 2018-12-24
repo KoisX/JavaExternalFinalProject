@@ -2,6 +2,7 @@ package com.javacourse.user;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.dataAccess.DAOFactory;
+import com.javacourse.shared.dataAccess.DBConnection;
 import com.javacourse.shared.dataAccess.MySqlDAOFactory;
 import com.javacourse.shared.dataAccess.SqlConnection;
 import com.javacourse.user.role.Role;
@@ -29,21 +30,21 @@ public class UserService{
     }
 
     public boolean doesUserExist(String email, String password) throws SQLException, UnsuccessfulQueryException {
-        try(SqlConnection connection = new SqlConnection()){
+        try(DBConnection connection = factory.createConnection()){
             UserDAO userDao = factory.createUserDAO(connection);
             return userDao.doesUserExist(email, password);
         }
     }
 
     public Role getUserRoleByEmail(String email) throws SQLException, UnsuccessfulQueryException {
-        try(SqlConnection connection = new SqlConnection()){
+        try(DBConnection connection = factory.createConnection()){
             UserDAO userDao = factory.createUserDAO(connection);
             return userDao.getUserRoleByEmail(email);
         }
     }
 
     public boolean create(User user){
-        try(SqlConnection connection = new SqlConnection()){
+        try(DBConnection connection = factory.createConnection()){
             UserDAO userDao = factory.createUserDAO(connection);
             RoleDAO roleDAO = factory.createRoleDAO(connection);
             user.getRole().setId(roleDAO.getRoleIdByName(user.getRole().getName()));
@@ -56,7 +57,7 @@ public class UserService{
     }
 
     public boolean doesUserWithEmailExist(String email) throws UnsuccessfulQueryException, SQLException {
-        try(SqlConnection connection = new SqlConnection()){
+        try(DBConnection connection = factory.createConnection()){
             UserDAO userDao = factory.createUserDAO(connection);
             return userDao.doesUserWithEmailExist(email);
         }

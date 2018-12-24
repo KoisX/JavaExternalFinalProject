@@ -15,6 +15,9 @@ import com.javacourse.user.UserDAOMySql;
 import com.javacourse.user.role.RoleDAO;
 import com.javacourse.user.role.RoleDAOMySql;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 /**
  * The concrete implementation of the DAOFactory
  * for the MySQL relational database
@@ -22,37 +25,42 @@ import com.javacourse.user.role.RoleDAOMySql;
 public class MySqlDAOFactory implements DAOFactory {
 
     @Override
-    public UserDAO createUserDAO(SqlConnection sqlConnection) {
+    public UserDAO createUserDAO(DBConnection sqlConnection) {
         return new UserDAOMySql(sqlConnection.getConnection());
     }
 
     @Override
-    public RoleDAO createRoleDAO(SqlConnection connection) {
+    public RoleDAO createRoleDAO(DBConnection connection) {
         return new RoleDAOMySql(connection.getConnection());
     }
 
     @Override
-    public TopicDAO createTopicDAO(SqlConnection connection) {
+    public TopicDAO createTopicDAO(DBConnection connection) {
         return new TopicDAOMySql(connection.getConnection());
     }
 
     @Override
-    public TestDAO createTestDAO(SqlConnection connection) {
+    public TestDAO createTestDAO(DBConnection connection) {
         return new TestDAOMySql(connection.getConnection());
     }
 
     @Override
-    public TaskDAO createTaskDAO(SqlConnection connection) {
+    public TaskDAO createTaskDAO(DBConnection connection) {
         return new TaskDAOMySql(connection.getConnection());
     }
 
     @Override
-    public AnswerDAO createAnswerDAO(SqlConnection connection) {
+    public AnswerDAO createAnswerDAO(DBConnection connection) {
         return new AnswerDAOMySql(connection.getConnection());
     }
 
     @Override
-    public StatsDAO createStatsDAO(SqlConnection connection) {
+    public StatsDAO createStatsDAO(DBConnection connection) {
         return new StatsDAOMySql(connection.getConnection());
+    }
+
+    @Override
+    public DBConnection createConnection() throws SQLException {
+        return new SqlConnection();
     }
 }
