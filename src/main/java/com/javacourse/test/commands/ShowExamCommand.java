@@ -5,6 +5,7 @@ import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
 import com.javacourse.test.task.Task;
 import com.javacourse.test.task.TaskService;
+import com.javacourse.test.topic.commands.ShowTopicsCommand;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 

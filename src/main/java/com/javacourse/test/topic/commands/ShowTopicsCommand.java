@@ -1,4 +1,4 @@
-package com.javacourse.test.commands;
+package com.javacourse.test.topic.commands;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;

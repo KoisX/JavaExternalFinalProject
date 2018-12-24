@@ -1,4 +1,4 @@
-package com.javacourse.test.commands;
+package com.javacourse.test.topic.commands;
 
 import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class DeleteTopic implements Command {
+public class DeleteTopicCommand implements Command {
 
     private final static Logger logger;
     private static final String LANG_PARAM = "lang";

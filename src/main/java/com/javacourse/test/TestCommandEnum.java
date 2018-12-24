@@ -2,13 +2,9 @@ package com.javacourse.test;
 
 import com.javacourse.shared.Command;
 import com.javacourse.test.commands.*;
+import com.javacourse.test.topic.commands.ShowTopicsCommand;
 
 public enum TestCommandEnum {
-    SHOW_TOPICS{
-        {
-          this.command = new ShowTopicsCommand();
-        }
-    },
     SHOW_TESTS_BY_TOPIC{
         {
             this.command = new ShowTestByTopicCommand();
@@ -17,16 +13,6 @@ public enum TestCommandEnum {
     SHOP_EXAM{
         {
             this.command = new ShowExamCommand();
-        }
-    },
-    DELETE_TOPIC{
-        {
-            this.command = new DeleteTopic();
-        }
-    },
-    EDIT_TOPIC{
-        {
-            this.command = new EditTopic();
         }
     };
     Command command;

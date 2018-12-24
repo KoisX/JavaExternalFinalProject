@@ -28,10 +28,18 @@
         <c:forEach var="topic" items="${requestScope.topics}">
             <a href="${pageContext.request.contextPath}/Test/Tests?id=${topic.id}" class="list-group-item list-group-item-action">
                 ${topic.name}
-                <form method="post" action="${pageContext.request.contextPath}/Test/TopicDelete">
-                    <input type="hidden" value="${topic.id}"/>
-                    <input type="submit" value="Delete" class="btn btn-danger">
-                </form>
+                <div class="btn-group pull-right" role="group" style="width: 200px;">
+                    <form method="post" action="${pageContext.request.contextPath}/Topic/List" style="display: inline-block;">
+                        <input type="hidden" name="command" value="delete"/>
+                        <input name="id" type="hidden" value="${topic.id}"/>
+                        <input type="submit" value="Delete" class="btn btn-sm btn-danger">
+                    </form>
+                    <form method="post" action="${pageContext.request.contextPath}/Topic/List" style="display: inline-block;">
+                        <input type="hidden" name="command" value="edit" />
+                        <input name="id" type="hidden" value="${topic.id}"/>
+                        <input type="submit" value="Edit" class="btn btn-sm btn-warning">
+                    </form>
+                </div>
             </a>
         </c:forEach>
     </div>

@@ -17,7 +17,7 @@
                 <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                                 <li><a href="${pageContext.request.contextPath}/Home/Index"><fmt:message key="msg.home"/></a></li>
-                                <li><a href="${pageContext.request.contextPath}/Test/Topic"><fmt:message key="msg.tests"/></a></li>
+                                <li><a href="${pageContext.request.contextPath}/Topic/List"><fmt:message key="msg.tests"/></a></li>
                                 <li><a href="${pageContext.request.contextPath}/Home/Rules"><fmt:message key="msg.rules"/></a></li>
                                 <li><a href="${pageContext.request.contextPath}/Home/About"><fmt:message key="msg.about"/></a></li>
                                 <c:if test="${sessionScope.role == ADMIN}">

@@ -1,9 +1,9 @@
-package com.javacourse.test;
+package com.javacourse.test.topic;
 
-import com.javacourse.ApplicationResources;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
 import com.javacourse.shared.WebPage;
+import com.javacourse.test.TestCommandFactory;
 import com.javacourse.utils.LogConfigurator;
 import com.javacourse.utils.WebPageDispatcher;
 import org.apache.log4j.Logger;
@@ -15,9 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "TestServlet", urlPatterns = {"/Test/*"})
-public class TestServlet extends HttpServlet {
-
+@WebServlet(name = "TopicServlet", urlPatterns = {"/Topic/*"})
+public class TopicServlet extends HttpServlet {
     private Logger logger;
 
     @Override
@@ -38,7 +37,7 @@ public class TestServlet extends HttpServlet {
     void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         WebPage resultPage;
         try{
-            CommandFactory factory = new TestCommandFactory(request, response);
+            CommandFactory factory = new TopicCommandFactory(request, response);
             Command command = factory.defineCommand();
             resultPage = command.execute(request);
         }catch (Exception e){

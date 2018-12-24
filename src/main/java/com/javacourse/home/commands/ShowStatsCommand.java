@@ -4,14 +4,11 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
 import com.javacourse.stats.Stats;
-import com.javacourse.stats.StatsDAOMySql;
 import com.javacourse.stats.StatsService;
-import com.javacourse.test.commands.ShowTopicsCommand;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
 

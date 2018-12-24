@@ -5,6 +5,7 @@ import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
 import com.javacourse.test.Test;
 import com.javacourse.test.TestService;
+import com.javacourse.test.topic.commands.ShowTopicsCommand;
 import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
