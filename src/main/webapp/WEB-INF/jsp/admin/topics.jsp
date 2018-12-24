@@ -35,10 +35,9 @@
                         <input name="id" type="hidden" value="${topic.id}"/>
                         <input type="submit" value="Delete" class="btn btn-sm btn-danger">
                     </form>
-                    <form method="post" action="${pageContext.request.contextPath}/Topic/List" style="display: inline-block;">
-                        <input type="hidden" name="command" value="edit" />
+                    <form method="post" action="${pageContext.request.contextPath}/Topic/Edit" style="display: inline-block;">
                         <input name="id" type="hidden" value="${topic.id}"/>
-                        <input type="submit" value="Edit" class="btn btn-sm btn-warning">
+                        <input type="submit" value="Edit-page" class="btn btn-sm btn-warning">
                     </form>
                 </div>
             </a>

@@ -53,4 +53,11 @@ public class TopicService {
             return topicDao.create(topic);
         }
     }
+
+    public Topic findById(Integer id) throws SQLException, UnsuccessfulQueryException {
+        try(DBConnection connection = factory.createConnection()){
+            TopicDAO topicDao = factory.createTopicDAO(connection);
+            return topicDao.findById(id);
+        }
+    }
 }

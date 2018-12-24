@@ -28,6 +28,11 @@ public enum TopicCommandEnum {
         {
             this.command = new ShowCreatePageCommand();
         }
+    },
+    SHOW_EDIT_PAGE{
+        {
+            this.command = new ShowEditPageCommand();
+        }
     };
     Command command;
     public com.javacourse.shared.Command getCommand(){return command;}
