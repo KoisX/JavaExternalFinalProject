@@ -2,6 +2,8 @@ package com.javacourse.test.topic;
 
 import com.javacourse.shared.dataAccess.Entity;
 
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 /**
@@ -9,7 +11,10 @@ import java.util.Objects;
  */
 public class Topic implements Entity {
 
+  @PositiveOrZero
   private long id;
+
+  @Size(min = 3, max = 250, message = "{msg.emptyFields}")
   private String name;
 
   public Topic(long id, String name) {
