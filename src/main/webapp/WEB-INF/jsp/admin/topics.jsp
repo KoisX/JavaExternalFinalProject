@@ -25,6 +25,7 @@
                 <strong>Warning!</strong> ${requestScope.error}
             </div>
         </c:if>
+        <a href="${pageContext.request.contextPath}/Topic/Create">Create new</a>
         <c:forEach var="topic" items="${requestScope.topics}">
             <a href="${pageContext.request.contextPath}/Test/Tests?id=${topic.id}" class="list-group-item list-group-item-action">
                 ${topic.name}

@@ -1,9 +1,8 @@
 package com.javacourse.test.topic;
 
-import com.javacourse.shared.CRUDCommandEnum;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
-import com.javacourse.test.TestCommandEnum;
+import com.javacourse.shared.web.HttpMethod;
 import com.javacourse.utils.UriMarshaller;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,16 +18,17 @@ public class TopicCommandFactory extends CommandFactory {
 
     @Override
     public Command defineCommand() {
-        String action = request.getParameter(COMMAND);
-        if(action==null)
-            return TopicCommandEnum.SHOW_TOPICS.getCommand();
+        UriMarshaller marshaller = new UriMarshaller(request);
+        String action = marshaller.getAction();
         switch (action){
-            case "delete":
-                return TopicCommandEnum.DELETE_TOPIC.getCommand();
-            case "edit":
-                return TopicCommandEnum.EDIT_TOPIC.getCommand();
-            case "create":
-                return  TopicCommandEnum.ADD_TOPIC.getCommand();
+            case "List":
+                return HttpMethod.isGet(request.getMethod()) ?
+                        TopicCommandEnum.SHOW_TOPICS.getCommand():
+                        TopicCommandEnum.DELETE_TOPIC.getCommand();
+            case "Create":
+                return HttpMethod.isGet(request.getMethod()) ?
+                        TopicCommandEnum.SHOW_CREATE_PAGE.getCommand() :
+                        TopicCommandEnum.ADD_TOPIC.getCommand();
             default:
                 return TopicCommandEnum.SHOW_TOPICS.getCommand();
         }

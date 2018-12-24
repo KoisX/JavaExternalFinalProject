@@ -46,4 +46,11 @@ public class TopicService {
             return topicDao.delete(Integer.parseInt(id));
         }
     }
+
+    public boolean create(Topic topic) throws SQLException, UnsuccessfulQueryException {
+        try(DBConnection connection = factory.createConnection()){
+            TopicDAO topicDao = factory.createTopicDAO(connection);
+            return topicDao.create(topic);
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.javacourse.user;
 import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
+import com.javacourse.shared.BeanValidatorConfig;
 import com.javacourse.shared.WebPage;
 import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
@@ -51,7 +52,7 @@ public class UserCreationUtils {
     public WebPage handleUserInsert(User user){
 
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
-        initValidator(lang);
+        validator = BeanValidatorConfig.getValidator(lang);
         setResourceBundle(lang);
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         if(!violations.isEmpty()){
@@ -105,16 +106,6 @@ public class UserCreationUtils {
 
     boolean arePasswordsEqual(String p1, String p2){
         return p1.equals(p2);
-    }
-
-    private void initValidator(String lang){
-        if(lang==null)
-            lang = ApplicationResources.getDefaultLang();
-        Locale.setDefault(new Locale(lang));
-        Configuration<?> config = Validation.byDefaultProvider().configure();
-        ValidatorFactory factory = config.buildValidatorFactory();
-        validator = factory.getValidator();
-        factory.close();
     }
 
     private void setResourceBundle(String lang){

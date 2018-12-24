@@ -24,6 +24,7 @@ public class ApplicationResources {
     /*---------- Predefined constants -------------*/
 
     private final static String DEFAULT_LANG = "en";
+    private static final String ERROR_BUNDLE = "error_message";
 
     /*---------- /Predefined constants -------------*/
 
@@ -43,4 +44,7 @@ public class ApplicationResources {
         return DEFAULT_LANG;
     }
 
+    public static String getErrorBundle() {
+        return ERROR_BUNDLE;
+    }
 }

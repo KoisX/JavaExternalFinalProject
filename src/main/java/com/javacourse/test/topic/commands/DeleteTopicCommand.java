@@ -19,6 +19,7 @@ public class DeleteTopicCommand implements Command {
     private static final String LANG_PARAM = "lang";
     private static final String ERROR_BUNDLE = "error_message";
     private static final String ERROR_REQUEST_MESSAGE = "error";
+    private static final String ID = "id";
     //logger configuration
     static {
         logger = LogConfigurator.getLogger(ShowTopicsCommand.class);
@@ -29,8 +30,8 @@ public class DeleteTopicCommand implements Command {
         WebPage webPage = WebPage.TOPICS_ACTION;
         TopicService topicService = new TopicService();
         try {
-            if(topicService.delete(request.getParameter("id")))
-                return webPage.setDoRedirect(true);
+            if(topicService.delete(request.getParameter(ID)))
+                return webPage;
         } catch (SQLException | UnsuccessfulQueryException | NumberFormatException e) {
             logger.error(e.getMessage());
         }

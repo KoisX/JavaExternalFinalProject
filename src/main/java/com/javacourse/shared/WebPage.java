@@ -20,6 +20,7 @@ public enum WebPage {
     TESTS_ADMIN_PAGE("/WEB-INF/jsp/admin/tests.jsp"),
     TOPICS_ADMIN_PAGE("/WEB-INF/jsp/admin/topics.jsp"),
     TOPICS_USER_PAGE("/WEB-INF/jsp/user/topics.jsp"),
+    TOPICS_ADMIN_CREATE("/WEB-INF/jsp/admin/topic-create.jsp"),
     ERROR_ACTION("/Error"),
     LOGIN_ACTION("/Login/SignIn"),
     TOPICS_ACTION("/Test/Topic"),
