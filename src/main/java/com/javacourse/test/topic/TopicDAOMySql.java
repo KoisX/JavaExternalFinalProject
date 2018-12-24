@@ -126,6 +126,23 @@ public class TopicDAOMySql implements TopicDAO {
         return changes>0;
     }
 
+    @Override
+    public boolean update(Topic topic) throws UnsuccessfulQueryException{
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "UPDATE topic " +
+                    "SET topic.name = ? " +
+                    "WHERE topic.id = ? ;")){
+            statement.setString(1,topic.getName());
+            statement.setLong(2,topic.getId());
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
+    }
+
     /**
      * Service method for closing ResultSet object entity
      * @param resultSet

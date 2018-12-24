@@ -28,10 +28,11 @@
                         </div>
                     </div>
                     <input type="hidden" name="command" value="edit"/>
+                    <input type="hidden" name="id" value="${topic.id}"/>
                     <p class="text-danger">${requestScope.error}</p>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-default" />
+                            <input type="submit" value="Edit" class="btn btn-default" />
                         </div>
                     </div>
                 </form>

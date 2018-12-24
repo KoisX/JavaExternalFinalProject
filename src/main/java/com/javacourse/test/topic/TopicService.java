@@ -60,4 +60,11 @@ public class TopicService {
             return topicDao.findById(id);
         }
     }
+
+    public boolean update(Topic topic) throws SQLException, UnsuccessfulQueryException {
+        try(DBConnection connection = factory.createConnection()){
+            TopicDAO topicDao = factory.createTopicDAO(connection);
+            return topicDao.update(topic);
+        }
+    }
 }
