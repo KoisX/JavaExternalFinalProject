@@ -18,22 +18,25 @@ import java.util.Set;
 
 public class EditTopicCommand implements Command {
 
+    private ResourceBundle resourceBundle;
     private static final String NAME_PARAM = "name";
     private static final String LANG_PARAM = "lang";
+    private static final String TOPIC_PARAM = "topic";
+    private static final String ID = "id";
     private static final String ERROR_REQUEST_MESSAGE = "error";
 
     @Override
     public WebPage execute(HttpServletRequest request) {
         WebPage webPage = WebPage.TOPICS_ACTION;
-
         TopicService topicService = new TopicService();
         Topic topic = constructTopic(request);
 
+
+        //Validating model with Java Bean validation
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
         Validator validator = BeanValidatorConfig.getValidator(lang);
-        ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
+        resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
         Set<ConstraintViolation<Topic>> violations = validator.validate(topic);
-
         if(!violations.isEmpty()){
             request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
             return WebPage.TOPICS_ADMIN_EDIT;
@@ -44,10 +47,7 @@ public class EditTopicCommand implements Command {
                 webPage = WebPage.TOPICS_ACTION.setDoRedirect(true);
             }
         } catch (SQLException | UnsuccessfulQueryException e) {
-            request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.editUnsuccessful"));
-            request.setAttribute("name", topic.getName());
-            request.setAttribute("id", topic.getId());
-            request.setAttribute("topic", topic);
+            setErrorRequestAttributes(request, topic);
             webPage = WebPage.TOPICS_ADMIN_EDIT;
         }
         return webPage;
@@ -60,11 +60,19 @@ public class EditTopicCommand implements Command {
                 .orElse((String) request.getAttribute(NAME_PARAM));
 
         String id = Optional
-                .ofNullable(request.getParameter("id"))
-                .orElse((String) request.getAttribute("id"));
+                .ofNullable(request.getParameter(ID))
+                .orElse((String) request.getAttribute(ID));
 
         topic.setName(name);
         topic.setId(Long.parseLong(id));
         return topic;
     }
+
+    private void setErrorRequestAttributes(HttpServletRequest request, Topic topic){
+        request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.editUnsuccessful"));
+        request.setAttribute(NAME_PARAM, topic.getName());
+        request.setAttribute(ID, topic.getId());
+        request.setAttribute(TOPIC_PARAM, topic);
+    }
+
 }

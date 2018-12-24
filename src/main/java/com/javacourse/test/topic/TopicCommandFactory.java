@@ -13,6 +13,7 @@ import java.util.Optional;
 public class TopicCommandFactory extends CommandFactory {
 
     private static final String COMMAND = "command";
+    private static final String EDIT_CMD = "edit";
 
     public TopicCommandFactory(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
@@ -43,10 +44,10 @@ public class TopicCommandFactory extends CommandFactory {
 
     private Command getEditCommand(){
         String param = Optional
-                .ofNullable(request.getParameter("command"))
+                .ofNullable(request.getParameter(COMMAND))
                 .orElse("");
 
-        if(param.equals("edit")){
+        if(param.equals(EDIT_CMD)){
             return TopicCommandEnum.EDIT_TOPIC.getCommand();
         }else {
             return TopicCommandEnum.SHOW_EDIT_PAGE.getCommand();
