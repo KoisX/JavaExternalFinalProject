@@ -50,7 +50,7 @@ public class EditTopicCommand implements Command {
         /*If we get a request from topics page,
         * we get the values of the properties from request form params,
         * but if the edit operation is unsuccessful and we get the request
-        * from the edit page, we get thee values from the attribute list*/
+        * from the edit page, we get these values from the attribute list*/
 
         String name = Optional
                 .ofNullable(request.getParameter(NAME_PARAM))
