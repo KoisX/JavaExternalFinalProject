@@ -10,7 +10,6 @@ import com.javacourse.test.topic.TopicService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -18,6 +17,7 @@ import java.util.Set;
 
 public class EditTopicCommand implements Command {
 
+    private String lang;
     private ResourceBundle resourceBundle;
     private static final String NAME_PARAM = "name";
     private static final String LANG_PARAM = "lang";
@@ -27,34 +27,31 @@ public class EditTopicCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request) {
-        WebPage webPage = WebPage.TOPICS_ACTION;
-        TopicService topicService = new TopicService();
         Topic topic = constructTopic(request);
+        initLanguageFields((String)request.getSession().getAttribute(LANG_PARAM));
 
+        //validating model and getting violations if sth is wrong
+        Set<ConstraintViolation<Topic>> violations = BeanValidatorConfig
+                                            .getValidator(lang)
+                                            .validate(topic);
 
-        //Validating model with Java Bean validation
-        String lang = (String)request.getSession().getAttribute(LANG_PARAM);
-        Validator validator = BeanValidatorConfig.getValidator(lang);
-        resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
-        Set<ConstraintViolation<Topic>> violations = validator.validate(topic);
+        //set error message if model is not valid
         if(!violations.isEmpty()){
             request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
             return WebPage.TOPICS_ADMIN_EDIT;
         }
 
-        try {
-            if(topicService.update(topic)){
-                webPage = WebPage.TOPICS_ACTION.setDoRedirect(true);
-            }
-        } catch (SQLException | UnsuccessfulQueryException e) {
-            setErrorRequestAttributes(request, topic);
-            webPage = WebPage.TOPICS_ADMIN_EDIT;
-        }
-        return webPage;
+        return getPageBasedOnWhetherEditIsSuccessful(request, topic);
     }
 
     private Topic constructTopic(HttpServletRequest request) {
         Topic topic = new Topic();
+
+        /*If we get a request from topics page,
+        * we get the values of the properties from request form params,
+        * but if the edit operation is unsuccessful and we get the request
+        * from the edit page, we get thee values from the attribute list*/
+
         String name = Optional
                 .ofNullable(request.getParameter(NAME_PARAM))
                 .orElse((String) request.getAttribute(NAME_PARAM));
@@ -66,6 +63,25 @@ public class EditTopicCommand implements Command {
         topic.setName(name);
         topic.setId(Long.parseLong(id));
         return topic;
+    }
+
+    private void initLanguageFields(String language){
+        lang = language;
+        resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
+    }
+
+    private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Topic topic){
+        WebPage webPage = WebPage.TOPICS_ACTION;
+        TopicService topicService = new TopicService();
+        try {
+            if(topicService.update(topic)){
+                webPage.setDoRedirect(true);
+            }
+        } catch (SQLException | UnsuccessfulQueryException e) {
+            setErrorRequestAttributes(request, topic);
+            webPage = WebPage.TOPICS_ADMIN_EDIT;
+        }
+        return webPage;
     }
 
     private void setErrorRequestAttributes(HttpServletRequest request, Topic topic){
