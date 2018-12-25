@@ -46,6 +46,8 @@ public class AddTopicCommand implements Command {
         return topic;
     }
 
+    //try to create topic and depending on whether this operation is
+    //successful or not returns corresponding WebPage
     private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, Topic topic){
         WebPage webPage = WebPage.TOPICS_ACTION;
         TopicService topicService = new TopicService();
