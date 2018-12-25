@@ -20,9 +20,9 @@
 <div class="container body-content">
     <h1><fmt:message key="msg.header"/></h1>
     <div class="list-group">
-        <c:if test="${not empty requestScope.error}">
+        <c:if test="${not empty error}">
             <div class="alert alert-warning">
-                <strong>Warning!</strong> ${requestScope.error}
+                <strong>Warning!</strong> ${error}
             </div>
         </c:if>
         <a href="${pageContext.request.contextPath}/Topic/Create">Create new</a>

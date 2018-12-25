@@ -24,7 +24,7 @@ public enum WebPage {
     TOPICS_ADMIN_EDIT("/WEB-INF/jsp/admin/topic-edit.jsp"),
     ERROR_ACTION("/Error"),
     LOGIN_ACTION("/Login/SignIn"),
-    TOPICS_ACTION("/Test/Topic"),
+    TOPICS_ACTION("/Topic/List"),
     INDEX_ACTION("/Home/Index");
 
     String path;

@@ -14,6 +14,7 @@ public class TopicCommandFactory extends CommandFactory {
 
     private static final String COMMAND = "command";
     private static final String EDIT_CMD = "edit";
+    private static final String DELETE_CMD = "delete";
 
     public TopicCommandFactory(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
@@ -53,4 +54,5 @@ public class TopicCommandFactory extends CommandFactory {
             return TopicCommandEnum.SHOW_EDIT_PAGE.getCommand();
         }
     }
+
 }
