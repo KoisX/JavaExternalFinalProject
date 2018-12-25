@@ -2,7 +2,6 @@ package com.javacourse.test.topic;
 
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
-import com.javacourse.shared.WebPage;
 import com.javacourse.shared.web.HttpMethod;
 import com.javacourse.utils.UriMarshaller;
 
@@ -14,7 +13,6 @@ public class TopicCommandFactory extends CommandFactory {
 
     private static final String COMMAND = "command";
     private static final String EDIT_CMD = "edit";
-    private static final String DELETE_CMD = "delete";
 
     public TopicCommandFactory(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
