@@ -3,9 +3,8 @@ package com.javacourse.user;
 import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.security.PasswordManager;
-import com.javacourse.shared.BeanValidatorConfig;
+import com.javacourse.utils.BeanValidatorConfig;
 import com.javacourse.shared.WebPage;
-import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 

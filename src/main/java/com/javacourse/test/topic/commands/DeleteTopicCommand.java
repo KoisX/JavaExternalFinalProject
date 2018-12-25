@@ -23,6 +23,7 @@ public class DeleteTopicCommand implements Command {
     private static final String ERROR_REQUEST_MESSAGE = "error";
     private final static String TOPICS_ATTRIBUTE = "topics";
     private static final String ID = "id";
+
     //logger configuration
     static {
         logger = LogConfigurator.getLogger(ShowTopicsCommand.class);

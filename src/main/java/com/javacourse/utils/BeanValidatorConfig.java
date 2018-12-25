@@ -1,4 +1,4 @@
-package com.javacourse.shared;
+package com.javacourse.utils;
 
 import com.javacourse.ApplicationResources;
 
