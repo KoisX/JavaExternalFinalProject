@@ -48,4 +48,11 @@ public class StatsService {
             return statsDAO.findById(id);
         }
     }
+
+    public boolean delete(Integer id) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            StatsDAO statsDAO = factory.createStatsDAO(connection);
+            return statsDAO.delete(id);
+        }
+    }
 }

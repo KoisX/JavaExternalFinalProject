@@ -26,7 +26,8 @@ public enum WebPage {
     ERROR_ACTION("/Error"),
     LOGIN_ACTION("/Login/SignIn"),
     TOPICS_ACTION("/Topic/List"),
-    INDEX_ACTION("/Home/Index");
+    INDEX_ACTION("/Home/Index"),
+    STATS_ACTION("/Home/Stats");
 
     String path;
     boolean doRedirect;

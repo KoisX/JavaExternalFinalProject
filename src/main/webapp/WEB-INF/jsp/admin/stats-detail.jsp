@@ -45,7 +45,6 @@
                             <input type="number" id="score" name="score" class="col-md-2 form-control" value="${stat.score}">
                         </div>
                     </div>
-                    <input type="hidden" name="command" value="edit"/>
                     <input type="hidden" name="id" value="${stat.id}"/>
                     <p class="text-danger">${requestScope.error}</p>
                     <div class="form-group">

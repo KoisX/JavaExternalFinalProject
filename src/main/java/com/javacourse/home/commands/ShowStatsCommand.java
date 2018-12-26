@@ -36,6 +36,7 @@ public class ShowStatsCommand implements Command {
 
         if(!getPageInfo(request)){
             resultingPage = WebPage.ERROR_ACTION;
+            return resultingPage;
         }
 
         initRequestAttributes(request);

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter(filterName = "AuthenticationFilter",
-        urlPatterns = {"/Home/Stats", "/WEB_INF/*"})
+        urlPatterns = {"/Home/Stats/*", "/WEB_INF/*"})
 public class AuthenticationFilter implements Filter {
 
     private static final String LOGIN_PARAM = "login";
@@ -26,12 +26,15 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession(false);
-        WebPage page = WebPage.ERROR_PAGE;
+        WebPage page;
         if(isLoggedIn(session)){
             Role role = (Role) session.getAttribute(ROLE_PARAM);
             if(role != Role.ADMIN){
                 page  = WebPage.ERROR_PAGE.setDoRedirect(true);
-            } else chain.doFilter(req, resp);
+            } else{
+                chain.doFilter(req, resp);
+                return;
+            }
         }else {
             page = WebPage.LOGIN_ACTION.setDoRedirect(true);
         }

@@ -128,7 +128,16 @@ public class StatsDAOMySql implements StatsDAO {
 
     @Override
     public boolean delete(Integer id) throws UnsuccessfulQueryException {
-        throw new UnsupportedOperationException();
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "DELETE FROM stats WHERE id=? ;")){
+            statement.setInt(1, id);
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
     }
 
     @Override
