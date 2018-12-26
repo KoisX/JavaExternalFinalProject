@@ -193,6 +193,23 @@ public class StatsDAOMySql implements StatsDAO {
         return result;
     }
 
+    @Override
+    public boolean updateScore(Stats stats) throws UnsuccessfulQueryException{
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "UPDATE stats " +
+                    "SET stats.score = ? " +
+                    "WHERE stats.id = ? ;")){
+            statement.setLong(1,stats.getScore());
+            statement.setLong(2,stats.getId());
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
+    }
+
     /**
      * Service method for closing ResultSet object entity
      * @param resultSet

@@ -55,4 +55,11 @@ public class StatsService {
             return statsDAO.delete(id);
         }
     }
+
+    public boolean updateScore(Stats stats) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            StatsDAO statsDAO = factory.createStatsDAO(connection);
+            return statsDAO.updateScore(stats);
+        }
+    }
 }

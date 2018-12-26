@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 public class DeleteStatsCommand implements Command {
+
+    private static final String ID = "id";
+
     @Override
     public WebPage execute(HttpServletRequest request) {
         WebPage webPage = WebPage.STATS_ACTION.setDoRedirect(true);
         StatsService statsService = new StatsService();
-        String id = request.getParameter("id");
+        String id = request.getParameter(ID);
         try {
             statsService.delete(Integer.parseInt(id));
         } catch (UnsuccessfulQueryException | SQLException e) {

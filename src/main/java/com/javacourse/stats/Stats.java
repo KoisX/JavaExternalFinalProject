@@ -4,6 +4,8 @@ import com.javacourse.shared.dataAccess.Entity;
 import com.javacourse.test.Test;
 import com.javacourse.user.User;
 
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.PositiveOrZero;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -12,10 +14,17 @@ import java.util.Objects;
  */
 public class Stats implements Entity {
 
+  @PositiveOrZero
   private long id;
+
   private User user;
+
   private Test test;
+
+  @PositiveOrZero(message = "{msg.scoreValuePositiveOrZero}")
   private long score;
+
+  @PastOrPresent
   private java.sql.Timestamp timePassed;
 
   public Stats(long id, User user, Test test, long score, Timestamp timePassed) {
