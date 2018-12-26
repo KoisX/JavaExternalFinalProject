@@ -22,6 +22,21 @@ public enum  HomeCommandEnum {
         {
             this.command = new ShowStatsCommand();
         }
+    },
+    STATS_DETAILS{
+        {
+            this.command = new ShowStatsDetailsCommand();
+        }
+    },
+    STATS_EDIT{
+        {
+            this.command = new EditStatsCommand();
+        }
+    },
+    STATS_DELETE{
+        {
+            this.command = new DeleteStatsCommand();
+        }
     };
 
     Command command;

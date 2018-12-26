@@ -28,6 +28,7 @@
             <th scope="col">Email</th>
             <th scope="col">Test</th>
             <th scope="col">Score</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -38,6 +39,11 @@
                 <td>${stat.user.email}</td>
                 <td>${stat.test.header}</td>
                 <td>${stat.score}</td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/Home/StatsDetails?id=${stat.id}">
+                        Learn more
+                    </a>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

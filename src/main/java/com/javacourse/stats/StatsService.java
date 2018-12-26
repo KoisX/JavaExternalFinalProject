@@ -41,4 +41,11 @@ public class StatsService {
             return statsDAO.getNumberOfPages(recordsPerPage);
         }
     }
+
+    public Stats findById(Integer id) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            StatsDAO statsDAO = factory.createStatsDAO(connection);
+            return statsDAO.findById(id);
+        }
+    }
 }

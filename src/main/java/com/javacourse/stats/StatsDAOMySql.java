@@ -40,7 +40,7 @@ public class StatsDAOMySql implements StatsDAO {
         List<Stats> items;
         ResultSet resultSet = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                    "SELECT a.name as name, a.surname as surname, a.email as email, t.header as header, stats.score as score " +
+                    "SELECT a.name as name, a.surname as surname, a.email as email, t.header as header, stats.score as score, stats.id as id " +
                         "from stats " +
                         "INNER JOIN user_account a on stats.user_account_id = a.id " +
                         "INNER JOIN test t on stats.test_id = t.id " +
@@ -65,7 +65,7 @@ public class StatsDAOMySql implements StatsDAO {
      * @return list of model entities
      * @throws SQLException in case when there is an SQL-related error
      */
-    private List<Stats> parseToEntityList(ResultSet rs) throws SQLException, UnsuccessfulQueryException {
+    private List<Stats> parseToEntityList(ResultSet rs) throws SQLException {
         List<Stats> items = new ArrayList<>();
         Stats stats;
         User user;
@@ -83,6 +83,7 @@ public class StatsDAOMySql implements StatsDAO {
             stats.setUser(user);
             stats.setTest(test);
             stats.setScore(rs.getInt("score"));
+            stats.setId(rs.getLong("id"));
             items.add(stats);
         }
         return items;
@@ -90,7 +91,39 @@ public class StatsDAOMySql implements StatsDAO {
 
     @Override
     public Stats findById(Integer id) throws UnsuccessfulQueryException {
-        throw new UnsupportedOperationException();
+        Stats stats;
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT a.name as name, a.surname as surname, a.email as email, t.header as header, stats.score as score, stats.id as id " +
+                        "from stats " +
+                        "INNER JOIN user_account a on stats.user_account_id = a.id " +
+                        "INNER JOIN test t on stats.test_id = t.id " +
+                        "INNER JOIN topic t2 on t.topic_id = t2.id " +
+                        "WHERE stats.id = ? ;"
+        )){
+            statement.setLong(1, id);
+            resultSet = statement.executeQuery();
+            stats = parseSingleEntity(resultSet);
+
+        }catch (SQLException e){
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        finally {
+            closeResultSet(resultSet);
+        }
+        return stats;
+    }
+
+    /**
+     * Helper-method which encapsulates getting a single entity
+     * from the ResultSet object
+     * @param rs ResultSet object, which represents the result of an SQL-query
+     * @return model entity
+     * @throws SQLException in case when there is an SQL-related error
+     */
+    Stats parseSingleEntity(ResultSet rs) throws  SQLException{
+        return  parseToEntityList(rs).get(0);
     }
 
     @Override
@@ -107,7 +140,7 @@ public class StatsDAOMySql implements StatsDAO {
         List<Stats> items;
         ResultSet resultSet = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                    "SELECT a.name, a.surname, a.email, t.header, stats.score from stats " +
+                    "SELECT a.name, a.surname, a.email, t.header, stats.score, stats.id from stats " +
                             "INNER JOIN user_account a on stats.user_account_id = a.id " +
                             "INNER JOIN test t on stats.test_id = t.id " +
                             "INNER JOIN topic t2 on t.topic_id = t2.id " +
