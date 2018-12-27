@@ -56,6 +56,7 @@ public class TaskDAOMySql implements TaskDAO {
             task.setId(tasksRS.getLong("id"));
             task.setTestId(tasksRS.getLong("testId"));
             task.setQuestion(tasksRS.getString("question"));
+            task.setPrice(tasksRS.getInt("price"));
             items.add(task);
         }
         return items;
@@ -80,7 +81,7 @@ public class TaskDAOMySql implements TaskDAO {
         List<Task> items;
         ResultSet resultSet = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                        "SELECT task.id as id, task.test_id as testId, task.question as question " +
+                        "SELECT task.id as id, task.test_id as testId, task.question as question, task.price as price " +
                             "FROM task WHERE test_id = ? ;")){
 
             statement.setString(1, test_id);

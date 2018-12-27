@@ -1326,15 +1326,15 @@
       <DataType>varchar(350)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="324" parent="285" name="correctAnswer">
+    <column id="324" parent="285" name="image_id">
       <Position>4</Position>
-      <DataType>varchar(250)|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="325" parent="285" name="image_id">
+    <column id="325" parent="285" name="price">
       <Position>5</Position>
-      <DataType>int(10) unsigned|0s</DataType>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <index id="326" parent="285" name="id_UNIQUE">
@@ -1398,7 +1398,7 @@
       <ColNames>task_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="337" parent="286" name="fk_task_has_answer_answer1_idx">
+    <index id="337" parent="286" name="fk_task_correct_answer_answer1_idx">
       <ColNames>answer_id</ColNames>
       <Type>btree</Type>
     </index>
@@ -1418,7 +1418,7 @@
     <foreign-key id="340" parent="286" name="fk_task_correct_answer_answer1">
       <ColNames>answer_id</ColNames>
       <RefSchemaName>student_testing_db</RefSchemaName>
-      <RefTableName>correctanswer</RefTableName>
+      <RefTableName>answer</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <foreign-key id="341" parent="286" name="fk_task_correct_answer_answer2">
@@ -1490,7 +1490,7 @@
     </column>
     <column id="352" parent="288" name="description">
       <Position>3</Position>
-      <DataType>varchar(250)|0s</DataType>
+      <DataType>varchar(500)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="353" parent="288" name="header">

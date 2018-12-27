@@ -16,6 +16,7 @@ public class Task implements Entity {
   private long testId;
   private String question;
   private Image image;
+  private int price;
   private List<Answer> correctAnswers;
   private List<Answer> possibleAnswers;
 
@@ -84,6 +85,14 @@ public class Task implements Entity {
     this.possibleAnswers = possibleAnswers;
   }
 
+  public int getPrice() {
+    return price;
+  }
+
+  public void setPrice(int price) {
+    this.price = price;
+  }
+
   @Override
   public String toString() {
     final StringBuffer sb = new StringBuffer("Task{");
@@ -93,6 +102,7 @@ public class Task implements Entity {
     sb.append(", image=").append(image);
     sb.append(", correctAnswers=").append(correctAnswers);
     sb.append(", possibleAnswers=").append(possibleAnswers);
+    sb.append(", price=").append(price);
     sb.append('}');
     return sb.toString();
   }
@@ -107,11 +117,12 @@ public class Task implements Entity {
             question.equals(task.question) &&
             image.equals(task.image) &&
             correctAnswers.equals(task.correctAnswers) &&
-            possibleAnswers.equals(task.possibleAnswers);
+            possibleAnswers.equals(task.possibleAnswers) &&
+            price == task.price;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, testId, question, image, correctAnswers, possibleAnswers);
+    return Objects.hash(id, testId, question, image, correctAnswers, possibleAnswers, price);
   }
 }

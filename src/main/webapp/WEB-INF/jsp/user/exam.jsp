@@ -22,14 +22,14 @@
         <c:forEach var="task" items="${requestScope.tasks}">
             <div class="list-group-item">
                 <fieldset class="form-group">
-                    <legend>${task.question}</legend>
+                    <legend>${task.question} <span class="badge">${task.price} point</span></legend>
                     <input type="hidden" name="id" value="${testId}"/>
                    <c:choose>
                        <c:when test="${fn:length(task.correctAnswers) gt 1}">
                            <c:forEach var="answer" items="${task.possibleAnswers}">
                                <div class="form-check">
                                    <label class="form-check-label">
-                                       <input type="checkbox" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="${answer.id}">
+                                       <input type="checkbox" class="form-check-input" name="checkbox_${task.id}"  value="${answer.id}">
                                            ${answer.value}
                                    </label>
                                </div>
@@ -39,7 +39,7 @@
                            <c:forEach var="answer" items="${task.possibleAnswers}">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="${answer.id}" required>
+                                        <input type="radio" class="form-check-input" name="radio_${task.id}" value="${answer.id}" required>
                                         ${answer.value}
                                     </label>
                                 </div>
