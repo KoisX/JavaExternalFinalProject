@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface TaskDAO extends AbstractDAO<Integer, Task> {
     List<Task> findTasksByTestId(String test_id) throws UnsuccessfulQueryException;
+    int getMaximalScoreByTestId(String test_id) throws UnsuccessfulQueryException;
 }

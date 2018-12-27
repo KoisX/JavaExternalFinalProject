@@ -6,6 +6,7 @@ import com.javacourse.shared.dataAccess.DBConnection;
 import com.javacourse.shared.dataAccess.MySqlDAOFactory;
 import com.javacourse.shared.dataAccess.SqlConnection;
 import com.javacourse.test.answer.AnswerDAO;
+import com.javacourse.test.topic.TopicDAO;
 import com.javacourse.user.UserService;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
@@ -42,6 +43,13 @@ public class TaskService {
                 tasks.get(i).setPossibleAnswers(answerDAO.findPossibleAnswersByTaskId(taskId));
             }
             return tasks;
+        }
+    }
+
+    public int getMaximalScoreByTestId(String test_id) throws SQLException, UnsuccessfulQueryException {
+        try(DBConnection connection = factory.createConnection()){
+            TaskDAO taskDAO = factory.createTaskDAO(connection);
+            return taskDAO.getMaximalScoreByTestId(test_id);
         }
     }
 }

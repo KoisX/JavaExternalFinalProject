@@ -29,7 +29,7 @@
                            <c:forEach var="answer" items="${task.possibleAnswers}">
                                <div class="form-check">
                                    <label class="form-check-label">
-                                       <input type="checkbox" class="form-check-input" name="checkbox_${task.id}"  value="${answer.id}">
+                                       <input type="checkbox" class="form-check-input" name="field_${task.id}"  value="${answer.value}">
                                            ${answer.value}
                                    </label>
                                </div>
@@ -39,7 +39,7 @@
                            <c:forEach var="answer" items="${task.possibleAnswers}">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="radio_${task.id}" value="${answer.id}" required>
+                                        <input type="radio" class="form-check-input" name="field_${task.id}" value="${answer.value}" required>
                                         ${answer.value}
                                     </label>
                                 </div>
@@ -48,7 +48,7 @@
                        <c:otherwise>
                            <div class="form-group">
                                <label for="exampleInput">Answer:</label>
-                               <input type="text" class="form-control" id="exampleInput" placeholder="Your answer" required>
+                               <input type="text" class="form-control" id="exampleInput" name="field_${task.id}" placeholder="Your answer" required>
                            </div>
                        </c:otherwise>
                    </c:choose>

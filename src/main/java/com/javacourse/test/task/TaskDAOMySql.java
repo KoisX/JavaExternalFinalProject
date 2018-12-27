@@ -97,6 +97,28 @@ public class TaskDAOMySql implements TaskDAO {
         return items;
     }
 
+    @Override
+    public int getMaximalScoreByTestId(String test_id) throws UnsuccessfulQueryException {
+        int score = 0;
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT SUM(task.price) as num " +
+                    "FROM task WHERE task.test_id = ?; ")){
+
+            statement.setString(1, test_id);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            score = resultSet.getInt("num");
+
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        } finally {
+            closeResultSet(resultSet);
+        }
+        return score;
+    }
+
     /**
      * Service method for closing ResultSet object entity
      * @param resultSet

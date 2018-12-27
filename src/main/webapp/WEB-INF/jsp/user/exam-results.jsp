@@ -15,7 +15,7 @@
 
 <div class="container body-content">
     <h1>Exam results:</h1>
-    <h3>Good work!</h3>
+    <h3>Good work! Result: ${result}/${maximalResult}</h3>
     <hr />
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
