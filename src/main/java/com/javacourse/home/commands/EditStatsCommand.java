@@ -1,22 +1,19 @@
 package com.javacourse.home.commands;
 
 import com.javacourse.exceptions.UnsuccessfulQueryException;
-import com.javacourse.security.command.SignInCommand;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
 import com.javacourse.stats.Stats;
 import com.javacourse.stats.StatsService;
-import com.javacourse.test.topic.Topic;
-import com.javacourse.test.topic.TopicService;
+import com.javacourse.test.Test;
+import com.javacourse.user.User;
 import com.javacourse.utils.BeanValidatorConfig;
 import com.javacourse.utils.LogConfigurator;
-import com.javacourse.utils.ResourceBundleConfig;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 public class EditStatsCommand implements Command {
@@ -24,6 +21,10 @@ public class EditStatsCommand implements Command {
     private static final String LANG_PARAM = "lang";
     private static final String ERROR_REQUEST_MESSAGE = "error";
     private static final String SCORE = "score";
+    private static final String EMAIL = "email";
+    private static final String NAME = "name";
+    private static final String TEST = "test";
+    private static final String STAT = "stat";
     private static final int SCORE_INVALID = -1;
     private static final String ID = "id";
     private final static Logger logger;
@@ -61,10 +62,25 @@ public class EditStatsCommand implements Command {
             stats.setScore(Integer.parseInt(scoreParam));
             stats.setId(Long.parseLong(id));
         } catch (NumberFormatException e) {
-            stats.setScore(SCORE_INVALID);
+            //stats.setScore(SCORE_INVALID);
+            setStatsRequestProperties(request, stats);
             logger.warn(e.getMessage());
         }
         return stats;
+    }
+
+    private void setStatsRequestProperties(HttpServletRequest request, Stats stats){
+        stats.setScore(SCORE_INVALID);
+        User user = new User();
+        user.setName(request.getParameter(NAME));
+        user.setEmail(request.getParameter(EMAIL));
+
+        Test test = new Test();
+        test.setHeader(request.getParameter(TEST));
+        stats.setUser(user);
+        stats.setTest(test);
+        stats.setId(Long.parseLong(request.getParameter(ID)));
+        request.setAttribute(STAT, stats);
     }
 
     private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Stats stats){

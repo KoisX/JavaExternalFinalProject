@@ -42,7 +42,16 @@
                     <div class="form-group">
                         <label for="score" class="col-md-2 control-label">Score</label>
                         <div class="col-md-10">
-                            <input type="number" id="score" name="score" class="col-md-2 form-control" value="${stat.score}">
+                            <%--If score value is not valid it will be set to INVALID_SCORE value--%>
+                            <c:set var="INVALID_SCORE" scope="page" value="-1"/>
+                            <c:choose>
+                                <c:when test="${stat.score != INVALID_SCORE}">
+                                    <input type="number" id="score" name="score" class="col-md-2 form-control" value="${stat.score}">
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="number" id="score" name="score" class="col-md-2 form-control" value="">
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                     <input type="hidden" name="id" value="${stat.id}"/>
