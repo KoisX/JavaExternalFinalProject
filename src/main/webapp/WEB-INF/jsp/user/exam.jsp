@@ -22,7 +22,7 @@
         <c:forEach var="task" items="${requestScope.tasks}">
             <div class="list-group-item">
                 <fieldset class="form-group">
-                    <legend>${task.question} <span class="badge">${task.price} point</span></legend>
+                    <legend>${task.question} <span class="badge">${task.price} point(s)</span></legend>
                     <input type="hidden" name="id" value="${testId}"/>
                    <c:choose>
                        <c:when test="${fn:length(task.correctAnswers) gt 1}">
