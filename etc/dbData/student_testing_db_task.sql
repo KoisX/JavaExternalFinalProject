@@ -29,6 +29,7 @@ CREATE TABLE `task` (
   `test_id` int(10) unsigned NOT NULL,
   `question` varchar(350) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `image_id` int(10) unsigned DEFAULT NULL,
+  `price` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_task_test1_idx` (`test_id`),
@@ -44,7 +45,7 @@ CREATE TABLE `task` (
 
 LOCK TABLES `task` WRITE;
 /*!40000 ALTER TABLE `task` DISABLE KEYS */;
-INSERT INTO `task` VALUES (1,5,'Який оператор робить виборку даних?',NULL),(2,5,'Який оператор призначений для видалення даних?',NULL),(3,5,'Виберіть ключові слова SQL',NULL);
+INSERT INTO `task` VALUES (1,5,'Який оператор робить виборку даних?',NULL,1),(2,5,'Який оператор призначений для видалення даних?',NULL,1),(3,5,'Виберіть ключові слова SQL',NULL,1);
 /*!40000 ALTER TABLE `task` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-23 23:58:28
+-- Dump completed on 2018-12-27 21:04:23

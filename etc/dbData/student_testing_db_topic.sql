@@ -30,7 +30,7 @@ CREATE TABLE `topic` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `topic` (
 
 LOCK TABLES `topic` WRITE;
 /*!40000 ALTER TABLE `topic` DISABLE KEYS */;
-INSERT INTO `topic` VALUES (4,'Англійська мова'),(6,'Дослідження операцій'),(8,'Математична логіка'),(3,'Математичний аналіз'),(7,'Правила дорожнього руху'),(2,'Програмування'),(9,'Теорія алгоритмів'),(10,'Українська мова'),(5,'Французька мова');
+INSERT INTO `topic` VALUES (40,'Англійська мова'),(6,'Дослідження операцій'),(8,'Математична логіка'),(3,'Математичний аналіз'),(7,'Правила дорожнього руху'),(2,'Програмування'),(9,'Теорія алгоритмів'),(10,'Українська мова'),(5,'Французька мова');
 /*!40000 ALTER TABLE `topic` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-23 23:58:29
+-- Dump completed on 2018-12-27 21:04:24
