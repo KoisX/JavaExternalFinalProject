@@ -22,6 +22,8 @@ public class TestCommandFactory extends CommandFactory {
                 return TestCommandEnum.SHOW_TESTS_BY_TOPIC.getCommand();
             case "Exam":
                 return TestCommandEnum.SHOP_EXAM.getCommand();
+            case "Results":
+                return TestCommandEnum.CHECK_TEST.getCommand();
             default:
                 return TopicCommandEnum.SHOW_TOPICS.getCommand();
         }

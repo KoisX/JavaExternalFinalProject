@@ -18,6 +18,7 @@ public class ShowExamCommand implements Command {
     private final static Logger logger;
     private final static String ID_PARAM = "id";
     private final static String TASKS_ATTRIBUTE = "tasks";
+    private final static String TEST_ID_ATTRIBUTE = "testId";
 
     //logger configuration
     static {
@@ -41,6 +42,7 @@ public class ShowExamCommand implements Command {
         try{
             List<Task> tasks = taskService.findTasksByTestId(testId);
             request.setAttribute(TASKS_ATTRIBUTE, tasks);
+            request.setAttribute(TEST_ID_ATTRIBUTE, testId);
         } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
             return false;

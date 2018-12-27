@@ -23,6 +23,7 @@ public enum WebPage {
     TOPICS_ADMIN_CREATE("/WEB-INF/jsp/admin/topic-create.jsp"),
     TOPICS_ADMIN_EDIT("/WEB-INF/jsp/admin/topic-edit.jsp"),
     STATS_ADMIN_DETAILS("/WEB-INF/jsp/admin/stats-detail.jsp"),
+    TEST_USER_RESULTS("/WEB-INF/jsp/user/exam-results.jsp"),
     ERROR_ACTION("/Error"),
     LOGIN_ACTION("/Login/SignIn"),
     TOPICS_ACTION("/Topic/List"),

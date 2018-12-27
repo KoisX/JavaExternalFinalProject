@@ -14,6 +14,11 @@ public enum TestCommandEnum {
         {
             this.command = new ShowExamCommand();
         }
+    },
+    CHECK_TEST{
+        {
+            this.command = new CheckExamCommand();
+        }
     };
     Command command;
     public com.javacourse.shared.Command getCommand(){return command;}
