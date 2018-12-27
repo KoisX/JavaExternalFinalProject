@@ -15,7 +15,7 @@
 </head>
 <body>
 <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/header.jsp"/>
-<form method="post" action="${pageContext.request.contextPath}/Test/Revise">
+<form method="post" action="${pageContext.request.contextPath}/Test/Results">
 <div class="container body-content">
     <h1>Choose correct answer for tests:</h1>
     <div class="list-group">
@@ -38,7 +38,7 @@
                            <c:forEach var="answer" items="${task.possibleAnswers}">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
+                                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" required>
                                         ${answer.value}
                                     </label>
                                 </div>
@@ -47,7 +47,7 @@
                        <c:otherwise>
                            <div class="form-group">
                                <label for="exampleInput">Answer:</label>
-                               <input type="text" class="form-control" id="exampleInput" placeholder="Your answer">
+                               <input type="text" class="form-control" id="exampleInput" placeholder="Your answer" required>
                            </div>
                        </c:otherwise>
                    </c:choose>
@@ -55,12 +55,28 @@
             </div>
         </c:forEach>
         <c:if test="${not empty requestScope.tasks}">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" id="checkBtn" class="btn btn-primary">Submit</button>
         </c:if>
     </div>
 
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
 </form>
+
+<%--TODO: move script to separate js file--%>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#checkBtn').click(function() {
+            let checked = $("input[type=checkbox]:checked").length;
+
+            if(!checked) {
+                alert("You must check at least one checkbox in each checkbox group!");
+                return false;
+            }
+
+        });
+    });
+</script>
+
 </body>
 </html>
