@@ -63,10 +63,7 @@ public class CheckExamCommand implements Command {
         request.setAttribute("maximalResult", maxScore);
 
 
-
-
-        //setting all tests again
-        request.setAttribute(TEST_ID_ATTRIBUTE, testId);
+        //setting all tasks again
         request.setAttribute(TASKS_ATTRIBUTE, tasks);
 
 
