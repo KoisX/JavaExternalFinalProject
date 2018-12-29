@@ -19,10 +19,10 @@
 <div class="container body-content">
     <h1>Choose correct answer for tests:</h1>
     <div class="list-group">
-        <c:forEach var="task" items="${requestScope.tasks}">
+        <c:forEach var="task" items="${requestScope.tasks}" varStatus="testIndex">
             <div class="list-group-item">
                 <fieldset class="form-group">
-                    <legend>${task.question} <span class="badge">${task.price} point(s)</span></legend>
+                    <legend>${testIndex.index+1}. ${task.question} <span class="badge">${task.price} point(s)</span></legend>
                     <input type="hidden" name="id" value="${testId}"/>
                    <c:choose>
                        <c:when test="${fn:length(task.correctAnswers) gt 1}">
