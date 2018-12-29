@@ -17,7 +17,7 @@ public class LogoutCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         finishRequestSession(request);
-        return WebPage.INDEX_ACTION.setDoRedirect(true);
+        return WebPage.INDEX_REDIRECT_ACTION;
     }
 
     private void finishRequestSession(HttpServletRequest request){

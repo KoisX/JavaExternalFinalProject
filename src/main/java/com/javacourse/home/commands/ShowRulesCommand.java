@@ -9,6 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 public class ShowRulesCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        return WebPage.RULES_PAGE;
+        return WebPage.RULES_FORWARD_PAGE;
     }
 }

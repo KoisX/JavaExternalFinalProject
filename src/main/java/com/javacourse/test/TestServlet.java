@@ -1,6 +1,5 @@
 package com.javacourse.test;
 
-import com.javacourse.ApplicationResources;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
 import com.javacourse.shared.WebPage;
@@ -42,7 +41,7 @@ public class TestServlet extends HttpServlet {
             Command command = factory.defineCommand();
             resultPage = command.execute(request, response);
         }catch (Exception e){
-            resultPage = WebPage.ERROR_ACTION;
+            resultPage = WebPage.ERROR_FORWARD_ACTION;
             logger.error(e.getMessage());
         }
         new WebPageDispatcher(request, response, resultPage).dispatch();

@@ -35,7 +35,7 @@ public class AddTopicCommand implements Command {
         //set error message if model is not valid
         if(!violations.isEmpty()){
             request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
-            return WebPage.TOPICS_ADMIN_CREATE;
+            return WebPage.TOPICS_ADMIN_FORWARD_CREATE;
         }
 
         return getPageDependingOnWhetherInsertIsSuccessful(request, topic);
@@ -50,16 +50,16 @@ public class AddTopicCommand implements Command {
     //try to create topic and depending on whether this operation is
     //successful or not returns corresponding WebPage
     private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, Topic topic){
-        WebPage webPage = WebPage.TOPICS_ACTION;
+        WebPage webPage = WebPage.TOPICS_FORWARD_ACTION;
         TopicService topicService = new TopicService();
         try {
             if(topicService.create(topic)){
-                return WebPage.TOPICS_ACTION.setDoRedirect(true);
+                return WebPage.TOPICS_REDIRECT_ACTION;
             }
         } catch (SQLException | UnsuccessfulQueryException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
             request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.creationUnsuccessful"));
-            return WebPage.TOPICS_ADMIN_CREATE;
+            return WebPage.TOPICS_ADMIN_FORWARD_CREATE;
         }
         return webPage;
     }

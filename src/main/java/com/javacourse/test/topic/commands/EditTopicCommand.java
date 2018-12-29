@@ -39,7 +39,7 @@ public class EditTopicCommand implements Command {
         //set error message if model is not valid
         if(!violations.isEmpty()){
             request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
-            return WebPage.TOPICS_ADMIN_EDIT;
+            return WebPage.TOPICS_ADMIN_FORWARD_EDIT;
         }
 
         return getPageBasedOnWhetherEditIsSuccessful(request, topic);
@@ -72,15 +72,15 @@ public class EditTopicCommand implements Command {
     }
 
     private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Topic topic){
-        WebPage webPage = WebPage.TOPICS_ACTION;
+        WebPage webPage = WebPage.TOPICS_FORWARD_ACTION;
         TopicService topicService = new TopicService();
         try {
             if(topicService.update(topic)){
-                webPage.setDoRedirect(true);
+                webPage = WebPage.TOPICS_REDIRECT_ACTION;
             }
         } catch (SQLException | UnsuccessfulQueryException e) {
             setErrorRequestAttributes(request, topic);
-            webPage = WebPage.TOPICS_ADMIN_EDIT;
+            webPage = WebPage.TOPICS_ADMIN_FORWARD_EDIT;
         }
         return webPage;
     }

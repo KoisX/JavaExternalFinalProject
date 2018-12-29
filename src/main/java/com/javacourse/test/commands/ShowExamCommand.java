@@ -28,11 +28,11 @@ public class ShowExamCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        WebPage webPage = WebPage.ERROR_ACTION;
+        WebPage webPage = WebPage.ERROR_FORWARD_ACTION;
         if(!setTasksAttribute(request)){
             return webPage;
         }
-        return WebPage.EXAM_USER_PAGE;
+        return WebPage.EXAM_USER_FORWARD_PAGE;
     }
 
     private boolean setTasksAttribute(HttpServletRequest request){

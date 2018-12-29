@@ -27,7 +27,7 @@ public class ShowTopicsCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        WebPage page = WebPage.ERROR_PAGE;
+        WebPage page = WebPage.ERROR_FORWARD_PAGE;
         if(!setTopicsAttribute(request)){
             return page;
         }
@@ -50,7 +50,7 @@ public class ShowTopicsCommand implements Command {
     private WebPage getTopicPageForClient(HttpServletRequest request){
         Role userRole = (Role) request.getSession().getAttribute(ROLE_ATTRIBUTE);
         if(userRole == Role.ADMIN)
-            return WebPage.TOPICS_ADMIN_PAGE;
-        return WebPage.TOPICS_USER_PAGE;
+            return WebPage.TOPICS_ADMIN_FORWARD_PAGE;
+        return WebPage.TOPICS_USER_FORWARD_PAGE;
     }
 }

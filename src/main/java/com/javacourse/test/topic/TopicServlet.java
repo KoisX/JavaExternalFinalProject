@@ -3,7 +3,6 @@ package com.javacourse.test.topic;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
 import com.javacourse.shared.WebPage;
-import com.javacourse.test.TestCommandFactory;
 import com.javacourse.utils.LogConfigurator;
 import com.javacourse.utils.WebPageDispatcher;
 import org.apache.log4j.Logger;
@@ -41,7 +40,7 @@ public class TopicServlet extends HttpServlet {
             Command command = factory.defineCommand();
             resultPage = command.execute(request, response);
         }catch (Exception e){
-            resultPage = WebPage.ERROR_ACTION;
+            resultPage = WebPage.ERROR_FORWARD_ACTION;
             logger.error(e.getMessage());
         }
         new WebPageDispatcher(request, response, resultPage).dispatch();

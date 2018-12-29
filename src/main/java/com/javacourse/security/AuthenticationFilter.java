@@ -30,13 +30,13 @@ public class AuthenticationFilter implements Filter {
         if(isLoggedIn(session)){
             Role role = (Role) session.getAttribute(ROLE_PARAM);
             if(role != Role.ADMIN){
-                page  = WebPage.ERROR_PAGE.setDoRedirect(true);
+                page  = WebPage.ERROR_REDIRECT_PAGE;
             } else{
                 chain.doFilter(req, resp);
                 return;
             }
         }else {
-            page = WebPage.LOGIN_ACTION.setDoRedirect(true);
+            page = WebPage.LOGIN_REDIRECT_ACTION;
         }
         new WebPageDispatcher(request, response, page).dispatch();
 

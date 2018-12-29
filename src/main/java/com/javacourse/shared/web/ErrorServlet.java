@@ -1,9 +1,7 @@
 package com.javacourse.shared.web;
 
 import com.javacourse.shared.WebPage;
-import com.javacourse.utils.LogConfigurator;
 import com.javacourse.utils.WebPageDispatcher;
-import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +28,6 @@ public class ErrorServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        new WebPageDispatcher(req, resp, WebPage.ERROR_PAGE).dispatch();
+        new WebPageDispatcher(req, resp, WebPage.ERROR_FORWARD_PAGE).dispatch();
     }
 }

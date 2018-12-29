@@ -1,6 +1,5 @@
 package com.javacourse.security;
 
-import com.javacourse.ApplicationResources;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
 import com.javacourse.shared.WebPage;
@@ -44,7 +43,7 @@ public class AuthorizationServlet extends HttpServlet {
             Command command = factory.defineCommand();
             resultPage = command.execute(request, response);
         }catch (Exception e){
-            resultPage = WebPage.ERROR_ACTION;
+            resultPage = WebPage.ERROR_FORWARD_ACTION;
         }
         new WebPageDispatcher(request, response, resultPage).dispatch();
     }

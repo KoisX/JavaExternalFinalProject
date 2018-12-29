@@ -9,6 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 public class ShowIndexCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        return WebPage.INDEX_PAGE;
+        return WebPage.INDEX_FORWARD_PAGE;
     }
 }

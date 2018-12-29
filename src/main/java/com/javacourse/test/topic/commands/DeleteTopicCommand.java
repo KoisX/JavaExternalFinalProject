@@ -42,15 +42,15 @@ public class DeleteTopicCommand implements Command {
             //if delete is successful, update topics request param and return topics page
             if(topicService.delete(request.getParameter(ID))){
                 setTopicsAttribute(request);
-                return WebPage.TOPICS_ADMIN_PAGE;
+                return WebPage.TOPICS_ADMIN_FORWARD_PAGE;
             }
         } catch (SQLException | UnsuccessfulQueryException | NumberFormatException e) {
             logger.error(e.getMessage());
-            return WebPage.ERROR_ACTION;
+            return WebPage.ERROR_FORWARD_ACTION;
         }
         //if delete was unsuccessful, set the error message and return to the same page
         setErrorMessage(request);
-        return WebPage.TOPICS_ADMIN_PAGE;
+        return WebPage.TOPICS_ADMIN_FORWARD_PAGE;
     }
 
     private void setErrorMessage(HttpServletRequest request){

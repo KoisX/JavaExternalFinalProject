@@ -9,6 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 public class ShowAboutCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        return WebPage.ABOUT_PAGE;
+        return WebPage.ABOUT_FORWARD_PAGE;
     }
 }

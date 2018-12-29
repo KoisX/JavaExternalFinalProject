@@ -63,21 +63,8 @@
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
 </form>
-
-<%--TODO: move script to separate js file--%>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#checkBtn').click(function() {
-            let checked = $("input[type=checkbox]:checked").length;
-
-            if(!checked) {
-                alert("You must check at least one checkbox in each checkbox group!");
-                return false;
-            }
-
-        });
-    });
-</script>
+<script src="${pageContext.request.contextPath}/scripts/validateHtmlForm.js"></script>
+<script src="${pageContext.request.contextPath}/scripts/exam-revision.js"></script>
 
 </body>
 </html>

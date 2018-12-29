@@ -29,7 +29,7 @@ public class ShowTestByTopicCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        WebPage webPage = WebPage.ERROR_ACTION;
+        WebPage webPage = WebPage.ERROR_FORWARD_ACTION;
         if(!setTestsAttribute(request)){
             return webPage;
         }
@@ -55,7 +55,7 @@ public class ShowTestByTopicCommand implements Command {
     private WebPage getTestPageForClient(HttpServletRequest request){
         Role userRole = (Role) request.getSession().getAttribute(ROLE_ATTRIBUTE);
         if(userRole == Role.ADMIN)
-            return WebPage.TESTS_ADMIN_PAGE;
-        return WebPage.TESTS_USER_PAGE;
+            return WebPage.TESTS_ADMIN_FORWARD_PAGE;
+        return WebPage.TESTS_USER_FORWARD_PAGE;
     }
 }

@@ -48,7 +48,7 @@ public class EditStatsCommand implements Command {
         //set error message if model is not valid
         if(!violations.isEmpty()){
             request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
-            return WebPage.STATS_ADMIN_DETAILS;
+            return WebPage.STATS_ADMIN_FORWARD_DETAILS;
         }
 
         return getPageBasedOnWhetherEditIsSuccessful(request, stats);
@@ -85,15 +85,15 @@ public class EditStatsCommand implements Command {
     }
 
     private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Stats stats){
-        WebPage webPage = WebPage.STATS_ACTION;
+        WebPage webPage = WebPage.STATS_FORWARD_ACTION;
         StatsService statsService = new StatsService();
         try {
             if(statsService.updateScore(stats)){
-                webPage.setDoRedirect(true);
+                webPage = WebPage.STATS_REDIRECT_ACTION;
             }
         } catch (SQLException | UnsuccessfulQueryException e) {
             //add filling in stats param!
-            webPage = WebPage.STATS_ADMIN_DETAILS;
+            webPage = WebPage.STATS_ADMIN_FORWARD_DETAILS;
         }
         return webPage;
     }

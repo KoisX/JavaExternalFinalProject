@@ -15,13 +15,13 @@ public class DeleteStatsCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        WebPage webPage = WebPage.STATS_ACTION.setDoRedirect(true);
+        WebPage webPage = WebPage.STATS_REDIRECT_ACTION;
         StatsService statsService = new StatsService();
         String id = request.getParameter(ID);
         try {
             statsService.delete(Integer.parseInt(id));
         } catch (UnsuccessfulQueryException | SQLException e) {
-            webPage = WebPage.ERROR_ACTION.setDoRedirect(true);
+            webPage = WebPage.ERROR_REDIRECT_ACTION;
             return webPage;
         }
         return webPage;

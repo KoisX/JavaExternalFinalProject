@@ -56,24 +56,24 @@ public class UserCreationUtils {
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         if(!violations.isEmpty()){
             request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
-            return WebPage.SIGN_UP_PAGE;
+            return WebPage.SIGN_UP_FORWARD_PAGE;
         }
 
         if(!arePasswordsEqual(user.getPassword(), request.getParameter(PASS_CONFIRM_PARAM))){
             request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.passwordsNotEqual"));
-            return WebPage.SIGN_UP_PAGE;
+            return WebPage.SIGN_UP_FORWARD_PAGE;
         }
 
         if(!validateInDb(user, request)){
-            return WebPage.SIGN_UP_PAGE;
+            return WebPage.SIGN_UP_FORWARD_PAGE;
         }
 
         WebPage resultPage;
         if(insertUser(user)){
-            resultPage = WebPage.LOGIN_ACTION.setDoRedirect(true);
+            resultPage = WebPage.LOGIN_REDIRECT_ACTION;
         }else {
             request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.registrationUnsuccessful"));
-            resultPage = WebPage.SIGN_UP_PAGE;
+            resultPage = WebPage.SIGN_UP_FORWARD_PAGE;
         }
 
         return resultPage;

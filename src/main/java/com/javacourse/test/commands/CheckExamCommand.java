@@ -8,9 +8,11 @@ import com.javacourse.test.task.Task;
 import com.javacourse.test.task.TaskService;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,6 +21,7 @@ public class CheckExamCommand implements Command {
 
     private List<Task> tasks;
     private int maxScore;
+    /*Tasks, in which user made mistakes*/
     private List<Long> wrongTasksIndexes;
     private final static Logger logger;
     private final static String ID_PARAM = "id";
@@ -37,21 +40,36 @@ public class CheckExamCommand implements Command {
         String testId = request.getParameter(ID_PARAM);
 
         if(testId==null)
-            return WebPage.ERROR_ACTION;
+            return WebPage.ERROR_FORWARD_ACTION;
 
         if(!getTasksAndMaxScoreFromDb(testId)){
-            return WebPage.ERROR_ACTION;
+            return WebPage.ERROR_FORWARD_ACTION;
         }
 
         int score = reviseTest(request.getParameterMap());
         setRequestAttributes(request, score);
+
+        //TODO: show mistakes
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("mistakes", wrongTasksIndexes);
+        jsonResponse.put("output", "123");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            response.getWriter().write(jsonResponse.toString());
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException("Could not get response writer");
+        }
+
+
 
 
         //TODO:save result to stats db table
 
         //TODO: send email with result to user
 
-        return WebPage.TEST_USER_RESULTS;
+        return WebPage.TEST_USER_FORWARD_RESULTS;
     }
 
     boolean getTasksAndMaxScoreFromDb(String testId){

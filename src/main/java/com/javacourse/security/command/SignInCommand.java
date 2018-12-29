@@ -43,18 +43,18 @@ public class SignInCommand implements Command {
     }
 
     private WebPage getPageBasedOnWhetherUserExists(HttpServletRequest request){
-        WebPage webPage = WebPage.LOGIN_PAGE;
+        WebPage webPage = WebPage.LOGIN_FORWARD_PAGE;
         try {
             UserService userService = new UserService();
             String hash = PasswordManager.hash(userPassword, userEmail);
             if(userService.doesUserExist(userEmail, hash)){
                 Role role = userService.getUserRoleByEmail(userEmail);
                 setUserAttributes(role, hash, request);
-                webPage = WebPage.INDEX_ACTION.setDoRedirect(true);
+                webPage = WebPage.INDEX_REDIRECT_ACTION;
             }
         }catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
-            webPage = WebPage.ERROR_ACTION;
+            webPage = WebPage.ERROR_FORWARD_ACTION;
         }
         //if logging in is unsuccessful
         setErrorMessage(request);

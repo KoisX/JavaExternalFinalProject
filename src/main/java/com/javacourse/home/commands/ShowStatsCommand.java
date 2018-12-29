@@ -33,10 +33,10 @@ public class ShowStatsCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        WebPage resultingPage = WebPage.STATS_ADMIN_PAGE;
+        WebPage resultingPage = WebPage.STATS_ADMIN_FORWARD_PAGE;
 
         if(!getPageInfo(request)){
-            resultingPage = WebPage.ERROR_ACTION;
+            resultingPage = WebPage.ERROR_FORWARD_ACTION;
             return resultingPage;
         }
 

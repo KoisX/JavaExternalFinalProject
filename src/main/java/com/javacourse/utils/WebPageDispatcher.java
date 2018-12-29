@@ -23,12 +23,12 @@ public class WebPageDispatcher {
 
     public void dispatch() throws ServletException, IOException {
         if(webPage==null || webPage.getPath()==null){
-            request.getRequestDispatcher(getUrl(WebPage.ERROR_ACTION)).forward(request, response);
+            request.getRequestDispatcher(getUrl(WebPage.ERROR_FORWARD_ACTION)).forward(request, response);
             return;
         }
-        if(webPage.isDoRedirect()){
+        if(webPage.getDispatchType() == WebPage.DispatchType.REDIRECT){
             response.sendRedirect(getUrl());
-        }else {
+        }else if(webPage.getDispatchType() == WebPage.DispatchType.FORWARD){
             request.getRequestDispatcher(getUrl()).forward(request, response);
         }
     }
