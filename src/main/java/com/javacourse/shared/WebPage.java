@@ -34,17 +34,13 @@ public enum WebPage {
     INDEX_FORWARD_ACTION("/Home/Index", DispatchType.FORWARD),
     INDEX_REDIRECT_ACTION("/Home/Index", DispatchType.REDIRECT),
     STATS_FORWARD_ACTION("/Home/Stats", DispatchType.FORWARD),
-    STATS_REDIRECT_ACTION("/Home/Stats", DispatchType.REDIRECT);
+    STATS_REDIRECT_ACTION("/Home/Stats", DispatchType.REDIRECT),
+    STAND_STILL_PAGE("", DispatchType.STAND_STILL);
 
     final String path;
     final DispatchType dispatchType;
 
     public enum DispatchType{FORWARD, REDIRECT, STAND_STILL}
-
-    WebPage(String path) {
-        this.path = path;
-        this.dispatchType = DispatchType.FORWARD;
-    }
 
     WebPage(String path, DispatchType dispatchType) {
         this.path = path;

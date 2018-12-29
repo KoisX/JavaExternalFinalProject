@@ -57,11 +57,12 @@ public class CheckExamCommand implements Command {
         response.setCharacterEncoding("UTF-8");
         try {
             response.getWriter().write(jsonResponse.toString());
+            response.getWriter().flush();
         } catch (IOException e) {
             logger.error(e.getMessage());
             throw new RuntimeException("Could not get response writer");
         }
-
+        return WebPage.STAND_STILL_PAGE;
 
 
 
@@ -69,7 +70,7 @@ public class CheckExamCommand implements Command {
 
         //TODO: send email with result to user
 
-        return WebPage.TEST_USER_FORWARD_RESULTS;
+        //return WebPage.TEST_USER_FORWARD_RESULTS;
     }
 
     boolean getTasksAndMaxScoreFromDb(String testId){
