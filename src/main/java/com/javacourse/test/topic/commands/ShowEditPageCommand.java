@@ -7,11 +7,12 @@ import com.javacourse.test.topic.Topic;
 import com.javacourse.test.topic.TopicService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
 public class ShowEditPageCommand implements Command {
     @Override
-    public WebPage execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         WebPage webPage = WebPage.TOPICS_ADMIN_EDIT;
         TopicService topicService = new TopicService();
         try {

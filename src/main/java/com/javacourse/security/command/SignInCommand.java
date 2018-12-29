@@ -11,6 +11,7 @@ import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.Locale;
@@ -34,7 +35,7 @@ public class SignInCommand implements Command {
     }
 
     @Override
-    public WebPage execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         userEmail = request.getParameter(LOGIN_PARAM);
         userPassword = request.getParameter(PASSWORD_PARAM);
         WebPage webPage = getPageBasedOnWhetherUserExists(request);

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowSignInCommand implements Command {
     @Override
-    public WebPage execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         return WebPage.LOGIN_PAGE;
     }
 }

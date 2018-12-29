@@ -8,5 +8,5 @@ import javax.servlet.http.HttpServletResponse;
  * as part of Front Controller J2EE pattern
  */
 public interface Command {
-    WebPage execute(HttpServletRequest request);
+    WebPage execute(HttpServletRequest request, HttpServletResponse response);
 }

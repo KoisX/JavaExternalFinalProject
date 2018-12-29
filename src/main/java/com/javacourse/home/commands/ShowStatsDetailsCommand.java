@@ -8,6 +8,7 @@ import com.javacourse.stats.Stats;
 import com.javacourse.stats.StatsService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
 public class ShowStatsDetailsCommand implements Command {
@@ -16,7 +17,7 @@ public class ShowStatsDetailsCommand implements Command {
     private static final String STAT_PROP = "stat";
 
     @Override
-    public WebPage execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         return getWebPageBasedOnWhetherQueryIsSuccessful(request);
     }
 

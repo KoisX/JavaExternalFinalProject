@@ -11,6 +11,7 @@ import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class ShowTestByTopicCommand implements Command {
     }
 
     @Override
-    public WebPage execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         WebPage webPage = WebPage.ERROR_ACTION;
         if(!setTestsAttribute(request)){
             return webPage;

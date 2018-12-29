@@ -42,7 +42,7 @@ public class AuthorizationServlet extends HttpServlet {
         try{
             CommandFactory factory = new AuthorizationCommandFactory(request, response);
             Command command = factory.defineCommand();
-            resultPage = command.execute(request);
+            resultPage = command.execute(request, response);
         }catch (Exception e){
             resultPage = WebPage.ERROR_ACTION;
         }

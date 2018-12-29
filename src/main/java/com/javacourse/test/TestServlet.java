@@ -40,7 +40,7 @@ public class TestServlet extends HttpServlet {
         try{
             CommandFactory factory = new TestCommandFactory(request, response);
             Command command = factory.defineCommand();
-            resultPage = command.execute(request);
+            resultPage = command.execute(request, response);
         }catch (Exception e){
             resultPage = WebPage.ERROR_ACTION;
             logger.error(e.getMessage());

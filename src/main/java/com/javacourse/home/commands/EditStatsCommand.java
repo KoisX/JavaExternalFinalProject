@@ -12,6 +12,7 @@ import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import java.sql.SQLException;
 import java.util.Set;
@@ -35,7 +36,7 @@ public class EditStatsCommand implements Command {
     }
 
     @Override
-    public WebPage execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Stats stats = constructPartialStatsModel(request);
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
 

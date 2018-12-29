@@ -46,7 +46,7 @@ public class HomeServlet extends HttpServlet {
         try{
             CommandFactory factory = new HomeCommandFactory(request, response);
             Command command = factory.defineCommand();
-            resultPage = command.execute(request);
+            resultPage = command.execute(request, response);
         }catch (Exception e){
             resultPage = WebPage.ERROR_ACTION;
         }

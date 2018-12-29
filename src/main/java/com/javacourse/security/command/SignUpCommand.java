@@ -24,7 +24,7 @@ public class SignUpCommand implements Command {
     private static final String SURNAME_PARAM = "surname";
 
     @Override
-    public WebPage execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         return new UserCreationUtils(request).handleUserInsert(constructUser(request));
     }
 

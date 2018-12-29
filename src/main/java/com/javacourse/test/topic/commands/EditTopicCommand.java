@@ -9,6 +9,7 @@ import com.javacourse.test.topic.Topic;
 import com.javacourse.test.topic.TopicService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class EditTopicCommand implements Command {
     private static final String ERROR_REQUEST_MESSAGE = "error";
 
     @Override
-    public WebPage execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Topic topic = constructTopic(request);
         initLanguageFields((String)request.getSession().getAttribute(LANG_PARAM));
 

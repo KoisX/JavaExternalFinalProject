@@ -6,6 +6,7 @@ import com.javacourse.shared.WebPage;
 import com.javacourse.stats.StatsService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
 public class DeleteStatsCommand implements Command {
@@ -13,7 +14,7 @@ public class DeleteStatsCommand implements Command {
     private static final String ID = "id";
 
     @Override
-    public WebPage execute(HttpServletRequest request) {
+    public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         WebPage webPage = WebPage.STATS_ACTION.setDoRedirect(true);
         StatsService statsService = new StatsService();
         String id = request.getParameter(ID);

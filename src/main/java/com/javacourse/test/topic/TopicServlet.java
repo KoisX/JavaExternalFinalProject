@@ -39,7 +39,7 @@ public class TopicServlet extends HttpServlet {
         try{
             CommandFactory factory = new TopicCommandFactory(request, response);
             Command command = factory.defineCommand();
-            resultPage = command.execute(request);
+            resultPage = command.execute(request, response);
         }catch (Exception e){
             resultPage = WebPage.ERROR_ACTION;
             logger.error(e.getMessage());
