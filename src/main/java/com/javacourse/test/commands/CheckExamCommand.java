@@ -6,7 +6,6 @@ import com.javacourse.shared.WebPage;
 import com.javacourse.test.answer.Answer;
 import com.javacourse.test.task.Task;
 import com.javacourse.test.task.TaskService;
-import com.javacourse.test.topic.commands.ShowTopicsCommand;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -20,11 +19,13 @@ public class CheckExamCommand implements Command {
 
     private List<Task> tasks;
     private int maxScore;
+    private List<Long> wrongTasksIndexes;
     private final static Logger logger;
     private final static String ID_PARAM = "id";
     private final static String TASKS_ATTRIBUTE = "tasks";
     private final static String RESULT_ATTRIBUTE = "result";
     private final static String MAXIMAL_SCORE_ATTRIBUTE = "maximalResult";
+    private final static String WRONG_TASKS = "TASKS_WITH_MISTAKES";
 
     //logger configuration
     static {
@@ -42,7 +43,7 @@ public class CheckExamCommand implements Command {
             return WebPage.ERROR_ACTION;
         }
 
-        int score = calculateTestScore(request.getParameterMap());
+        int score = reviseTest(request.getParameterMap());
         setRequestAttributes(request, score);
 
 
@@ -65,7 +66,8 @@ public class CheckExamCommand implements Command {
         return true;
     }
 
-    int calculateTestScore(Map<String, String[]> paramMap){
+    int reviseTest(Map<String, String[]> paramMap){
+        List<Long> wrongTasks = new ArrayList<>();
         int score = 0;
         for(Task task : tasks){
             String[] userAnswersFromRequest = paramMap.get(getRequestParamInputValue(task));
@@ -76,8 +78,11 @@ public class CheckExamCommand implements Command {
                     .collect(Collectors.toList());
             if(userAnswers.containsAll(correctAnswers)){
                 score += task.getPrice();
+            }else {
+                wrongTasks.add(task.getId());
             }
         }
+        wrongTasksIndexes = wrongTasks;
         return score;
     }
 
@@ -91,5 +96,6 @@ public class CheckExamCommand implements Command {
         request.setAttribute(RESULT_ATTRIBUTE, score);
         request.setAttribute(MAXIMAL_SCORE_ATTRIBUTE, maxScore);
         request.setAttribute(TASKS_ATTRIBUTE, tasks);
+        request.setAttribute(WRONG_TASKS, wrongTasksIndexes);
     }
 }
