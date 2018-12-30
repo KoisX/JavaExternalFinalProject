@@ -19,6 +19,9 @@
 <form method="post" id="exam-form" action="${pageContext.request.contextPath}/Test/Results">
 <div class="container body-content">
     <h1 id="header">Choose correct answer for tests:</h1>
+    <div class="progress" id="progress" style="display: none;">
+        <div class="progress-bar bg-success" id="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
     <div class="list-group">
         <c:forEach var="task" items="${requestScope.tasks}" varStatus="testIndex">
             <div class="list-group-item task-item" id="task_${task.id}">

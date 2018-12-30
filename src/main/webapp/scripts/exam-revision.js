@@ -1,12 +1,17 @@
+let score;
+let maxScore;
 
 $(document).on("submit", "#exam-form", function(event) {
     let $form = $(this);
 
     $.post($form.attr("action"), $form.serialize(), function(responseJson) {
+        score = responseJson.score;
+        maxScore = responseJson.maxScore;
+
         setResultMessage(responseJson)
         setSuccessfulTasks();
         setUnsuccessfulTasks(responseJson);
-        fixFormAppearance();
+        fixFormAppearance(responseJson);
     }, 'json');
 
     event.preventDefault();
@@ -44,7 +49,13 @@ function setUnsuccessfulTasks(responseJson) {
 /**
  * Moves page to top and removes submit button from form
  */
-function fixFormAppearance() {
+function fixFormAppearance(responseJson) {
     $('html, body').animate({ scrollTop: 0 }, 'fast');
     $('#checkBtn').remove();
+    $('#progress-bar').width(getPercentageOfSolvedTasks()+'%');
+    $('#progress').show();
+}
+
+function getPercentageOfSolvedTasks() {
+    return score/maxScore*100;
 }
