@@ -1,0 +1,7 @@
+.unsuccessfulTest{
+    background-color: rgba(255,61,31,0.67);
+}
+
+.successfulTest{
+    background-color: #51ff6d;
+}

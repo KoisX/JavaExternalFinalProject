@@ -15,13 +15,13 @@
 </head>
 <body>
 <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/header.jsp"/>
-
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/exam.css"/>
 <form method="post" id="exam-form" action="${pageContext.request.contextPath}/Test/Results">
 <div class="container body-content">
     <h1 id="header">Choose correct answer for tests:</h1>
     <div class="list-group">
         <c:forEach var="task" items="${requestScope.tasks}" varStatus="testIndex">
-            <div class="list-group-item">
+            <div class="list-group-item task-item" id="task_${task.id}">
                 <fieldset class="form-group">
                     <legend>${testIndex.index+1}. ${task.question} <span class="badge">${task.price} point(s)</span></legend>
                     <input type="hidden" name="id" value="${testId}"/>
