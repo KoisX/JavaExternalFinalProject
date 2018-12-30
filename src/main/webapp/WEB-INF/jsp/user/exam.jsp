@@ -15,7 +15,8 @@
 </head>
 <body>
 <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/header.jsp"/>
-<form method="post" action="${pageContext.request.contextPath}/Test/Results">
+
+<form method="post" id="exam-form" action="${pageContext.request.contextPath}/Test/Results">
 <div class="container body-content">
     <h1>Choose correct answer for tests:</h1>
     <div class="list-group">

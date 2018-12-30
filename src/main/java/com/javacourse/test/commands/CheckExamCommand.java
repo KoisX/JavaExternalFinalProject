@@ -52,7 +52,8 @@ public class CheckExamCommand implements Command {
         //TODO: show mistakes
         JSONObject jsonResponse = new JSONObject();
         jsonResponse.put("mistakes", wrongTasksIndexes);
-        jsonResponse.put("output", "123");
+        jsonResponse.put("score", score);
+        jsonResponse.put("maxScore", maxScore);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try {
