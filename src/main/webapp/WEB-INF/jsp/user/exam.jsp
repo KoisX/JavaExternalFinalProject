@@ -18,7 +18,7 @@
 
 <form method="post" id="exam-form" action="${pageContext.request.contextPath}/Test/Results">
 <div class="container body-content">
-    <h1>Choose correct answer for tests:</h1>
+    <h1 id="header">Choose correct answer for tests:</h1>
     <div class="list-group">
         <c:forEach var="task" items="${requestScope.tasks}" varStatus="testIndex">
             <div class="list-group-item">
