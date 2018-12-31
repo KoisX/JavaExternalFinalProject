@@ -54,8 +54,11 @@ function fixFormAppearance(responseJson) {
     $('#checkBtn').remove();
     $('#progress-bar').width(getPercentageOfSolvedTasks()+'%');
     $('#progress').show();
+    $('form#exam-form :input').attr("disabled", true);
 }
 
 function getPercentageOfSolvedTasks() {
+    if(maxScore===0)
+        return 0;
     return score/maxScore*100;
 }
