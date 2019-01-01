@@ -36,24 +36,16 @@ public class CheckExamCommand implements Command {
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         String testId = request.getParameter(ID_PARAM);
 
-        if(testId==null)
-            return WebPage.ERROR_FORWARD_ACTION;
-
-        if(!getTasksAndMaxScoreFromDb(testId)){
+        if(testId==null || !getTasksAndMaxScoreFromDb(testId)){
             return WebPage.ERROR_FORWARD_ACTION;
         }
         score = reviseTest(request.getParameterMap());
 
-        showExamResult(response);
-
-
-        return WebPage.STAND_STILL_PAGE;
-
-
-
         //TODO:save result to stats db table
-
         //TODO: send email with result to user
+
+        showExamResult(response);
+        return WebPage.STAND_STILL_PAGE;
     }
 
     boolean getTasksAndMaxScoreFromDb(String testId){

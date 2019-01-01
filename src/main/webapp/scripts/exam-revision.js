@@ -54,6 +54,7 @@ function fixFormAppearance(responseJson) {
     $('#checkBtn').remove();
     $('#progress-bar').width(getPercentageOfSolvedTasks()+'%');
     $('#progress').show();
+    $('#email-msg').show();
     $('form#exam-form :input').attr("disabled", true);
 }
 

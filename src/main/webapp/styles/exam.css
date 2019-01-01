@@ -5,3 +5,7 @@
 .successfulTest{
     background-color: #51ff6d;
 }
+
+.email-msg{
+    display: none;
+}
