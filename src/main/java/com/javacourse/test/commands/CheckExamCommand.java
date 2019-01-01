@@ -90,7 +90,8 @@ public class CheckExamCommand implements Command {
         JSONObject jsonResponse = new JSONObject();
         jsonResponse.put("mistakes", wrongTasksIndexes)
                     .put("score", score)
-                    .put("maxScore", maxScore);
+                    .put("maxScore", maxScore)
+                    .put("message", getMessage());
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try {
@@ -100,5 +101,21 @@ public class CheckExamCommand implements Command {
             logger.error(e.getMessage());
             throw new RuntimeException("Could not get response writer");
         }
+    }
+
+    /**
+     * Returns the message to be shown depending on the test result
+     * @return test result summary message
+     */
+    private String getMessage() {
+        //TODO: get msg from resource bundle
+        if(maxScore==0)
+            return "No result";
+        double percentageOfSolvedTasks = ((double)score)/maxScore*100;
+        if(percentageOfSolvedTasks<40)
+            return "You need to study harder!";
+        else if(percentageOfSolvedTasks<75)
+            return "Good work!";
+        else return "Well done!";
     }
 }

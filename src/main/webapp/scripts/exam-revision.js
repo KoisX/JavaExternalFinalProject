@@ -23,7 +23,7 @@ $(document).on("submit", "#exam-form", function(event) {
  * @param responseJson responseJson JSON with the response from server
  */
 function setResultMessage(responseJson) {
-    document.getElementById("header").innerText = "Good work! Result: "+responseJson.score+"/"+responseJson.maxScore;
+    document.getElementById("header").innerText = responseJson.message +" Result: "+responseJson.score+"/"+responseJson.maxScore;
 
 }
 
