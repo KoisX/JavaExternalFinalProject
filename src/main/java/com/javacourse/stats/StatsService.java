@@ -62,4 +62,11 @@ public class StatsService {
             return statsDAO.updateScore(stats);
         }
     }
+
+    public boolean create(Stats entity) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            StatsDAO statsDAO = factory.createStatsDAO(connection);
+            return statsDAO.create(entity);
+        }
+    }
 }

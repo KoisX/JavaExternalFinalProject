@@ -1,11 +1,17 @@
 package com.javacourse.test.commands;
 
+import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
+import com.javacourse.stats.Stats;
+import com.javacourse.stats.StatsService;
+import com.javacourse.test.Test;
 import com.javacourse.test.answer.Answer;
 import com.javacourse.test.task.Task;
 import com.javacourse.test.task.TaskService;
+import com.javacourse.user.User;
+import com.javacourse.user.UserService;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -14,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,7 +48,10 @@ public class CheckExamCommand implements Command {
         }
         score = reviseTest(request.getParameterMap());
 
-        //TODO:save result to stats db table
+        insertTestResultToStats((String) request.getSession()
+                .getAttribute(ApplicationResources
+                .getUserEmail()), Long.parseLong(testId));
+
         //TODO: send email with result to user
 
         showExamResult(response);
@@ -58,6 +68,43 @@ public class CheckExamCommand implements Command {
             return false;
         }
         return true;
+    }
+
+    boolean insertTestResultToStats(String userEmail, long testId){
+        StatsService statsService = new StatsService();
+        boolean res;
+        try {
+            res = statsService.create(constructStatsObject(testId, getUserId(userEmail)));
+        } catch (UnsuccessfulQueryException | SQLException e) {
+            logger.error(e.getMessage());
+            return false;
+        }
+        return res;
+    }
+
+    Stats constructStatsObject(long testId, long userId){
+        Stats stats = new Stats();
+        Test test = new Test();
+        User user = new User();
+        test.setId(testId);
+        user.setId(userId);
+        stats.setTest(test);
+        stats.setUser(user);
+        stats.setScore(Math.round(getPercentageOfSolvedTasks()));
+        stats.setTimePassed(new Timestamp(System.currentTimeMillis()));
+        return stats;
+    }
+
+
+    long getUserId(String email){
+        long id = -1;
+        try{
+            UserService userService = new UserService();
+            id = userService.getUserIdByEmail(email);
+        } catch (UnsuccessfulQueryException | SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return id;
     }
 
     int reviseTest(Map<String, String[]> paramMap){
@@ -111,11 +158,15 @@ public class CheckExamCommand implements Command {
         //TODO: get msg from resource bundle
         if(maxScore==0)
             return "No result";
-        double percentageOfSolvedTasks = ((double)score)/maxScore*100;
+        double percentageOfSolvedTasks = getPercentageOfSolvedTasks();
         if(percentageOfSolvedTasks<40)
             return "You need to study harder!";
         else if(percentageOfSolvedTasks<75)
             return "Good work!";
         else return "Well done!";
+    }
+
+    private double getPercentageOfSolvedTasks(){
+        return ((double)score)/maxScore*100;
     }
 }

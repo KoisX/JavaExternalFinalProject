@@ -25,6 +25,7 @@ public class ApplicationResources {
 
     private final static String DEFAULT_LANG = "en";
     private static final String ERROR_BUNDLE = "error_message";
+    private static final String USER_EMAIL = "login";
 
     /*---------- /Predefined constants -------------*/
 
@@ -46,5 +47,9 @@ public class ApplicationResources {
 
     public static String getErrorBundle() {
         return ERROR_BUNDLE;
+    }
+
+    public static String getUserEmail() {
+        return USER_EMAIL;
     }
 }

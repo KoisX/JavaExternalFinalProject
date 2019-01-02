@@ -63,4 +63,11 @@ public class UserService{
         }
     }
 
+    public long getUserIdByEmail(String email) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            UserDAO userDao = factory.createUserDAO(connection);
+            return userDao.getUserIdByEmail(email);
+        }
+    }
+
 }

@@ -11,4 +11,5 @@ public interface UserDAO extends AbstractDAO<Integer, User> {
     boolean doesUserExist(String email, String password) throws UnsuccessfulQueryException;
     Role getUserRoleByEmail(String email) throws UnsuccessfulQueryException;
     boolean doesUserWithEmailExist(String email) throws UnsuccessfulQueryException;
+    long getUserIdByEmail(String email) throws UnsuccessfulQueryException;
 }

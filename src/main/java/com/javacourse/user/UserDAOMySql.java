@@ -221,6 +221,30 @@ public class UserDAOMySql implements UserDAO {
         return result;
     }
 
+    @Override
+    public long getUserIdByEmail(String email) throws UnsuccessfulQueryException {
+        ResultSet resultSet = null;
+        long result;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT user_account.id as id " +
+                        "from user_account " +
+                        "where user_account.email = ?;"
+        )){
+
+            statement.setString(1,email);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            result = resultSet.getLong("id");
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        finally {
+            closeResultSet(resultSet);
+        }
+        return result;
+    }
+
     public boolean doesUserWithEmailExist(String email) throws UnsuccessfulQueryException {
         ResultSet resultSet = null;
         boolean result;

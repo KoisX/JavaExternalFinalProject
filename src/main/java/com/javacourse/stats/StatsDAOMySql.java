@@ -143,7 +143,21 @@ public class StatsDAOMySql implements StatsDAO {
 
     @Override
     public boolean create(Stats entity) throws UnsuccessfulQueryException {
-        throw new UnsupportedOperationException();
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO stats(user_account_id, test_id, score, time_passed) " +
+                        "values (?,?,?,?);")){
+
+            statement.setLong(1, entity.getUser().getId());
+            statement.setLong(2, entity.getTest().getId());
+            statement.setLong(3,entity.getScore());
+            statement.setTimestamp(4, entity.getTimePassed());
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
     }
 
     public List<Stats> findAllWithPagination(int offset, int recordsPerPage) throws UnsuccessfulQueryException {
