@@ -40,6 +40,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="time" class="col-md-2 control-label">Time</label>
+                        <div class="col-md-10">
+                            <input type="text" id="time" name="time" class="col-md-2 form-control" readonly value="<fmt:formatDate value="${stat.timePassed}" pattern="dd/MM/yyyy HH:mm:ss"/>">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="score" class="col-md-2 control-label">Score</label>
                         <div class="col-md-10">
                             <%--If score value is not valid it will be set to INVALID_SCORE value--%>

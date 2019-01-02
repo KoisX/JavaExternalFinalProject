@@ -40,7 +40,7 @@ public class StatsDAOMySql implements StatsDAO {
         List<Stats> items;
         ResultSet resultSet = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                    "SELECT a.name as name, a.surname as surname, a.email as email, t.header as header, stats.score as score, stats.id as id " +
+                    "SELECT a.name as name, a.surname as surname, a.email as email, t.header as header, stats.score as score, stats.id as id,stats.time_passed as time_passed  " +
                         "from stats " +
                         "INNER JOIN user_account a on stats.user_account_id = a.id " +
                         "INNER JOIN test t on stats.test_id = t.id " +
@@ -84,6 +84,7 @@ public class StatsDAOMySql implements StatsDAO {
             stats.setTest(test);
             stats.setScore(rs.getInt("score"));
             stats.setId(rs.getLong("id"));
+            stats.setTimePassed(rs.getTimestamp("time_passed"));
             items.add(stats);
         }
         return items;
@@ -94,7 +95,7 @@ public class StatsDAOMySql implements StatsDAO {
         Stats stats;
         ResultSet resultSet = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT a.name as name, a.surname as surname, a.email as email, t.header as header, stats.score as score, stats.id as id " +
+                "SELECT a.name as name, a.surname as surname, a.email as email, t.header as header, stats.score as score, stats.id as id ,stats.time_passed as time_passed " +
                         "from stats " +
                         "INNER JOIN user_account a on stats.user_account_id = a.id " +
                         "INNER JOIN test t on stats.test_id = t.id " +
@@ -149,7 +150,8 @@ public class StatsDAOMySql implements StatsDAO {
         List<Stats> items;
         ResultSet resultSet = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                    "SELECT a.name, a.surname, a.email, t.header, stats.score, stats.id from stats " +
+                    "SELECT a.name, a.surname, a.email, t.header, stats.score, stats.id,stats.time_passed as time_passed " +
+                            "FROM stats "+
                             "INNER JOIN user_account a on stats.user_account_id = a.id " +
                             "INNER JOIN test t on stats.test_id = t.id " +
                             "INNER JOIN topic t2 on t.topic_id = t2.id " +

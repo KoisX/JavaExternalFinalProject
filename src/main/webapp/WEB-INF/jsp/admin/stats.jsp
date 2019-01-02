@@ -27,6 +27,7 @@
             <th scope="col">Person</th>
             <th scope="col">Email</th>
             <th scope="col">Test</th>
+            <th scope="col">Date</th>
             <th scope="col">Score</th>
             <th scope="col"></th>
         </tr>
@@ -38,6 +39,7 @@
                 <td>${stat.user.name} ${stat.user.surname}</td>
                 <td>${stat.user.email}</td>
                 <td>${stat.test.header}</td>
+                <td><fmt:formatDate value="${stat.timePassed}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
                 <td>${stat.score}</td>
                 <td>
                     <a href="${pageContext.request.contextPath}/Home/StatsDetails?id=${stat.id}">
