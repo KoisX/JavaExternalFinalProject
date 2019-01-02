@@ -19,6 +19,12 @@
 <div class="container body-content">
     <h1><fmt:message key="msg.header"/></h1>
     <div class="list-group">
+        <c:if test="${not empty error}">
+            <div class="alert alert-warning">
+                <strong>Warning!</strong> ${error}
+            </div>
+        </c:if>
+        <a href="${pageContext.request.contextPath}/Test/Create">Create new</a>
         <c:forEach var="test" items="${requestScope.tests}">
             <a class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal${test.id}" style="cursor: pointer;">
                 <h3>${test.header}</h3>
@@ -38,6 +44,18 @@
                             <p>${test.description}</p>
                         </div>
                         <div class="modal-footer">
+                            <div class="btn-group pull-left" role="group">
+                                <form method="post" action="${pageContext.request.contextPath}/Test/Edit" style="display: inline-block;">
+                                    <input type="hidden" name="command" value="delete"/>
+                                    <input name="id" type="hidden" value="${test.id}"/>
+                                    <input type="submit" value="Delete" class="btn btn-danger">
+                                </form>
+                                <form method="post" action="${pageContext.request.contextPath}/Test/Delete" style="display: inline-block;">
+                                    <input name="id" type="hidden" value="${test.id}"/>
+                                    <input type="submit" value="Edit test" class="btn btn-info">
+                                </form>
+                            </div>
+
                             <a href="${pageContext.request.contextPath}/Test/Exam?id=${test.id}" class="btn btn-success">Start test</a>
                             <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
                         </div>
