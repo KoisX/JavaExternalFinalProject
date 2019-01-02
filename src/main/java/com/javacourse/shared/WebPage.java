@@ -19,6 +19,7 @@ public enum WebPage {
     EXAM_USER_FORWARD_PAGE("/WEB-INF/jsp/user/exam.jsp", DispatchType.FORWARD),
     TESTS_USER_FORWARD_PAGE("/WEB-INF/jsp/user/tests.jsp", DispatchType.FORWARD),
     TESTS_ADMIN_FORWARD_PAGE("/WEB-INF/jsp/admin/tests.jsp", DispatchType.FORWARD),
+    TESTS_ADMIN_REDIRECT_PAGE("/WEB-INF/jsp/admin/tests.jsp", DispatchType.REDIRECT),
     TOPICS_ADMIN_FORWARD_PAGE("/WEB-INF/jsp/admin/topics.jsp", DispatchType.FORWARD),
     TOPICS_USER_FORWARD_PAGE("/WEB-INF/jsp/user/topics.jsp", DispatchType.FORWARD),
     TOPICS_ADMIN_FORWARD_CREATE("/WEB-INF/jsp/admin/topic-create.jsp", DispatchType.FORWARD),

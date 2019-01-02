@@ -45,12 +45,13 @@
                         </div>
                         <div class="modal-footer">
                             <div class="btn-group pull-left" role="group">
-                                <form method="post" action="${pageContext.request.contextPath}/Test/Edit" style="display: inline-block;">
+                                <form method="post" action="${pageContext.request.contextPath}/Test/Delete" style="display: inline-block;">
                                     <input type="hidden" name="command" value="delete"/>
                                     <input name="id" type="hidden" value="${test.id}"/>
+                                    <input name="topicId" type="hidden" value="${topicId}"/>
                                     <input type="submit" value="Delete" class="btn btn-danger">
                                 </form>
-                                <form method="post" action="${pageContext.request.contextPath}/Test/Delete" style="display: inline-block;">
+                                <form method="post" action="${pageContext.request.contextPath}/Test/Edit" style="display: inline-block;">
                                     <input name="id" type="hidden" value="${test.id}"/>
                                     <input type="submit" value="Edit test" class="btn btn-info">
                                 </form>

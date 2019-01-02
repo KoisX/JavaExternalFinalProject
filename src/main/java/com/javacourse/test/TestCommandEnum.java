@@ -19,6 +19,21 @@ public enum TestCommandEnum {
         {
             this.command = new CheckExamCommand();
         }
+    },
+    DELETE_TEST{
+        {
+            this.command = new DeleteTestCommand();
+        }
+    },
+    ADD_TEST{
+        {
+            this.command = new AddTestCommand();
+        }
+    },
+    EDIT_TEST{
+        {
+            this.command = new EditTestCommand();
+        }
     };
     Command command;
     public com.javacourse.shared.Command getCommand(){return command;}

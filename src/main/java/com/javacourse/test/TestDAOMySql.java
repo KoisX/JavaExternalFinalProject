@@ -178,6 +178,20 @@ public class TestDAOMySql implements TestDAO {
         return items;
     }
 
+    @Override
+    public boolean delete(String id) throws UnsuccessfulQueryException {
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "DELETE FROM test WHERE id=? ;")){
+            statement.setString(1, id);
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
+    }
+
     /**
      * Service method for closing ResultSet object entity
      * @param resultSet

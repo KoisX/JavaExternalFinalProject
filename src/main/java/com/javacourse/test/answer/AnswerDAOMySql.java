@@ -52,13 +52,22 @@ public class AnswerDAOMySql implements AnswerDAO{
     }
 
     @Override
-    public Answer findById(Integer id) throws UnsuccessfulQueryException {
+    public Answer findById(Long id) throws UnsuccessfulQueryException {
         return null;
     }
 
     @Override
-    public boolean delete(Integer id) throws UnsuccessfulQueryException {
-        return false;
+    public boolean delete(Long id) throws UnsuccessfulQueryException {
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "DELETE FROM answer WHERE id=? ;")){
+            statement.setLong(1, id);
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
     }
 
     @Override
