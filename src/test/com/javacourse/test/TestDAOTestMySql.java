@@ -44,7 +44,7 @@ public class TestDAOTestMySql {
     @Test
     public void parseToEntityList_getsEntity_returnsCorrectEntity() throws SQLException {
         Topic topic = new Topic(1, "topic");
-        com.javacourse.test.Test test = new com.javacourse.test.Test(1, topic, "description", "header");
+        com.javacourse.test.Test test = new com.javacourse.test.Test(1, topic, "description", "header", true);
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
         when(rs.getLong("id")).thenReturn(test.getId());
@@ -52,6 +52,7 @@ public class TestDAOTestMySql {
         when(rs.getLong("topicId")).thenReturn(topic.getId());
         when(rs.getString("topicName")).thenReturn(topic.getName());
         when(rs.getString("header")).thenReturn(test.getHeader());
+        //when(rs.getString("getIsPublic")).thenReturn(test.getIsPublic());
         List<com.javacourse.test.Test> expected = new LinkedList<>();
         expected.add(test);
         List<com.javacourse.test.Test> actual = testDAOMySql.parseToEntityList(rs);
@@ -67,7 +68,7 @@ public class TestDAOTestMySql {
     @Test
     public void parseSingleEntity_getsEntity_returnsCorrectEntity() throws SQLException {
         Topic topic = new Topic(1, "topic");
-        com.javacourse.test.Test expected = new com.javacourse.test.Test(1, topic, "description", "header");
+        com.javacourse.test.Test expected = new com.javacourse.test.Test(1, topic, "description", "header", true);
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
         when(rs.getLong("id")).thenReturn(expected.getId());
@@ -75,6 +76,7 @@ public class TestDAOTestMySql {
         when(rs.getLong("topicId")).thenReturn(topic.getId());
         when(rs.getString("topicName")).thenReturn(topic.getName());
         when(rs.getString("header")).thenReturn(expected.getHeader());
+        //when(rs.getString("getIsPublic")).thenReturn(expected.getIsPublic());
 
         com.javacourse.test.Test actual = testDAOMySql.parseSingleEntity(rs);
         assertEquals(expected, actual);

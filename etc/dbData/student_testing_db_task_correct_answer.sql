@@ -31,8 +31,8 @@ CREATE TABLE `task_correct_answer` (
   PRIMARY KEY (`id`),
   KEY `fk_task_has_answer_task1_idx` (`task_id`),
   KEY `fk_task_correct_answer_answer1_idx` (`answer_id`),
-  CONSTRAINT `fk_task_correct_answer_answer1` FOREIGN KEY (`answer_id`) REFERENCES `answer` (`id`),
-  CONSTRAINT `fk_task_correct_answer_answer2` FOREIGN KEY (`answer_id`) REFERENCES `answer` (`id`),
+  CONSTRAINT `fk_task_correct_answer_answer1` FOREIGN KEY (`answer_id`) REFERENCES `answer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_task_correct_answer_answer2` FOREIGN KEY (`answer_id`) REFERENCES `answer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_task_correct_answer_task1` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-27 21:04:25
+-- Dump completed on 2019-01-03 14:36:01

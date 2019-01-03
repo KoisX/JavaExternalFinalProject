@@ -29,11 +29,12 @@ CREATE TABLE `test` (
   `topic_id` int(10) unsigned NOT NULL,
   `description` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `header` varchar(100) DEFAULT NULL,
+  `is_public` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_test_topic1_idx` (`topic_id`),
   CONSTRAINT `fk_test_topic1` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +43,7 @@ CREATE TABLE `test` (
 
 LOCK TABLES `test` WRITE;
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
-INSERT INTO `test` VALUES (1,2,'Тест розрахований на студентів першого курсу або людей, які тільки починають вивчати с++, як першу мову програмування. Перевірте свої навички в таких темах, як базові типи даних, розгалуження, цикли, класи, структури та інше. Хочете попрактикуватися з stl? Тоді Вам тед сюди!','Основи С++'),(2,2,'Тест дає можливість перевірити свої знання з .Net: ADO.NET, ASP.NET, ASP.NET MVC, Entity framework, .Net Core. В той же час до складу тесту включені питання з основновних мовних конструкцій','С# середній рівень'),(3,2,'Попрактикуйтеся зі змінними, об\'єктами, DOM-моделлю документа, замиканнями і не тільки...','JavaScript базовий рівень'),(4,2,'Перевірте свої навички фронтенду. Тест розрахований на знання осоновних HTML-тегів, CSS-селекторів, псевдоелеменів, препроцесору LESS, SVG та інше. Основи Bootstrap5 також включені до складу тесту','HTML5 + CSS + LESS'),(5,2,'Тест на знання мови Transact-SQL, MySQL, вміння писати запити різної складності, знання нормальних форм баз даних, вміння працювати з Microsoft SQL Server, MySQL Workbench та інше. Вміння якісно проектувати реляційні бази даних також не завадить у проходженні цього тесту','SQL');
+INSERT INTO `test` VALUES (1,2,'Тест розрахований на студентів першого курсу або людей, які тільки починають вивчати с++, як першу мову програмування. Перевірте свої навички в таких темах, як базові типи даних, розгалуження, цикли, класи, структури та інше. Хочете попрактикуватися з stl? Тоді Вам тед сюди!','Основи С++',1),(2,2,'Тест дає можливість перевірити свої знання з .Net: ADO.NET, ASP.NET, ASP.NET MVC, Entity framework, .Net Core. В той же час до складу тесту включені питання з основновних мовних конструкцій','С# середній рівень',1),(3,2,'Попрактикуйтеся зі змінними, об\'єктами, DOM-моделлю документа, замиканнями і не тільки...','JavaScript базовий рівень',1),(4,2,'Перевірте свої навички фронтенду. Тест розрахований на знання осоновних HTML-тегів, CSS-селекторів, псевдоелеменів, препроцесору LESS, SVG та інше. Основи Bootstrap5 також включені до складу тесту','HTML5 + CSS + LESS',1),(5,2,'Тест на знання мови Transact-SQL, MySQL, вміння писати запити різної складності, знання нормальних форм баз даних, вміння працювати з Microsoft SQL Server, MySQL Workbench та інше. Вміння якісно проектувати реляційні бази даних також не завадить у проходженні цього тесту','SQL',1),(12,60,'123','321',0);
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-27 21:04:25
+-- Dump completed on 2019-01-03 14:36:01

@@ -41,7 +41,7 @@ public class TestDAOMySql implements TestDAO {
         List<Test> items;
         ResultSet resultSet = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT test.id as id, test.description as description, t.id as topicId, t.name as topicName, test.header as header " +
+                "SELECT test.id as id, test.description as description, t.id as topicId, t.name as topicName, test.header as header, test.is_public as isPublic " +
                     "FROM test " +
                     "JOIN topic t on test.topic_id = t.id " +
                     "ORDER BY t.name, test.id;")){
@@ -78,6 +78,7 @@ public class TestDAOMySql implements TestDAO {
             topic.setName(rs.getString("topicName"));
 
             test.setHeader(rs.getString("header"));
+            test.setIsPublic(rs.getBoolean("isPublic"));
             test.setTopic(topic);
             items.add(test);
         }
@@ -89,7 +90,7 @@ public class TestDAOMySql implements TestDAO {
         Test test;
         ResultSet resultSet = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT test.id as id, test.description as description, t.id as topicId, t.name as topicName, test.header as header " +
+                "SELECT test.id as id, test.description as description, t.id as topicId, t.name as topicName, test.header as header, test.is_public as isPublic  " +
                         "FROM test " +
                         "JOIN topic t on test.topic_id = t.id " +
                         "WHERE test.id = ? ;")){
@@ -161,7 +162,7 @@ public class TestDAOMySql implements TestDAO {
         List<Test> items;
         ResultSet resultSet = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                    "SELECT test.id as id, test.description as description, t.id as topicId, t.name as topicName, test.header as header " +
+                    "SELECT test.id as id, test.description as description, t.id as topicId, t.name as topicName, test.header as header, test.is_public as isPublic  " +
                         "FROM test " +
                         "JOIN topic t on test.topic_id = t.id " +
                         "WHERE test.topic_id = ? ")){

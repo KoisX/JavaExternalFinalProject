@@ -19,14 +19,17 @@ public class Test implements Entity {
 
   private String description;
 
+  private boolean isPublic;
+
   @Size(min=3, max=100, message = "{msg.emptyFields}")
   private String header;
 
-  public Test(long id, Topic topic, String description, String header) {
+  public Test(long id, Topic topic, String description, String header, boolean isPublic) {
     this.id = id;
     this.topic = topic;
     this.description = description;
     this.header = header;
+    this.isPublic = isPublic;
   }
 
   public Test() {
@@ -67,6 +70,14 @@ public class Test implements Entity {
     this.header = header;
   }
 
+  public boolean getIsPublic() {
+    return isPublic;
+  }
+
+  public void setIsPublic(boolean aPublic) {
+    isPublic = aPublic;
+  }
+
   @Override
   public String toString() {
     final StringBuffer sb = new StringBuffer("Test{");
@@ -74,6 +85,7 @@ public class Test implements Entity {
     sb.append(", topic=").append(topic);
     sb.append(", description='").append(description).append('\'');
     sb.append(", header=").append(header);
+    sb.append(", getIsPublic=").append(isPublic);
     sb.append('}');
     return sb.toString();
   }
@@ -86,11 +98,12 @@ public class Test implements Entity {
     return id == test.id &&
             topic.equals(test.topic) &&
             description.equals(test.description) &&
-            header.equals(test.header);
+            header.equals(test.header) &&
+            isPublic == test.isPublic;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, topic, description, header);
+    return Objects.hash(id, topic, description, header, isPublic);
   }
 }

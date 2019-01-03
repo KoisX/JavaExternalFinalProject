@@ -1420,12 +1420,16 @@
       <RefSchemaName>student_testing_db</RefSchemaName>
       <RefTableName>answer</RefTableName>
       <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
     <foreign-key id="341" parent="286" name="fk_task_correct_answer_answer2">
       <ColNames>answer_id</ColNames>
       <RefSchemaName>student_testing_db</RefSchemaName>
       <RefTableName>answer</RefTableName>
       <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
     <column id="342" parent="287" name="id">
       <Position>1</Position>
@@ -1498,25 +1502,31 @@
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="354" parent="288" name="id_UNIQUE">
+    <column id="354" parent="288" name="is_public">
+      <Position>5</Position>
+      <DataType>tinyint(4)|0s</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="355" parent="288" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="355" parent="288" name="fk_test_topic1_idx">
+    <index id="356" parent="288" name="fk_test_topic1_idx">
       <ColNames>topic_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="356" parent="288" name="PRIMARY">
+    <key id="357" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="357" parent="288" name="id_UNIQUE">
+    <key id="358" parent="288" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <foreign-key id="358" parent="288" name="fk_test_topic1">
+    <foreign-key id="359" parent="288" name="fk_test_topic1">
       <ColNames>topic_id</ColNames>
       <RefSchemaName>student_testing_db</RefSchemaName>
       <RefTableName>topic</RefTableName>
@@ -1524,116 +1534,116 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="359" parent="289" name="id">
+    <column id="360" parent="289" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="360" parent="289" name="name">
+    <column id="361" parent="289" name="name">
       <Position>2</Position>
       <DataType>varchar(250)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="361" parent="289" name="id_UNIQUE">
+    <index id="362" parent="289" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="362" parent="289" name="name_UNIQUE">
+    <index id="363" parent="289" name="name_UNIQUE">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="363" parent="289" name="PRIMARY">
+    <key id="364" parent="289" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="364" parent="289" name="id_UNIQUE">
+    <key id="365" parent="289" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="365" parent="289" name="name_UNIQUE">
+    <key id="366" parent="289" name="name_UNIQUE">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name_UNIQUE</UnderlyingIndexName>
     </key>
-    <column id="366" parent="290" name="id">
+    <column id="367" parent="290" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="367" parent="290" name="name">
+    <column id="368" parent="290" name="name">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="368" parent="290" name="surname">
+    <column id="369" parent="290" name="surname">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="369" parent="290" name="email">
+    <column id="370" parent="290" name="email">
       <Position>4</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="370" parent="290" name="role_id">
+    <column id="371" parent="290" name="role_id">
       <Position>5</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="371" parent="290" name="password">
+    <column id="372" parent="290" name="password">
       <Position>6</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="372" parent="290" name="id_UNIQUE">
+    <index id="373" parent="290" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="373" parent="290" name="email_UNIQUE">
+    <index id="374" parent="290" name="email_UNIQUE">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="374" parent="290" name="password_UNIQUE">
+    <index id="375" parent="290" name="password_UNIQUE">
       <ColNames>password</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="375" parent="290" name="fk_user_account_role1_idx">
+    <index id="376" parent="290" name="fk_user_account_role1_idx">
       <ColNames>role_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="376" parent="290" name="PRIMARY">
+    <key id="377" parent="290" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="377" parent="290" name="id_UNIQUE">
+    <key id="378" parent="290" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="378" parent="290" name="email_UNIQUE">
+    <key id="379" parent="290" name="email_UNIQUE">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>email_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="379" parent="290" name="password_UNIQUE">
+    <key id="380" parent="290" name="password_UNIQUE">
       <ColNames>password</ColNames>
       <UnderlyingIndexName>password_UNIQUE</UnderlyingIndexName>
     </key>
-    <foreign-key id="380" parent="290" name="fk_user_account_role1">
+    <foreign-key id="381" parent="290" name="fk_user_account_role1">
       <ColNames>role_id</ColNames>
       <RefSchemaName>student_testing_db</RefSchemaName>
       <RefTableName>role</RefTableName>
