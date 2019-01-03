@@ -27,7 +27,12 @@
         <a href="${pageContext.request.contextPath}/Test/Create">Create new</a>
         <c:forEach var="test" items="${requestScope.tests}">
             <a class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal${test.id}" style="cursor: pointer;">
-                <h3>${test.header}</h3>
+                <h3>
+                    ${test.header}
+                    <c:if test="${test.isPublic == false}">
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                    </c:if>
+                </h3>
                 <p>${test.description}</p>
             </a>
             <!-- Modal -->
