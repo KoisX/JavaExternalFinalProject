@@ -70,4 +70,11 @@ public class TestService {
             return true;
         }
     }
+
+    public Test findById(String id) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            TestDAO testDao = factory.createTestDAO(connection);
+            return testDao.findById(Integer.parseInt(id));
+        }
+    }
 }

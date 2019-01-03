@@ -57,7 +57,7 @@
                                     <input type="submit" value="Delete" class="btn btn-danger">
                                 </form>
                                 <div style="display: inline-block;">
-                                    <a href="${pageContext.request.contextPath}/Test/Details/id=${test.id}" class="btn btn-info">Edit test</a>
+                                    <a href="${pageContext.request.contextPath}/Test/Details?id=${test.id}" class="btn btn-info">Edit test</a>
                                 </div>
                             </div>
 
