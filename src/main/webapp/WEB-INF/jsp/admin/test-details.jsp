@@ -19,6 +19,24 @@
     <div class="well">
         <h1 align="center" style="text-transform: uppercase;">Test constructor</h1>
     </div>
+    <c:if test="${test.isPublic == false}">
+        <div class="alert alert-info">
+            <p><strong>Attention!</strong> This test is <strong>NOT</strong> public!</p>
+            <form method="post" action="#">
+                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                <button type="submit" class="btn btn-link"><i>Grant public access</i></button>
+            </form>
+        </div>
+    </c:if>
+    <c:if test="${test.isPublic == true}">
+        <div class="alert alert-info">
+            <p><strong>Attention!</strong> This test is public!</p>
+            <form method="post" action="#">
+                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                <button type="submit" class="btn btn-link"><i>Grant private access</i></button>
+            </form>
+        </div>
+    </c:if>
     <div class="panel-group">
         <div class="panel panel-default">
             <div class="panel-heading"><h4 style="display: inline-block;"><b>Test header</b></h4> <a href="${pageContext.request.contextPath}/Test/HeaderEdit?id=${test.id}">Edit</a></div>
