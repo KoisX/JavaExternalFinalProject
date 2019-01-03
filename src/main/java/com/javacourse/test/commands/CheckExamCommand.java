@@ -56,7 +56,7 @@ public class CheckExamCommand implements Command {
         //TODO: send email with result to user
 
         showExamResult(response);
-        return new WebPage(WebPageBase.STAND_STILL_PAGE);
+        return new WebPage(WebPageBase.STAND_STILL_PAGE).setDispatchType(DispatchType.STAND_STILL);
     }
 
     boolean getTasksAndMaxScoreFromDb(String testId){
