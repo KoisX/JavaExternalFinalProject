@@ -56,10 +56,9 @@
                                     <input name="topicId" type="hidden" value="${topicId}"/>
                                     <input type="submit" value="Delete" class="btn btn-danger">
                                 </form>
-                                <form method="post" action="${pageContext.request.contextPath}/Test/Edit" style="display: inline-block;">
-                                    <input name="id" type="hidden" value="${test.id}"/>
-                                    <input type="submit" value="Edit test" class="btn btn-info">
-                                </form>
+                                <div style="display: inline-block;">
+                                    <a href="${pageContext.request.contextPath}/Test/Details/id=${test.id}" class="btn btn-info">Edit test</a>
+                                </div>
                             </div>
 
                             <a href="${pageContext.request.contextPath}/Test/Exam?id=${test.id}" class="btn btn-success">Start test</a>

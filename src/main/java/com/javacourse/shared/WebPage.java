@@ -58,6 +58,8 @@ public class WebPage{
         TOPICS_ADMIN_EDIT("/WEB-INF/jsp/admin/topic-edit.jsp"),
         STATS_ADMIN_DETAILS("/WEB-INF/jsp/admin/stats-detail.jsp"),
         TEST_USER_RESULTS("/WEB-INF/jsp/user/exam-results.jsp"),
+        TEST_ADMIN_ADD_PAGE("/WEB-INF/jsp/admin/test-create.jsp"),
+        TEST_ADMIN_DETAILS_PAGE("/WEB-INF/jsp/admin/test-details.jsp"),
         ERROR_ACTION("/Error"),
         LOGIN_ACTION("/Login/SignIn"),
         TOPICS_ACTION("/Topic/List"),

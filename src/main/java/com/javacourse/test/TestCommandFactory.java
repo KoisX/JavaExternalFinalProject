@@ -2,6 +2,7 @@ package com.javacourse.test;
 
 import com.javacourse.shared.Command;
 import com.javacourse.shared.CommandFactory;
+import com.javacourse.shared.web.HttpMethod;
 import com.javacourse.test.topic.TopicCommandEnum;
 import com.javacourse.utils.UriMarshaller;
 
@@ -26,10 +27,12 @@ public class TestCommandFactory extends CommandFactory {
                 return TestCommandEnum.CHECK_TEST.getCommand();
             case "Delete":
                 return TestCommandEnum.DELETE_TEST.getCommand();
-            case "Edit":
-                return TestCommandEnum.EDIT_TEST.getCommand();
+            case "Details":
+                return TestCommandEnum.SHOW_TEST_DETAILS.getCommand();
             case "Create":
-                return TestCommandEnum.ADD_TEST.getCommand();
+                return HttpMethod.isGet(request.getMethod()) ?
+                        TestCommandEnum.SHOW_ADD_TEST.getCommand():
+                        TestCommandEnum.ADD_TEST.getCommand();
             default:
                 return TopicCommandEnum.SHOW_TOPICS.getCommand();
         }
