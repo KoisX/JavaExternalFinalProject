@@ -43,6 +43,26 @@ public enum TestCommandEnum {
         {
             this.command = new ShowTestDetailsCommand();
         }
+    },
+    SHOW_EDIT_TEST_HEADER {
+        {
+            this.command = new ShowEditTestHeaderCommand();
+        }
+    },
+    EDIT_HEADER{
+        {
+            this.command = new EditHeaderCommand();
+        }
+    },
+    SHOW_EDIT_TEST_DESCRIPTION {
+        {
+            this.command = new ShowEditTestDescriptionCommand();
+        }
+    },
+    EDIT_DESCRIPTION{
+        {
+            this.command = new EditDescriptionCommand();
+        }
     };
     Command command;
     public com.javacourse.shared.Command getCommand(){return command;}

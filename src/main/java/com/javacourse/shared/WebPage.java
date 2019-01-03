@@ -60,6 +60,8 @@ public class WebPage{
         TEST_USER_RESULTS("/WEB-INF/jsp/user/exam-results.jsp"),
         TEST_ADMIN_ADD_PAGE("/WEB-INF/jsp/admin/test-create.jsp"),
         TEST_ADMIN_DETAILS_PAGE("/WEB-INF/jsp/admin/test-details.jsp"),
+        TEST_ADMIN_EDIT_HEADER("/WEB-INF/jsp/admin/test-header-edit.jsp"),
+        TEST_ADMIN_EDIT_DESCRIPTION("/WEB-INF/jsp/admin/test-description-edit.jsp"),
         ERROR_ACTION("/Error"),
         LOGIN_ACTION("/Login/SignIn"),
         TOPICS_ACTION("/Topic/List"),

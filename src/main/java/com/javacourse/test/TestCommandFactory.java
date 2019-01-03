@@ -33,6 +33,14 @@ public class TestCommandFactory extends CommandFactory {
                 return HttpMethod.isGet(request.getMethod()) ?
                         TestCommandEnum.SHOW_ADD_TEST.getCommand():
                         TestCommandEnum.ADD_TEST.getCommand();
+            case "HeaderEdit":
+                return HttpMethod.isGet(request.getMethod()) ?
+                        TestCommandEnum.SHOW_EDIT_TEST_HEADER.getCommand():
+                        TestCommandEnum.EDIT_HEADER.getCommand();
+            case "DescriptionEdit":
+                return HttpMethod.isGet(request.getMethod()) ?
+                        TestCommandEnum.SHOW_EDIT_TEST_DESCRIPTION.getCommand():
+                        TestCommandEnum.EDIT_DESCRIPTION.getCommand();
             default:
                 return TopicCommandEnum.SHOW_TOPICS.getCommand();
         }
