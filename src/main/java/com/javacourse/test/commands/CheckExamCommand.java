@@ -118,7 +118,7 @@ public class CheckExamCommand implements Command {
                     .stream()
                     .map(Answer::getValue)
                     .collect(Collectors.toList());
-            if(userAnswers.containsAll(correctAnswers)){
+            if(userAnswers.containsAll(correctAnswers) && userAnswers.size()==correctAnswers.size()){
                 score += task.getPrice();
             }else {
                 wrongTasks.add(task.getId());
