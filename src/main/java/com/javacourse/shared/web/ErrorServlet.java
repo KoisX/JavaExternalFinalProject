@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import static com.javacourse.shared.WebPage.WebPageBase;
 
 /**
  * Controller responsible for handling error situations
@@ -28,6 +29,6 @@ public class ErrorServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        new WebPageDispatcher(req, resp, WebPage.ERROR_FORWARD_PAGE).dispatch();
+        new WebPageDispatcher(req, resp, new WebPage(WebPageBase.ERROR_PAGE)).dispatch();
     }
 }

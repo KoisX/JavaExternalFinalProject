@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import static com.javacourse.shared.WebPage.WebPageBase;
 
 @WebServlet(name = "TestServlet", urlPatterns = {"/Test/*"})
 public class TestServlet extends HttpServlet {
@@ -41,7 +42,7 @@ public class TestServlet extends HttpServlet {
             Command command = factory.defineCommand();
             resultPage = command.execute(request, response);
         }catch (Exception e){
-            resultPage = WebPage.ERROR_FORWARD_ACTION;
+            resultPage = new WebPage(WebPageBase.ERROR_ACTION);
             logger.error(e.getMessage());
         }
         new WebPageDispatcher(request, response, resultPage).dispatch();

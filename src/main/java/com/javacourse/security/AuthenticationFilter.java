@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import static com.javacourse.shared.WebPage.*;
 
 @WebFilter(filterName = "AuthenticationFilter",
         urlPatterns = {"/Home/Stats/*", "/WEB_INF/*"})
@@ -30,13 +31,15 @@ public class AuthenticationFilter implements Filter {
         if(isLoggedIn(session)){
             Role role = (Role) session.getAttribute(ROLE_PARAM);
             if(role != Role.ADMIN){
-                page  = WebPage.ERROR_REDIRECT_PAGE;
+                page  = new WebPage(WebPageBase.ERROR_PAGE)
+                        .setDispatchType(DispatchType.REDIRECT);
             } else{
                 chain.doFilter(req, resp);
                 return;
             }
         }else {
-            page = WebPage.LOGIN_REDIRECT_ACTION;
+            page = new WebPage(WebPageBase.LOGIN_ACTION)
+                    .setDispatchType(DispatchType.REDIRECT);
         }
         new WebPageDispatcher(request, response, page).dispatch();
 

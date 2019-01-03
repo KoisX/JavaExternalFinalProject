@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
+import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class ShowTopicsCommand implements Command {
 
@@ -27,7 +28,7 @@ public class ShowTopicsCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        WebPage page = WebPage.ERROR_FORWARD_PAGE;
+        WebPage page = new WebPage(WebPageBase.ERROR_PAGE);
         if(!setTopicsAttribute(request)){
             return page;
         }
@@ -50,7 +51,7 @@ public class ShowTopicsCommand implements Command {
     private WebPage getTopicPageForClient(HttpServletRequest request){
         Role userRole = (Role) request.getSession().getAttribute(ROLE_ATTRIBUTE);
         if(userRole == Role.ADMIN)
-            return WebPage.TOPICS_ADMIN_FORWARD_PAGE;
-        return WebPage.TOPICS_USER_FORWARD_PAGE;
+            return new WebPage(WebPageBase.TOPICS_ADMIN_PAGE);
+        return new WebPage(WebPageBase.TOPICS_USER_PAGE);
     }
 }

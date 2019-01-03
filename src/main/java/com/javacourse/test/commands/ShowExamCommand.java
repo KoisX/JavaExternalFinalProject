@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
+import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class ShowExamCommand implements Command {
 
@@ -28,11 +29,11 @@ public class ShowExamCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        WebPage webPage = WebPage.ERROR_FORWARD_ACTION;
+        WebPage webPage = new WebPage(WebPageBase.ERROR_ACTION);
         if(!setTasksAttribute(request)){
             return webPage;
         }
-        return WebPage.EXAM_USER_FORWARD_PAGE;
+        return new WebPage(WebPageBase.EXAM_USER_PAGE);
     }
 
     private boolean setTasksAttribute(HttpServletRequest request){

@@ -9,6 +9,7 @@ import com.javacourse.stats.StatsService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class ShowStatsDetailsCommand implements Command {
 
@@ -21,14 +22,14 @@ public class ShowStatsDetailsCommand implements Command {
     }
 
     private WebPage getWebPageBasedOnWhetherQueryIsSuccessful(HttpServletRequest request){
-        WebPage webPage = WebPage.STATS_ADMIN_FORWARD_DETAILS;
+        WebPage webPage = new WebPage(WebPageBase.STATS_ADMIN_DETAILS);
         StatsService statsService = new StatsService();
         try {
             String id = request.getParameter(ID);
             Stats stats = statsService.findById(Integer.parseInt(id));
             request.setAttribute(STAT_PROP, stats);
         } catch (UnsuccessfulQueryException | SQLException | NumberFormatException e) {
-            webPage = WebPage.ERROR_FORWARD_ACTION;
+            webPage = new WebPage(WebPageBase.ERROR_ACTION);
         }
         return webPage;
     }

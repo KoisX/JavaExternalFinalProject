@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+import static com.javacourse.shared.WebPage.WebPageBase;
 /**
  * Servlet responsible for rounting "general" pages:
  * /Home/Index
@@ -47,7 +47,7 @@ public class HomeServlet extends HttpServlet {
             Command command = factory.defineCommand();
             resultPage = command.execute(request, response);
         }catch (Exception e){
-            resultPage = WebPage.ERROR_FORWARD_ACTION;
+            resultPage = new WebPage(WebPageBase.ERROR_ACTION);
         }
         new WebPageDispatcher(request, response, resultPage).dispatch();
     }

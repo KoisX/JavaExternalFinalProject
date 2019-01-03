@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
+import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class ShowStatsCommand implements Command {
 
@@ -33,10 +34,10 @@ public class ShowStatsCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        WebPage resultingPage = WebPage.STATS_ADMIN_FORWARD_PAGE;
+        WebPage resultingPage = new WebPage(WebPageBase.STATS_ADMIN_PAGE);
 
         if(!getPageInfo(request)){
-            resultingPage = WebPage.ERROR_FORWARD_ACTION;
+            resultingPage = new WebPage(WebPageBase.ERROR_ACTION);
             return resultingPage;
         }
 

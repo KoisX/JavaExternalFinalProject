@@ -23,7 +23,7 @@ public class WebPageDispatcher {
 
     public void dispatch() throws ServletException, IOException {
         if(webPage==null || webPage.getPath()==null){
-            request.getRequestDispatcher(getUrl(WebPage.ERROR_FORWARD_ACTION)).forward(request, response);
+            request.getRequestDispatcher(getUrl(new WebPage(WebPage.WebPageBase.ERROR_ACTION))).forward(request, response);
             return;
         }
         if(webPage.getDispatchType() == WebPage.DispatchType.REDIRECT){

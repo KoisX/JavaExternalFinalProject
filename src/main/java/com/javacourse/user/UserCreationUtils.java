@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
+import static com.javacourse.shared.WebPage.WebPageBase;
 
 /**
  * Helper class for signing up new users.
@@ -56,24 +57,24 @@ public class UserCreationUtils {
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         if(!violations.isEmpty()){
             request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
-            return WebPage.SIGN_UP_FORWARD_PAGE;
+            return new WebPage(WebPageBase.SIGN_UP_PAGE);
         }
 
         if(!arePasswordsEqual(user.getPassword(), request.getParameter(PASS_CONFIRM_PARAM))){
             request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.passwordsNotEqual"));
-            return WebPage.SIGN_UP_FORWARD_PAGE;
+            return new WebPage(WebPageBase.SIGN_UP_PAGE);
         }
 
         if(!validateInDb(user, request)){
-            return WebPage.SIGN_UP_FORWARD_PAGE;
+            return new WebPage(WebPageBase.SIGN_UP_PAGE);
         }
 
         WebPage resultPage;
         if(insertUser(user)){
-            resultPage = WebPage.LOGIN_REDIRECT_ACTION;
+            resultPage = new WebPage(WebPageBase.LOGIN_ACTION).setDispatchType(WebPage.DispatchType.REDIRECT);
         }else {
             request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.registrationUnsuccessful"));
-            resultPage = WebPage.SIGN_UP_FORWARD_PAGE;
+            resultPage = new WebPage(WebPageBase.SIGN_UP_PAGE);
         }
 
         return resultPage;

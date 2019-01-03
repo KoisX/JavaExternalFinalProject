@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import static com.javacourse.shared.WebPage.*;
 
 public class DeleteTopicCommand implements Command {
 
@@ -42,15 +43,15 @@ public class DeleteTopicCommand implements Command {
             //if delete is successful, update topics request param and return topics page
             if(topicService.delete(request.getParameter(ID))){
                 setTopicsAttribute(request);
-                return WebPage.TOPICS_ADMIN_FORWARD_PAGE;
+                return new WebPage(WebPageBase.TOPICS_ADMIN_PAGE);
             }
         } catch (SQLException | UnsuccessfulQueryException | NumberFormatException e) {
             logger.error(e.getMessage());
-            return WebPage.ERROR_FORWARD_ACTION;
+            return new WebPage(WebPageBase.ERROR_ACTION);
         }
         //if delete was unsuccessful, set the error message and return to the same page
         setErrorMessage(request);
-        return WebPage.TOPICS_ADMIN_FORWARD_PAGE;
+        return new WebPage(WebPageBase.TOPICS_ADMIN_PAGE);
     }
 
     private void setErrorMessage(HttpServletRequest request){

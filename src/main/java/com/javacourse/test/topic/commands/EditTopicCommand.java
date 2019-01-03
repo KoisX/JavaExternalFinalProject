@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
+import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class EditTopicCommand implements Command {
 
@@ -39,7 +40,7 @@ public class EditTopicCommand implements Command {
         //set error message if model is not valid
         if(!violations.isEmpty()){
             request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
-            return WebPage.TOPICS_ADMIN_FORWARD_EDIT;
+            return new WebPage(WebPageBase.TOPICS_ADMIN_EDIT);
         }
 
         return getPageBasedOnWhetherEditIsSuccessful(request, topic);
@@ -72,15 +73,16 @@ public class EditTopicCommand implements Command {
     }
 
     private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Topic topic){
-        WebPage webPage = WebPage.TOPICS_FORWARD_ACTION;
+        WebPage webPage = new WebPage(WebPageBase.TOPICS_ACTION);
         TopicService topicService = new TopicService();
         try {
             if(topicService.update(topic)){
-                webPage = WebPage.TOPICS_REDIRECT_ACTION;
+                webPage = new WebPage(WebPageBase.TOPICS_ACTION)
+                        .setDispatchType(WebPage.DispatchType.REDIRECT);
             }
         } catch (SQLException | UnsuccessfulQueryException e) {
             setErrorRequestAttributes(request, topic);
-            webPage = WebPage.TOPICS_ADMIN_FORWARD_EDIT;
+            webPage = new WebPage(WebPageBase.TOPICS_ADMIN_EDIT);
         }
         return webPage;
     }

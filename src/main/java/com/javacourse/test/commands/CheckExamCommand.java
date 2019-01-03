@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
+import static com.javacourse.shared.WebPage.*;
 
 public class CheckExamCommand implements Command {
 
@@ -44,7 +45,7 @@ public class CheckExamCommand implements Command {
         String testId = request.getParameter(ID_PARAM);
 
         if(testId==null || !getTasksAndMaxScoreFromDb(testId)){
-            return WebPage.ERROR_FORWARD_ACTION;
+            return new WebPage(WebPageBase.ERROR_ACTION);
         }
         score = reviseTest(request.getParameterMap());
 
@@ -55,7 +56,7 @@ public class CheckExamCommand implements Command {
         //TODO: send email with result to user
 
         showExamResult(response);
-        return WebPage.STAND_STILL_PAGE;
+        return new WebPage(WebPageBase.STAND_STILL_PAGE);
     }
 
     boolean getTasksAndMaxScoreFromDb(String testId){

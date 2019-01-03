@@ -8,6 +8,7 @@ import com.javacourse.stats.StatsService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class DeleteStatsCommand implements Command {
 
@@ -15,13 +16,15 @@ public class DeleteStatsCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        WebPage webPage = WebPage.STATS_REDIRECT_ACTION;
+        WebPage webPage = new WebPage(WebPageBase.STATS_ACTION)
+                .setDispatchType(WebPage.DispatchType.REDIRECT);
         StatsService statsService = new StatsService();
         String id = request.getParameter(ID);
         try {
             statsService.delete(Integer.parseInt(id));
         } catch (UnsuccessfulQueryException | SQLException e) {
-            webPage = WebPage.ERROR_REDIRECT_ACTION;
+            webPage = new WebPage(WebPageBase.ERROR_ACTION)
+                    .setDispatchType(WebPage.DispatchType.REDIRECT);
             return webPage;
         }
         return webPage;

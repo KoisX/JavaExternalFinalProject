@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import java.sql.SQLException;
 import java.util.Set;
+import static com.javacourse.shared.WebPage.*;
 
 public class EditStatsCommand implements Command {
 
@@ -48,7 +49,7 @@ public class EditStatsCommand implements Command {
         //set error message if model is not valid
         if(!violations.isEmpty()){
             request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
-            return WebPage.STATS_ADMIN_FORWARD_DETAILS;
+            return new WebPage(WebPageBase.STATS_ADMIN_DETAILS);
         }
 
         return getPageBasedOnWhetherEditIsSuccessful(request, stats);
@@ -85,15 +86,16 @@ public class EditStatsCommand implements Command {
     }
 
     private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Stats stats){
-        WebPage webPage = WebPage.STATS_FORWARD_ACTION;
+        WebPage webPage = new WebPage(WebPageBase.STATS_ACTION);
         StatsService statsService = new StatsService();
         try {
             if(statsService.updateScore(stats)){
-                webPage = WebPage.STATS_REDIRECT_ACTION;
+                webPage = new WebPage(WebPageBase.STATS_ACTION)
+                        .setDispatchType(DispatchType.REDIRECT);
             }
         } catch (SQLException | UnsuccessfulQueryException e) {
             //add filling in stats param!
-            webPage = WebPage.STATS_ADMIN_FORWARD_DETAILS;
+            webPage = new WebPage(WebPageBase.STATS_ADMIN_DETAILS);
         }
         return webPage;
     }

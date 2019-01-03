@@ -6,6 +6,7 @@ import com.javacourse.shared.WebPage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class LogoutCommand implements Command {
 
@@ -17,7 +18,7 @@ public class LogoutCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         finishRequestSession(request);
-        return WebPage.INDEX_REDIRECT_ACTION;
+        return new WebPage(WebPageBase.INDEX_ACTION).setDispatchType(WebPage.DispatchType.REDIRECT);
     }
 
     private void finishRequestSession(HttpServletRequest request){

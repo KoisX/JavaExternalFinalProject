@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class SignInCommand implements Command {
 
@@ -43,18 +44,18 @@ public class SignInCommand implements Command {
     }
 
     private WebPage getPageBasedOnWhetherUserExists(HttpServletRequest request){
-        WebPage webPage = WebPage.LOGIN_FORWARD_PAGE;
+        WebPage webPage = new WebPage(WebPageBase.LOGIN_PAGE);
         try {
             UserService userService = new UserService();
             String hash = PasswordManager.hash(userPassword, userEmail);
             if(userService.doesUserExist(userEmail, hash)){
                 Role role = userService.getUserRoleByEmail(userEmail);
                 setUserAttributes(role, hash, request);
-                webPage = WebPage.INDEX_REDIRECT_ACTION;
+                webPage = new WebPage(WebPageBase.INDEX_ACTION).setDispatchType(WebPage.DispatchType.REDIRECT);
             }
         }catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
-            webPage = WebPage.ERROR_FORWARD_ACTION;
+            webPage = new WebPage(WebPageBase.ERROR_ACTION);
         }
         //if logging in is unsuccessful
         setErrorMessage(request);
