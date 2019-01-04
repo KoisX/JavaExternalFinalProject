@@ -138,11 +138,13 @@ public class TestDAOMySql implements TestDAO {
     public boolean create(Test entity) throws UnsuccessfulQueryException {
         int changes = 0;
         try(PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO test(topic_id, description)" +
-                    " VALUES (?,?);")){
+                "INSERT INTO test(topic_id, description, is_public, header)" +
+                    " VALUES (?,?,?,?);")){
 
             statement.setLong(1,entity.getTopic().getId());
             statement.setString(2,entity.getDescription());
+            statement.setBoolean(3,entity.getIsPublic());
+            statement.setString(4,entity.getHeader());
             changes = statement.executeUpdate();
 
         } catch (SQLException e) {

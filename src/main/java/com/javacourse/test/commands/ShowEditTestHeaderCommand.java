@@ -28,6 +28,7 @@ public class ShowEditTestHeaderCommand implements Command {
         return new WebPage(WebPage.WebPageBase.TEST_ADMIN_EDIT_HEADER);
     }
 
+    @SuppressWarnings("Duplicates")
     private boolean setTasksAttribute(HttpServletRequest request){
         TestService testService = new TestService();
         String testId = request.getParameter(ID_PARAM);

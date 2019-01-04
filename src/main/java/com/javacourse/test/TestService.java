@@ -48,8 +48,6 @@ public class TestService {
             TestDAO testDao = factory.createTestDAO(connection);
             TaskDAO taskDAO = factory.createTaskDAO(connection);
             AnswerDAO answerDAO = factory.createAnswerDAO(connection);
-
-            // a bunch of stuff...
             try{
                 List<Task> tasks = taskDAO.findTasksByTestId(id);
                 for(Task task: tasks){
@@ -75,6 +73,13 @@ public class TestService {
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);
             return testDao.findById(Integer.parseInt(id));
+        }
+    }
+
+    public boolean create(Test entity) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            TestDAO testDao = factory.createTestDAO(connection);
+            return testDao.create(entity);
         }
     }
 }

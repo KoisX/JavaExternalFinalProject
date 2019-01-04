@@ -24,7 +24,7 @@
                 <strong>Warning!</strong> ${error}
             </div>
         </c:if>
-        <a href="${pageContext.request.contextPath}/Test/Create">Create new</a>
+        <a href="${pageContext.request.contextPath}/Test/Create?id=${topicId}">Create new</a>
         <c:forEach var="test" items="${requestScope.tests}">
             <a class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal${test.id}" style="cursor: pointer;">
                 <h3>
