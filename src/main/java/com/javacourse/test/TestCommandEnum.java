@@ -73,6 +73,16 @@ public enum TestCommandEnum {
         {
             this.command = new GrantPublicStatusCommand();
         }
+    },
+    SHOW_CREATE_TASK{
+        {
+            this.command = new ShowCreateTaskCommand();
+        }
+    },
+    CREATE_TASK{
+        {
+            this.command = new CreateTaskCommand();
+        }
     };
 
     Command command;

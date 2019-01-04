@@ -15,25 +15,31 @@
 <body>
 <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/header.jsp"/>
 <div class="container body-content">
-    <h2>Create new topic</h2>
+    <h2>Create new task</h2>
     <div class="row">
         <div class="col-md-8">
             <section id="createForm">
                 <form action="${pageContext.request.contextPath}/Topic/Create" method="post" class="form-horizontal" role="form">
                     <hr />
                     <div class="form-group">
-                        <label for="name" class="col-md-2 control-label">Topic name</label>
+                        <label for="question" class="col-md-2 control-label">Topic name</label>
                         <div class="col-md-10">
-                            <input type="text" id="name" name="name" class="col-md-2 form-control" required pattern=".{3,50}">
+                            <input type="text" id="question" name="question" class="col-md-2 form-control" required pattern=".{3,350}">
                         </div>
                     </div>
-                    <input type="hidden" name="command" value="create"/>
+                    <div class="form-group">
+                        <label for="price" title="Task price is a score, which user can get for answering correctly" class="col-md-2 control-label">Task price</label>
+                        <div class="col-md-10">
+                            <input type="number" id="price" name="price" class="col-md-2 form-control" required>
+                        </div>
+                    </div>
                     <p class="text-danger">${requestScope.error}</p>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Create" class="btn btn-default" />
                         </div>
                     </div>
+                    <input type="hidden" name="id" value="${testId}"/>
                 </form>
             </section>
         </div>

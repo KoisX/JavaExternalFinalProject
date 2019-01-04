@@ -26,7 +26,6 @@
                 <input type="hidden" name="id" value="${test.id}"/>
                 <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                 <button type="submit" class="btn btn-link"><i>Grant public access</i></button>
-                ${status}
             </form>
             <p id="status-warn">Make sure that the test has at least one task and each task has at least one correct answer</p>
         </div>
@@ -53,7 +52,7 @@
     </div>
     <br/>
     <h2 align="center">Test tasks:</h2>
-    <a href="#">Create new</a>
+    <a href="${pageContext.request.contextPath}/Test/CreateTask?id=${test.id}">Create new</a>
     <c:forEach var="task" items="${requestScope.tasks}" varStatus="testIndex">
         <div class="list-group-item task-item" id="task_${task.id}">
             <fieldset class="form-group">
