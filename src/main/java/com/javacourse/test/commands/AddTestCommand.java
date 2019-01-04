@@ -37,7 +37,9 @@ public class AddTestCommand implements Command {
         //set error message if model is not valid
         if(!violations.isEmpty()){
             request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
-            return new WebPage(WebPage.WebPageBase.TEST_ADMIN_ADD_PAGE);
+            return new WebPage(WebPage.WebPageBase.TEST_ADMIN_ADD_PAGE)
+                    .setQueryString("?id="+request.getParameter("id"));
+            //TODO: fix it!
         }
 
         return getPageDependingOnWhetherInsertIsSuccessful(request, test);

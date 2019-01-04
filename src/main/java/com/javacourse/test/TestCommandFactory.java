@@ -41,6 +41,10 @@ public class TestCommandFactory extends CommandFactory {
                 return HttpMethod.isGet(request.getMethod()) ?
                         TestCommandEnum.SHOW_EDIT_TEST_DESCRIPTION.getCommand():
                         TestCommandEnum.EDIT_DESCRIPTION.getCommand();
+            case "PrivateStatus":
+                return HttpMethod.isGet(request.getMethod()) ?
+                        TopicCommandEnum.SHOW_TOPICS.getCommand():
+                        TestCommandEnum.GRANT_PRIVATE_STATUS.getCommand();
             default:
                 return TopicCommandEnum.SHOW_TOPICS.getCommand();
         }

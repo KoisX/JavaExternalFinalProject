@@ -47,7 +47,6 @@
         </div>
     </div>
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
-    <script src="${pageContext.request.contextPath}/scripts/test_creation_validation.js"></script>
 </div>
 </body>
 </html>

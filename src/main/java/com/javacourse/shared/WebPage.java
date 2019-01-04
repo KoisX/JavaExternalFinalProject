@@ -68,6 +68,8 @@ public class WebPage{
         TESTS_ACTION("/Test/Tests"),
         INDEX_ACTION("/Home/Index"),
         STATS_ACTION("/Home/Stats"),
+        TEST_ADMIN_ADD_ACTION("/Test/Create"),
+        TEST_ADMIN_DETAILS_ACTION("/Test/Details"),
         STAND_STILL_PAGE("");
 
         final String path;

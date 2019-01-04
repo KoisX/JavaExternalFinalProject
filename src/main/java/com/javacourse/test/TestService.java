@@ -82,4 +82,11 @@ public class TestService {
             return testDao.create(entity);
         }
     }
+
+    public boolean makeTestPrivate(Test entity) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            TestDAO testDao = factory.createTestDAO(connection);
+            return testDao.changeTestStatus(false, entity.getId());
+        }
+    }
 }

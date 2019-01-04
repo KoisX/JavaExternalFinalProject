@@ -22,7 +22,8 @@
     <c:if test="${test.isPublic == false}">
         <div class="alert alert-info">
             <p><strong>Attention!</strong> This test is <strong>NOT</strong> public!</p>
-            <form method="post" action="#">
+            <form method="post" action="${pageContext.request.contextPath}/Test/PublicStatus">
+                <input type="hidden" name="id" value="${test.id} "/>
                 <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                 <button type="submit" class="btn btn-link"><i>Grant public access</i></button>
             </form>
@@ -31,9 +32,10 @@
     <c:if test="${test.isPublic == true}">
         <div class="alert alert-info">
             <p><strong>Attention!</strong> This test is public!</p>
-            <form method="post" action="#">
+            <form method="post" action="${pageContext.request.contextPath}/Test/PrivateStatus">
+                <input type="hidden" name="id" value="${test.id} "/>
                 <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                <button type="submit" class="btn btn-link"><i>Grant private access</i></button>
+                <button type="submit" data-toggle="tooltip" title="This test will no longer be publicly accessible" class="btn btn-link"><i>Grant private access</i></button>
             </form>
         </div>
     </c:if>
@@ -102,6 +104,14 @@
             </fieldset>
         </div>
     </c:forEach>
+
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
 </body>

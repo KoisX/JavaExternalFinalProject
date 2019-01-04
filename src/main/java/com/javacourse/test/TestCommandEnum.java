@@ -63,7 +63,13 @@ public enum TestCommandEnum {
         {
             this.command = new EditDescriptionCommand();
         }
+    },
+    GRANT_PRIVATE_STATUS{
+        {
+            this.command = new GrantPrivateStatusCommand();
+        }
     };
+
     Command command;
     public com.javacourse.shared.Command getCommand(){return command;}
 }

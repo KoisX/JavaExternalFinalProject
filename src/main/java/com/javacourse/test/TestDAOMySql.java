@@ -195,6 +195,23 @@ public class TestDAOMySql implements TestDAO {
         return changes>0;
     }
 
+    @Override
+    public boolean changeTestStatus(boolean isPublic, long id) throws UnsuccessfulQueryException {
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "UPDATE test " +
+                    "SET test.is_public = ? " +
+                    "WHERE test.id = ? ;")){
+            statement.setBoolean(1, isPublic);
+            statement.setLong(2, id);
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
+    }
+
     /**
      * Service method for closing ResultSet object entity
      * @param resultSet
