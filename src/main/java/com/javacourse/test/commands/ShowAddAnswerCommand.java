@@ -13,6 +13,6 @@ public class ShowAddAnswerCommand implements Command {
         if(test_id==null)
             return new WebPage(WebPage.WebPageBase.ERROR_ACTION);
         request.setAttribute("id", request.getParameter("id"));
-        return new WebPage(WebPage.WebPageBase.ANSWER_ADMIN_ADD_TEST_PAGE);
+        return new WebPage(WebPage.WebPageBase.ANSWER_ADMIN_ADD_PAGE);
     }
 }

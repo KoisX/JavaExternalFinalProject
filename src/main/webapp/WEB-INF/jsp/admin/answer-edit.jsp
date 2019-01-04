@@ -15,7 +15,7 @@
 <body>
 <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/header.jsp"/>
 <div class="container body-content">
-    <h2>Create new answer for the given task</h2>
+    <h2>Edit answer for the given task</h2>
     <div class="row">
         <div class="col-md-8">
             <section id="createForm">
@@ -24,7 +24,7 @@
                     <div class="form-group">
                         <label for="value" class="col-md-2 control-label">Value</label>
                         <div class="col-md-10">
-                            <input type="text" id="value" name="value" class="col-md-2 form-control" required pattern=".{3,250}">
+                            <input type="text" id="value" name="value" value="${answer.value}" class="col-md-2 form-control" required pattern=".{3,250}">
                         </div>
                     </div>
                     <p class="text-danger">${requestScope.error}</p>

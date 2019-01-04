@@ -93,6 +93,11 @@ public enum TestCommandEnum {
         {
             this.command = new ShowAddAnswerCommand();
         }
+    },
+    SHOW_EDIT_ANSWER{
+        {
+            this.command = new ShowEditAnswerCommand();
+        }
     };
 
     Command command;

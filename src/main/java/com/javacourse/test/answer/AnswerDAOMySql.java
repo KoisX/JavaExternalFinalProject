@@ -53,7 +53,35 @@ public class AnswerDAOMySql implements AnswerDAO{
 
     @Override
     public Answer findById(Long id) throws UnsuccessfulQueryException {
-        return null;
+        Answer answer;
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT answer.id as id, answer.value as value, answer.is_case_sensitive as caseSens " +
+                    "FROM answer " +
+                    "WHERE answer.id = ?; "
+        )){
+
+            statement.setLong(1,id);
+            resultSet = statement.executeQuery();
+            answer = parseSingleEntity(resultSet);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        } finally {
+            closeResultSet(resultSet);
+        }
+        return answer;
+    }
+
+    /**
+     * Helper-method which encapsulates getting a single entity
+     * from the ResultSet object
+     * @param rs ResultSet object, which represents the result of an SQL-query
+     * @return model entity
+     * @throws SQLException in case when there is an SQL-related error
+     */
+    Answer parseSingleEntity(ResultSet rs) throws SQLException {
+        return parseToEntityList(rs).get(0);
     }
 
     @Override
