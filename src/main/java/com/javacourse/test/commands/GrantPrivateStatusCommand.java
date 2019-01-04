@@ -16,7 +16,7 @@ public class GrantPrivateStatusCommand implements Command {
         TestService testService = new TestService();
         Test test = new Test();
         String idParam = request.getParameter("id");
-        test.setId(Long.parseLong(idParam.trim()));
+        test.setId(Long.parseLong(idParam));
         try {
             testService.makeTestPrivate(test);
         } catch (UnsuccessfulQueryException | SQLException e) {

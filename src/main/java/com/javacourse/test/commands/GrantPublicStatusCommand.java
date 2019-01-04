@@ -16,7 +16,7 @@ public class GrantPublicStatusCommand implements Command {
         TestService testService = new TestService();
         Test test = new Test();
         String idParam = request.getParameter("id");
-        test.setId(Long.parseLong(idParam.trim()));
+        test.setId(Long.parseLong(idParam));
         try {
             if(testService.makeTestPublic(test)){
                 return new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
@@ -27,7 +27,7 @@ public class GrantPublicStatusCommand implements Command {
             return new WebPage(WebPage.WebPageBase.ERROR_ACTION);
         }
         return new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
-                .setQueryString("?id="+request.getParameter("id")+"&status=error")
+                .setQueryString("?id="+request.getParameter("id"))
                 .setDispatchType(WebPage.DispatchType.REDIRECT);
     }
 }

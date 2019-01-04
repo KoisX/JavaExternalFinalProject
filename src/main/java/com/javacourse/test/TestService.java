@@ -9,6 +9,7 @@ import com.javacourse.test.answer.Answer;
 import com.javacourse.test.answer.AnswerDAO;
 import com.javacourse.test.task.Task;
 import com.javacourse.test.task.TaskDAO;
+import com.javacourse.test.task.TaskService;
 import com.javacourse.test.topic.Topic;
 import com.javacourse.test.topic.TopicDAO;
 import com.javacourse.test.topic.TopicService;
@@ -103,11 +104,11 @@ public class TestService {
     public boolean makeTestPublic(Test entity) throws UnsuccessfulQueryException, SQLException {
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);
-            TaskDAO taskDAO = factory.createTaskDAO(connection);
+            TaskService taskService = new TaskService();
 
-            List<Task> tasks = taskDAO.findTasksByTestId(String.valueOf(entity.getId()));
+            List<Task> tasks = taskService.findTasksByTestId(String.valueOf(entity.getId()));
             if(hasAtLeastOneTask(tasks) && doesEachTaskHaveAtLeastOneCorrectAnswer(tasks)){
-                return testDao.changeTestStatus(true, entity.getId());
+                testDao.changeTestStatus(true, entity.getId());
             }
             return false;
         }

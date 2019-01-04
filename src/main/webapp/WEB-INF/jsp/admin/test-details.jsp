@@ -20,12 +20,13 @@
         <h1 align="center" style="text-transform: uppercase;">Test constructor</h1>
     </div>
     <c:if test="${test.isPublic == false}">
-        <div class="alert alert-info">
+        <div id="status-message" class="alert alert-info">
             <p><strong>Attention!</strong> This test is <strong>NOT</strong> public!</p>
             <form method="post" action="${pageContext.request.contextPath}/Test/PublicStatus">
-                <input type="hidden" name="id" value="${test.id} "/>
+                <input type="hidden" name="id" value="${test.id}"/>
                 <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                 <button type="submit" class="btn btn-link"><i>Grant public access</i></button>
+                ${status}
             </form>
         </div>
     </c:if>
@@ -33,7 +34,7 @@
         <div class="alert alert-info">
             <p><strong>Attention!</strong> This test is public!</p>
             <form method="post" action="${pageContext.request.contextPath}/Test/PrivateStatus">
-                <input type="hidden" name="id" value="${test.id} "/>
+                <input type="hidden" name="id" value="${test.id}"/>
                 <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                 <button type="submit" data-toggle="tooltip" title="This test will no longer be publicly accessible" class="btn btn-link"><i>Grant private access</i></button>
             </form>
@@ -104,14 +105,6 @@
             </fieldset>
         </div>
     </c:forEach>
-
-    <script>
-        $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-
-
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
 </body>
