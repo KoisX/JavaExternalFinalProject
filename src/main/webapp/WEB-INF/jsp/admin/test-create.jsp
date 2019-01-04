@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-8">
             <section id="createForm">
-                <form action="${pageContext.request.contextPath}/Test/Create" method="post" class="form-horizontal" role="form">
+                <form action="${pageContext.request.contextPath}/Test/Create" id="test-create-form" method="post" class="form-horizontal" role="form">
                     <hr />
                     <div class="form-group">
                         <label for="header" class="col-md-2 control-label">Test header</label>
@@ -47,6 +47,7 @@
         </div>
     </div>
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
+    <script src="${pageContext.request.contextPath}/scripts/test_creation_validation.js"></script>
 </div>
 </body>
 </html>
