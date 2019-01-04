@@ -56,7 +56,7 @@
     <c:forEach var="task" items="${requestScope.tasks}" varStatus="testIndex">
         <div class="list-group-item task-item" id="task_${task.id}">
             <fieldset class="form-group">
-                <legend>${testIndex.index+1}. ${task.question} <span class="badge">${task.price} point(s)</span></legend>
+                <legend>${testIndex.index+1}. ${task.question} <span class="badge">${task.price} point(s)</span><span style="font-size: 15px;"><a href="#">  Details</a></span></legend>
                 <input type="hidden" name="id" value="${testId}"/>
                 <c:choose>
                     <c:when test="${fn:length(task.correctAnswers) gt 1}">
@@ -67,15 +67,20 @@
                                         <c:when test="${task.correctAnswers.contains(answer)}">
                                             <input type="checkbox" class="form-check-input" name="field_${task.id}"  value="${answer.value}" checked disabled>
                                             ${answer.value}
+                                            <a style="font-weight: normal;" href="#">Edit</a>
+                                            <a style="font-weight: normal;" href="#">Delete</a>
                                         </c:when>
                                         <c:otherwise>
                                             <input type="checkbox" class="form-check-input" name="field_${task.id}"  value="${answer.value}" disabled>
                                             ${answer.value}
+                                            <a style="font-weight: normal;" href="#">Edit</a>
+                                            <a style="font-weight: normal;" href="#">Delete</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </label>
                             </div>
                         </c:forEach>
+                        <a href="#">Add possible or correct answer</a>
                     </c:when>
                     <c:when test="${fn:length(task.possibleAnswers) gt 1}">
                         <c:forEach var="answer" items="${task.possibleAnswers}">
@@ -85,21 +90,29 @@
                                         <c:when test="${task.correctAnswers.contains(answer)}">
                                             <input type="radio" class="form-check-input" name="field_${task.id}" value="${answer.value}" checked disabled>
                                             ${answer.value}
+                                            <a style="font-weight: normal;" href="#">Edit</a>
+                                            <a style="font-weight: normal;" href="#">Delete</a>
                                         </c:when>
                                         <c:otherwise>
                                             <input type="radio" class="form-check-input" name="field_${task.id}" value="${answer.value}" disabled>
                                             ${answer.value}
+                                            <a style="font-weight: normal;" href="#">Edit</a>
+                                            <a style="font-weight: normal;" href="#">Delete</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </label>
                             </div>
                         </c:forEach>
+                        <a href="#">Add possible or correct answer</a>
                     </c:when>
                     <c:otherwise>
                         <div class="form-group">
                             <label for="exampleInput">Answer:</label>
                             <input type="text" class="form-control" id="exampleInput" name="field_${task.id}" placeholder="${task.possibleAnswers[0].value}" disabled>
+                            <a style="font-weight: normal;" href="#">Edit</a>
+                            <a style="font-weight: normal;" href="#">Delete</a>
                         </div>
+                        <a href="#">Add possible or correct answer</a>
                     </c:otherwise>
                 </c:choose>
             </fieldset>
