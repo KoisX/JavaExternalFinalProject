@@ -68,6 +68,11 @@ public enum TestCommandEnum {
         {
             this.command = new GrantPrivateStatusCommand();
         }
+    },
+    GRANT_PUBLIC_STATUS{
+        {
+            this.command = new GrantPublicStatusCommand();
+        }
     };
 
     Command command;

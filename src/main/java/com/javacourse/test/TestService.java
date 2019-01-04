@@ -89,4 +89,35 @@ public class TestService {
             return testDao.changeTestStatus(false, entity.getId());
         }
     }
+
+    /**
+     * According to our business-logic,
+     * we can make test public in case next conditions are true:
+     * - it has at least 1 task
+     * - ALL tasks have at least one correct answer
+     * @param entity test
+     * @return change status
+     * @throws UnsuccessfulQueryException
+     * @throws SQLException
+     */
+    public boolean makeTestPublic(Test entity) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            TestDAO testDao = factory.createTestDAO(connection);
+            TaskDAO taskDAO = factory.createTaskDAO(connection);
+
+            List<Task> tasks = taskDAO.findTasksByTestId(String.valueOf(entity.getId()));
+            if(hasAtLeastOneTask(tasks) && doesEachTaskHaveAtLeastOneCorrectAnswer(tasks)){
+                return testDao.changeTestStatus(true, entity.getId());
+            }
+            return false;
+        }
+    }
+
+    boolean hasAtLeastOneTask(List<Task> tasks){
+        return tasks.size()>0;
+    }
+
+    boolean doesEachTaskHaveAtLeastOneCorrectAnswer(List<Task> tasks){
+        return tasks.stream().noneMatch(element -> element.getCorrectAnswers().size() == 0);
+    }
 }
