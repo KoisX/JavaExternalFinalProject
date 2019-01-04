@@ -48,7 +48,7 @@ public class TaskDAOMySql implements TaskDAO {
      * @return list of model entities
      * @throws SQLException in case when there is an SQL-related error
      */
-    private List<Task> parseToEntityList(ResultSet tasksRS) throws SQLException, UnsuccessfulQueryException {
+    private List<Task> parseToEntityList(ResultSet tasksRS) throws SQLException{
         List<Task> items = new ArrayList<>();
         Task task;
         while (tasksRS.next()){
@@ -64,7 +64,35 @@ public class TaskDAOMySql implements TaskDAO {
 
     @Override
     public Task findById(Integer id) throws UnsuccessfulQueryException {
-        return null;
+        Task task;
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT task.id as id, task.test_id as testId, task.question as question, task.price as price " +
+                    "FROM task "+
+                    "WHERE  task.id = ? ;"
+        )){
+
+            statement.setLong(1,id);
+            resultSet = statement.executeQuery();
+            task = parseSingleEntity(resultSet);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        } finally {
+            closeResultSet(resultSet);
+        }
+        return task;
+    }
+
+    /**
+     * Helper-method which encapsulates getting a single entity
+     * from the ResultSet object
+     * @param rs ResultSet object, which represents the result of an SQL-query
+     * @return model entity
+     * @throws SQLException in case when there is an SQL-related error
+     */
+    Task parseSingleEntity(ResultSet rs) throws SQLException {
+        return parseToEntityList(rs).get(0);
     }
 
     @Override

@@ -53,6 +53,10 @@ public class TestCommandFactory extends CommandFactory {
                 return HttpMethod.isGet(request.getMethod()) ?
                         TestCommandEnum.SHOW_CREATE_TASK.getCommand():
                         TestCommandEnum.CREATE_TASK.getCommand();
+            case "TaskDetails":
+                return HttpMethod.isGet(request.getMethod()) ?
+                        TestCommandEnum.SHOW_TASK_DETAILS.getCommand():
+                        TestCommandEnum.CREATE_TASK.getCommand();//TODO: change it!!!
             default:
                 return TopicCommandEnum.SHOW_TOPICS.getCommand();
         }

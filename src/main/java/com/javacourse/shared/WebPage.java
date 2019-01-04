@@ -63,6 +63,7 @@ public class WebPage{
         TEST_ADMIN_EDIT_HEADER("/WEB-INF/jsp/admin/test-header-edit.jsp"),
         TEST_ADMIN_EDIT_DESCRIPTION("/WEB-INF/jsp/admin/test-description-edit.jsp"),
         TASK_ADMIN_CREATE_PAGE("/WEB-INF/jsp/admin/task-create.jsp"),
+        TASK_ADMIN_EDIT_PAGE("/WEB-INF/jsp/admin/task-edit.jsp"),
         ERROR_ACTION("/Error"),
         LOGIN_ACTION("/Login/SignIn"),
         TOPICS_ACTION("/Topic/List"),

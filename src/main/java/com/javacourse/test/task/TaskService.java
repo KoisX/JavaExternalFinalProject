@@ -52,4 +52,11 @@ public class TaskService {
             return taskDAO.getMaximalScoreByTestId(test_id);
         }
     }
+
+    public Task findById(Integer id) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            TaskDAO taskDAO = factory.createTaskDAO(connection);
+            return taskDAO.findById(id);
+        }
+    }
 }

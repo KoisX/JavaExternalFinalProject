@@ -56,7 +56,7 @@
     <c:forEach var="task" items="${requestScope.tasks}" varStatus="testIndex">
         <div class="list-group-item task-item" id="task_${task.id}">
             <fieldset class="form-group">
-                <legend>${testIndex.index+1}. ${task.question} <span class="badge">${task.price} point(s)</span><span style="font-size: 15px;"><a href="#">  Details</a></span></legend>
+                <legend>${testIndex.index+1}. ${task.question} <span class="badge">${task.price} point(s)</span><span style="font-size: 15px;"><a href="${pageContext.request.contextPath}/Test/TaskDetails?id=${task.id}">  Details</a></span></legend>
                 <input type="hidden" name="id" value="${testId}"/>
                 <c:choose>
                     <c:when test="${fn:length(task.correctAnswers) gt 1}">
