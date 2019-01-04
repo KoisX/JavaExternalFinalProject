@@ -107,6 +107,7 @@
         </div>
     </c:forEach>
     <c:if test="${status=='Error'}">
+        <%--TODO: move script to header--%>
         <script src="${pageContext.request.contextPath}/scripts/jquery-1.10.2.js"></script>
         <script>
             $('#status-warn').css('color', 'red');
