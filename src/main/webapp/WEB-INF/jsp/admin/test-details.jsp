@@ -80,7 +80,7 @@
                                 </label>
                             </div>
                         </c:forEach>
-                        <a href="#">Add possible or correct answer</a>
+                        <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}">Add possible or correct answer</a>
                     </c:when>
                     <c:when test="${fn:length(task.possibleAnswers) gt 1}">
                         <c:forEach var="answer" items="${task.possibleAnswers}">
@@ -103,7 +103,7 @@
                                 </label>
                             </div>
                         </c:forEach>
-                        <a href="#">Add possible or correct answer</a>
+                        <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}">Add possible or correct answer</a>
                     </c:when>
                     <c:otherwise>
                         <div class="form-group">
@@ -112,7 +112,7 @@
                             <a style="font-weight: normal;" href="#">Edit</a>
                             <a style="font-weight: normal;" href="#">Delete</a>
                         </div>
-                        <a href="#">Add possible or correct answer</a>
+                        <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}">Add possible or correct answer</a>
                     </c:otherwise>
                 </c:choose>
             </fieldset>

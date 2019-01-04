@@ -49,3 +49,8 @@ textarea {
 .my-table-cell { display:table-cell; }
 .my-table-header {display: table-header-group;}
 .my-table-body{display: table-row-group;}
+
+
+.chk-lbl{
+    margin-right: 20px !important;
+}
