@@ -26,8 +26,8 @@ public class GrantPublicStatusCommand implements Command {
         } catch (UnsuccessfulQueryException | SQLException e) {
             return new WebPage(WebPage.WebPageBase.ERROR_ACTION);
         }
+        request.setAttribute("status", "Error");
         return new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
-                .setQueryString("?id="+request.getParameter("id"))
-                .setDispatchType(WebPage.DispatchType.REDIRECT);
+                .setQueryString("?id="+request.getParameter("id"));
     }
 }

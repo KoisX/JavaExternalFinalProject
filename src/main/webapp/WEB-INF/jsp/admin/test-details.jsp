@@ -28,6 +28,7 @@
                 <button type="submit" class="btn btn-link"><i>Grant public access</i></button>
                 ${status}
             </form>
+            <p id="status-warn">Make sure that the test has at least one task and each task has at least one correct answer</p>
         </div>
     </c:if>
     <c:if test="${test.isPublic == true}">
@@ -105,6 +106,12 @@
             </fieldset>
         </div>
     </c:forEach>
+    <c:if test="${status=='Error'}">
+        <script src="${pageContext.request.contextPath}/scripts/jquery-1.10.2.js"></script>
+        <script>
+            $('#status-warn').css('color', 'red');
+        </script>
+    </c:if>
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
 </body>
