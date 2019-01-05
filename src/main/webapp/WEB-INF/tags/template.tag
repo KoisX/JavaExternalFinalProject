@@ -8,7 +8,9 @@
 </head>
 <body>
 <jsp:invoke fragment="header"/>
+<div class="container body-content">
 <jsp:doBody/>
 <jsp:invoke fragment="footer"/>
+</div>
 </body>
 </html>
