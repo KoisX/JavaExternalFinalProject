@@ -66,7 +66,7 @@
                                         <c:when test="${task.correctAnswers.contains(answer)}">
                                             <input type="checkbox" class="form-check-input" name="field_${task.id}"  value="${answer.value}" checked disabled>
                                             ${answer.value}
-                                            <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}">Edit</a>
+                                            <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&correct=true">Edit</a>
                                             <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
                                                 <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
                                                 <input type="hidden" name="testId" value="${test.id}"/>
@@ -95,7 +95,7 @@
                                         <c:when test="${task.correctAnswers.contains(answer)}">
                                             <input type="radio" class="form-check-input" name="field_${task.id}" value="${answer.value}" checked disabled>
                                             ${answer.value}
-                                            <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}">Edit</a>
+                                            <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&correct=true">Edit</a>
                                             <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
                                                 <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
                                                 <input type="hidden" name="testId" value="${test.id}"/>
@@ -120,7 +120,7 @@
                         <div class="form-group">
                             <label for="exampleInput">Answer:</label>
                             <input type="text" class="form-control" id="exampleInput" name="field_${task.id}" placeholder="${task.possibleAnswers[0].value}" disabled>
-                            <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${task.possibleAnswers[0].id}">Edit</a>
+                            <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${task.possibleAnswers[0].id}&correct=true">Edit</a>
                             <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${task.possibleAnswers[0].id}">
                                 <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
                                 <input type="hidden" name="testId" value="${test.id}"/>

@@ -27,10 +27,20 @@
                             <input type="text" id="value" name="value" value="${answer.value}" class="col-md-2 form-control" required pattern=".{3,250}">
                         </div>
                     </div>
-                    <div class="form-check">
-                        <label class="form-check-label" for="isCorrect">Correct answer</label>
-                        <input type="checkbox" class="form-check-input" name="isCorrect" id="isCorrect">
-                    </div>
+                    <c:choose>
+                        <c:when test="${not empty correct}">
+                            <div class="form-check">
+                                <label class="form-check-label" for="isCorrect1">Correct answer</label>
+                                <input type="checkbox" class="form-check-input" name="isCorrect" id="isCorrect1" checked>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="form-check">
+                                <label class="form-check-label" for="isCorrect">Correct answer</label>
+                                <input type="checkbox" class="form-check-input" name="isCorrect" id="isCorrect">
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                     <p class="text-danger">${requestScope.error}</p>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">

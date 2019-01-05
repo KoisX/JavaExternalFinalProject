@@ -22,6 +22,7 @@ public class ShowEditAnswerCommand implements Command {
         } catch (SQLException | UnsuccessfulQueryException | NumberFormatException e) {
             webPage = new WebPage(WebPage.WebPageBase.ERROR_ACTION);
         }
+        request.setAttribute("correct", request.getParameter("correct"));
         return webPage;
     }
 }
