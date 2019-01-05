@@ -33,4 +33,24 @@ public class AnswerService {
             return answerDAO.findById((long) id);
         }
     }
+
+    public boolean create(Answer entity, boolean isCorrect, long taskId) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            connection.setAutoCommit(false);
+            AnswerDAO answerDAO = factory.createAnswerDAO(connection);
+            try{
+                long id = answerDAO.createAndGetId(entity);
+                answerDAO.setAsPossibleAnswer(taskId, id);
+                if(isCorrect){
+                    answerDAO.setAsCorrectAnswer(taskId, id);
+                }
+                connection.commit();
+            }catch (UnsuccessfulQueryException e){
+                logger.error(e.getMessage());
+                connection.rollback();
+                return false;
+            }
+            return true;
+        }
+    }
 }

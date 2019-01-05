@@ -103,6 +103,27 @@ public class AnswerDAOMySql implements AnswerDAO{
         return false;
     }
 
+    @Override
+    public long createAndGetId(Answer entity) throws UnsuccessfulQueryException {
+        long result = 0;
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO answer(value, is_case_sensitive) values (?, ?) ; " +
+                    "SELECT LAST_INSERT_ID() AS ID ; ")){
+            statement.setString(1,entity.getValue());
+            statement.setBoolean(2, entity.getIsCaseSensitive());
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            result = resultSet.getLong("ID");
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        } finally {
+            closeResultSet(resultSet);
+        }
+        return result;
+    }
+
     public List<Answer> findCorrectAnswersByTaskId(long task_id) throws UnsuccessfulQueryException {
         List<Answer> items;
         ResultSet resultSet = null;
@@ -145,6 +166,36 @@ public class AnswerDAOMySql implements AnswerDAO{
             closeResultSet(resultSet);
         }
         return items;
+    }
+
+    @Override
+    public boolean setAsPossibleAnswer(long taskId, long answerId) throws UnsuccessfulQueryException {
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO task_possible_answer(task_id, answer_id) values (?, ?) ;")){
+            statement.setLong(1, taskId);
+            statement.setLong(2, answerId);
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
+    }
+
+    @Override
+    public boolean setAsCorrectAnswer(long taskId, long answerId) throws UnsuccessfulQueryException {
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO task_correct_answer(task_id, answer_id) values (?, ?) ;")){
+            statement.setLong(1, taskId);
+            statement.setLong(2, answerId);
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
     }
 
     /**

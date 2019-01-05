@@ -2,6 +2,8 @@ package com.javacourse.test.answer;
 
 import com.javacourse.shared.dataAccess.Entity;
 
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 /**
@@ -9,8 +11,12 @@ import java.util.Objects;
  */
 public class Answer implements Entity {
 
+  @PositiveOrZero
   private long id;
+
+  @Size(min = 3, max = 250, message = "{msg.emptyFields}")
   private String value;
+
   private boolean isCaseSensitive;
 
   public Answer(long id, String value, boolean isCaseSensitive) {

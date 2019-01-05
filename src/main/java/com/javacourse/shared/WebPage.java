@@ -87,4 +87,9 @@ public class WebPage{
         }
 
     }
+
+    @Override
+    public String toString() {
+        return getPath()+getQueryString();
+    }
 }

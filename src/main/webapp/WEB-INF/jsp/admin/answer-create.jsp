@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-8">
             <section id="createForm">
-                <form action="${pageContext.request.contextPath}/#" method="post" class="form-horizontal" role="form">
+                <form id="answer-form" action="${pageContext.request.contextPath}/Test/AddAnswer" method="post" class="form-horizontal" role="form">
                     <hr />
                     <div class="form-group">
                         <label for="value" class="col-md-2 control-label">Value</label>
@@ -30,9 +30,9 @@
                     <div class="form-check">
                         <label class="form-check-label" for="isCorrect">Correct answer</label>
                         <input type="checkbox" class="form-check-input" name="isCorrect" id="isCorrect">
-
                     </div>
-                    <p class="text-danger">${requestScope.error}</p>
+                    <p id="error-msg" class="text-danger">${requestScope.error}</p>
+                    <input type="hidden" name="taskId" value="${id}" />
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Create" class="btn btn-default" />
@@ -44,5 +44,6 @@
     </div>
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
+<script src="${pageContext.request.contextPath}/scripts/answer-validation.js"></script>
 </body>
 </html>
