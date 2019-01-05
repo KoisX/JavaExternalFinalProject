@@ -5,10 +5,7 @@ import com.javacourse.test.task.TaskDAOMySql;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class AnswerDAOMySql implements AnswerDAO{
 
     //logger configuration
     static {
-        logger = LogConfigurator.getLogger(TaskDAOMySql.class);
+        logger = LogConfigurator.getLogger(AnswerDAOMySql.class);
     }
 
     public AnswerDAOMySql(Connection connection) {
@@ -106,20 +103,23 @@ public class AnswerDAOMySql implements AnswerDAO{
     @Override
     public long createAndGetId(Answer entity) throws UnsuccessfulQueryException {
         long result = 0;
-        ResultSet resultSet = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO answer(value, is_case_sensitive) values (?, ?) ; " +
-                    "SELECT LAST_INSERT_ID() AS ID ; ")){
+                "INSERT INTO answer(value, is_case_sensitive) values (?, ?) ; ",
+                Statement.RETURN_GENERATED_KEYS)){
             statement.setString(1,entity.getValue());
             statement.setBoolean(2, entity.getIsCaseSensitive());
-            resultSet = statement.executeQuery();
-            resultSet.next();
-            result = resultSet.getLong("ID");
+            statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                   result = generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             logger.debug(e.getMessage());
             throw new UnsuccessfulQueryException();
-        } finally {
-            closeResultSet(resultSet);
         }
         return result;
     }

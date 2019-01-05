@@ -46,15 +46,17 @@ public class AddAnswerCommand implements Command {
 
     private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, HttpServletResponse response, Answer answer) {
         AnswerService answerService = new AnswerService();
+        String taskId = request.getParameter("taskId");
+        String testId = request.getParameter("testId");
 
         JSONObject jsonResponse = new JSONObject();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         try {
-            if(answerService.create(answer)){
+            if(answerService.create(answer, isAnswerCorrect(request), Long.parseLong(taskId))){
                 jsonResponse.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
-                .setQueryString("?id="+request.getParameter("testId")));
+                .setQueryString("?id="+testId).toString());
             }
         } catch (UnsuccessfulQueryException | SQLException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
@@ -87,5 +89,9 @@ public class AddAnswerCommand implements Command {
         answer.setIsCaseSensitive(false);//by default answer is always case insensitive
         answer.setValue(parameterMap.get("value")[0]);
         return answer;
+    }
+
+    private boolean isAnswerCorrect(HttpServletRequest request){
+        return request.getParameter("isCorrect")!= null;
     }
 }

@@ -33,6 +33,7 @@
                     </div>
                     <p id="error-msg" class="text-danger">${requestScope.error}</p>
                     <input type="hidden" name="taskId" value="${id}" />
+                    <input type="hidden" name="testId" value="${testId}" />
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Create" class="btn btn-default" />

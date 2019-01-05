@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 public class ShowAddAnswerCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        String test_id = request.getParameter("id");
-        if(test_id==null)
+        String id = request.getParameter("id");
+        String test_id = request.getParameter("testId");
+        if(id==null || test_id==null)
             return new WebPage(WebPage.WebPageBase.ERROR_ACTION);
-        request.setAttribute("id", request.getParameter("id"));
+        request.setAttribute("id", id);
+        request.setAttribute("testId", test_id);
         return new WebPage(WebPage.WebPageBase.ANSWER_ADMIN_ADD_PAGE);
     }
 }
