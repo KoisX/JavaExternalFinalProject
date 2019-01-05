@@ -169,7 +169,7 @@ public class AnswerDAOMySql implements AnswerDAO{
     }
 
     @Override
-    public boolean setAsPossibleAnswer(long taskId, long answerId) throws UnsuccessfulQueryException {
+    public boolean createAsPossibleAnswer(long taskId, long answerId) throws UnsuccessfulQueryException {
         int changes = 0;
         try(PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO task_possible_answer(task_id, answer_id) values (?, ?) ;")){
@@ -184,12 +184,29 @@ public class AnswerDAOMySql implements AnswerDAO{
     }
 
     @Override
-    public boolean setAsCorrectAnswer(long taskId, long answerId) throws UnsuccessfulQueryException {
+    public boolean createAsCorrectAnswer(long taskId, long answerId) throws UnsuccessfulQueryException {
         int changes = 0;
         try(PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO task_correct_answer(task_id, answer_id) values (?, ?) ;")){
             statement.setLong(1, taskId);
             statement.setLong(2, answerId);
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
+}
+
+    @Override
+    public boolean update(Answer answer) throws UnsuccessfulQueryException {
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "UPDATE answer " +
+                    "SET answer.value = ? " +
+                    "WHERE answer.id = ? ;")){
+            statement.setString(1,answer.getValue());
+            statement.setLong(2,answer.getId());
             changes = statement.executeUpdate();
         } catch (SQLException e) {
             logger.debug(e.getMessage());

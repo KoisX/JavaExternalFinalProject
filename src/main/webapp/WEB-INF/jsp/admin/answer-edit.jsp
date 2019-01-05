@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-8">
             <section id="createForm">
-                <form action="${pageContext.request.contextPath}/#" method="post" class="form-horizontal" role="form">
+                <form id="answer-form" action="${pageContext.request.contextPath}/Test/EditAnswer" method="post" class="form-horizontal" role="form">
                     <hr />
                     <div class="form-group">
                         <label for="value" class="col-md-2 control-label">Value</label>
@@ -42,6 +42,8 @@
                         </c:otherwise>
                     </c:choose>
                     <p class="text-danger">${requestScope.error}</p>
+                    <input type="hidden" name="id" value="${answer.id}" />
+                    <input type="hidden" name="testId" value="${testId}" />
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Create" class="btn btn-default" />
@@ -53,5 +55,6 @@
     </div>
     <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
 </div>
+<script src="${pageContext.request.contextPath}/scripts/answer-validation.js"></script>
 </body>
 </html>

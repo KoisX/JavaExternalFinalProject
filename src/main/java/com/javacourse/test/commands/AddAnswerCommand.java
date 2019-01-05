@@ -20,13 +20,12 @@ import java.util.Set;
 
 public class AddAnswerCommand implements Command {
 
-    private String lang;
     private static final String LANG_PARAM = "lang";
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Answer answer = constructAnswer(request.getParameterMap());
-        lang = (String)request.getSession().getAttribute(LANG_PARAM);
+        String lang = (String)request.getSession().getAttribute(LANG_PARAM);
 
         //validating model and getting violations if sth is wrong
         Set<ConstraintViolation<Answer>> violations = BeanValidatorConfig
@@ -39,10 +38,10 @@ public class AddAnswerCommand implements Command {
             return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
         }
 
-        return getPageDependingOnWhetherInsertIsSuccessful(request, response, answer);
+        return getPageDependingOnWhetherInsertIsSuccessful(request, response, answer, lang);
     }
 
-    private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, HttpServletResponse response, Answer answer) {
+    private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, HttpServletResponse response, Answer answer, String lang) {
         AnswerService answerService = new AnswerService();
         String taskId = request.getParameter("taskId");
         String testId = request.getParameter("testId");

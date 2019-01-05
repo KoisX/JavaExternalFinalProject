@@ -4,7 +4,6 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.dataAccess.DAOFactory;
 import com.javacourse.shared.dataAccess.DBConnection;
 import com.javacourse.shared.dataAccess.MySqlDAOFactory;
-import com.javacourse.stats.StatsService;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -40,9 +39,9 @@ public class AnswerService {
             AnswerDAO answerDAO = factory.createAnswerDAO(connection);
             try{
                 long id = answerDAO.createAndGetId(entity);
-                answerDAO.setAsPossibleAnswer(taskId, id);
+                answerDAO.createAsPossibleAnswer(taskId, id);
                 if(isCorrect){
-                    answerDAO.setAsCorrectAnswer(taskId, id);
+                    answerDAO.createAsCorrectAnswer(taskId, id);
                 }
                 connection.commit();
             }catch (UnsuccessfulQueryException e){
