@@ -28,6 +28,7 @@ public class GrantPublicStatusCommand implements Command {
         }
         request.setAttribute("status", "Error");
         return new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
-                .setQueryString("?id="+request.getParameter("id"));
+                .setQueryString("?id="+request.getParameter("id"))
+                .setDispatchType(WebPage.DispatchType.REDIRECT);
     }
 }

@@ -27,6 +27,10 @@
                             <input type="text" id="value" name="value" value="${answer.value}" class="col-md-2 form-control" required pattern=".{3,250}">
                         </div>
                     </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="isCorrect">Correct answer</label>
+                        <input type="checkbox" class="form-check-input" name="isCorrect" id="isCorrect">
+                    </div>
                     <p class="text-danger">${requestScope.error}</p>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
