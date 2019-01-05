@@ -65,6 +65,10 @@ public class TestCommandFactory extends CommandFactory {
                 return HttpMethod.isGet(request.getMethod()) ?
                         TestCommandEnum.SHOW_EDIT_ANSWER.getCommand()://TODO: change it!!
                         TestCommandEnum.CREATE_TASK.getCommand();//TODO: change it!!!
+            case "DeleteAnswer":
+                return HttpMethod.isGet(request.getMethod()) ?
+                        TopicCommandEnum.SHOW_TOPICS.getCommand()://only post method is allowed
+                        TestCommandEnum.DELETE_ANSWER.getCommand();
             default:
                 return TopicCommandEnum.SHOW_TOPICS.getCommand();
         }

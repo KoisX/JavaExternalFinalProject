@@ -103,6 +103,11 @@ public enum TestCommandEnum {
         {
             this.command = new AddAnswerCommand();
         }
+    },
+    DELETE_ANSWER{
+        {
+            this.command = new DeleteAnswerCommand();
+        }
     };
 
     Command command;

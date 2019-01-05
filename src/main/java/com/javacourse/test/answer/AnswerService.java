@@ -53,4 +53,13 @@ public class AnswerService {
             return true;
         }
     }
+
+    public boolean delete(Long id) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            AnswerDAO answerDAO = factory.createAnswerDAO(connection);
+            return answerDAO.delete(id);
+        }
+    }
+
+
 }
