@@ -12,7 +12,7 @@ public class ShowCreateTaskCommand implements Command {
         String test_id = request.getParameter("id");
         if(test_id==null)
             return new WebPage(WebPage.WebPageBase.ERROR_ACTION);
-        request.setAttribute("id", request.getParameter("testId"));
+        request.setAttribute("testId", request.getParameter("id"));
         return new WebPage(WebPage.WebPageBase.TASK_ADMIN_CREATE_PAGE);
     }
 }

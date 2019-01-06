@@ -102,7 +102,18 @@ public class TaskDAOMySql implements TaskDAO {
 
     @Override
     public boolean create(Task entity) throws UnsuccessfulQueryException {
-        return false;
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO task(test_id, question, price) VALUES(?,?,?);")){
+            statement.setLong(1,entity.getTestId());
+            statement.setString(2,entity.getQuestion());
+            statement.setLong(3, entity.getPrice());
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
     }
 
     public List<Task> findTasksByTestId(String test_id) throws UnsuccessfulQueryException{

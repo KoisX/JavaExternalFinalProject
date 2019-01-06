@@ -59,4 +59,11 @@ public class TaskService {
             return taskDAO.findById(id);
         }
     }
+
+    public boolean create(Task task) throws SQLException, UnsuccessfulQueryException {
+        try(DBConnection connection = factory.createConnection()){
+            TaskDAO taskDAO = factory.createTaskDAO(connection);
+            return taskDAO.create(task);
+        }
+    }
 }

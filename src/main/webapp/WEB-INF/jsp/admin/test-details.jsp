@@ -104,7 +104,7 @@
                         </c:forEach>
                         <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}">Add possible or correct answer</a>
                     </c:when>
-                    <c:otherwise>
+                    <c:when test="${fn:length(task.correctAnswers) eq 1}">
                         <div class="form-group">
                             <label for="exampleInput">Answer:</label>
                             <input type="text" class="form-control" id="exampleInput" name="field_${task.id}" placeholder="${task.possibleAnswers[0].value}" disabled>
@@ -114,6 +114,9 @@
                                 <input type="hidden" name="testId" value="${test.id}"/>
                             </form>
                         </div>
+                        <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}">Add possible or correct answer</a>
+                    </c:when>
+                    <c:otherwise>
                         <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}">Add possible or correct answer</a>
                     </c:otherwise>
                 </c:choose>

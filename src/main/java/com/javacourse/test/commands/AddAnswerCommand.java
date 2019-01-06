@@ -41,34 +41,6 @@ public class AddAnswerCommand implements Command {
         return getResponse(request, response, answer, lang);
     }
 
-    private WebPage getResponse(HttpServletRequest request, HttpServletResponse response, Answer answer, String lang) {
-        AnswerService answerService = new AnswerService();
-        String taskId = request.getParameter("taskId");
-        String testId = request.getParameter("testId");
-
-        JSONObject jsonResponse = new JSONObject();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        try {
-            if(answerService.create(answer, isAnswerCorrect(request), Long.parseLong(taskId))){
-                jsonResponse.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
-                .setQueryString("?id="+testId).toString());
-            }
-        } catch (UnsuccessfulQueryException | SQLException e) {
-            ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
-            jsonResponse.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
-        }
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Could not get response writer");
-        }
-        return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
-    }
-
-
     @SuppressWarnings("Duplicates")
     private void showErrorResult(HttpServletResponse response, String error) {
         JSONObject jsonResponse = new JSONObject();
@@ -88,6 +60,33 @@ public class AddAnswerCommand implements Command {
         answer.setIsCaseSensitive(false);//by default answer is always case insensitive
         answer.setValue(parameterMap.get("value")[0]);
         return answer;
+    }
+
+    private WebPage getResponse(HttpServletRequest request, HttpServletResponse response, Answer answer, String lang) {
+        AnswerService answerService = new AnswerService();
+        String taskId = request.getParameter("taskId");
+        String testId = request.getParameter("testId");
+
+        JSONObject jsonResponse = new JSONObject();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        try {
+            if(answerService.create(answer, isAnswerCorrect(request), Long.parseLong(taskId))){
+                jsonResponse.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
+                        .setQueryString("?id="+testId).toString());
+            }
+        } catch (UnsuccessfulQueryException | SQLException e) {
+            ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
+            jsonResponse.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
+        }
+        try {
+            response.getWriter().write(jsonResponse.toString());
+            response.getWriter().flush();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not get response writer");
+        }
+        return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
     }
 
     private boolean isAnswerCorrect(HttpServletRequest request){
