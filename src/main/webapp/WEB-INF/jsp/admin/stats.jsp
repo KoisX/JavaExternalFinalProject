@@ -1,24 +1,8 @@
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="${sessionScope.lang}"/>
-<fmt:setBundle basename="topics_messages"/>
-<!DOCTYPE html>
-<html
-        xmlns:c="http://java.sun.com/jsp/jstl/core"
-        xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-        xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebExam</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/site.css"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/bootstrap.css"/>
-</head>
-<body>
-<jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/header.jsp"/>
-
-<div class="container body-content">
+<t:page title="Stats">
     <h1>Stats page</h1>
     <table class="table table-hover table-striped">
         <thead>
@@ -98,9 +82,4 @@
             </c:choose>
         </ul>
     </nav>
-
-
-    <jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/layout/footer.jsp"/>
-</div>
-</body>
-</html>
+</t:page>
