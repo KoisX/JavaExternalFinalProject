@@ -121,4 +121,11 @@ public class TestService {
     boolean doesEachTaskHaveAtLeastOneCorrectAnswer(List<Task> tasks){
         return tasks.stream().noneMatch(element -> element.getCorrectAnswers().size() == 0);
     }
+
+    public boolean updateHeader(String header, long id) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            TestDAO testDao = factory.createTestDAO(connection);
+            return testDao.updateHeader(header, id);
+        }
+    }
 }

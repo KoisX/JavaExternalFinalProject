@@ -12,4 +12,5 @@ public interface TestDAO extends AbstractDAO<Integer, Test> {
     List<Test> findByTopicId(String id) throws UnsuccessfulQueryException;
     boolean delete(String id) throws UnsuccessfulQueryException;
     boolean changeTestStatus(boolean isPublic, long id) throws  UnsuccessfulQueryException;
-}
+    boolean updateHeader(String header, long id) throws UnsuccessfulQueryException;
+ }

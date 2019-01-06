@@ -38,10 +38,10 @@ public class AddAnswerCommand implements Command {
             return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
         }
 
-        return getPageDependingOnWhetherInsertIsSuccessful(request, response, answer, lang);
+        return getResponse(request, response, answer, lang);
     }
 
-    private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, HttpServletResponse response, Answer answer, String lang) {
+    private WebPage getResponse(HttpServletRequest request, HttpServletResponse response, Answer answer, String lang) {
         AnswerService answerService = new AnswerService();
         String taskId = request.getParameter("taskId");
         String testId = request.getParameter("testId");
@@ -68,6 +68,8 @@ public class AddAnswerCommand implements Command {
         return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
     }
 
+
+    @SuppressWarnings("Duplicates")
     private void showErrorResult(HttpServletResponse response, String error) {
         JSONObject jsonResponse = new JSONObject();
         jsonResponse.put("error", error);

@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-8">
             <section id="createForm">
-                <form action="${pageContext.request.contextPath}/Test/HeaderEdit" method="post" class="form-horizontal" role="form">
+                <form id="header-form" action="${pageContext.request.contextPath}/Test/HeaderEdit" method="post" class="form-horizontal" role="form">
                     <hr />
                     <div class="form-group">
                         <label for="header" class="col-md-2 control-label">Test header</label>
@@ -15,9 +15,8 @@
                             <input type="text" id="header" name="header" class="col-md-2 form-control" required pattern=".{2,50}" value="${test.header}">
                         </div>
                     </div>
-                    <input type="hidden" name="command" value="edit"/>
                     <input type="hidden" name="id" value="${test.id}"/>
-                    <p class="text-danger">${requestScope.error}</p>
+                    <p id="error-msg" class="text-danger">${requestScope.error}</p>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Edit" class="btn btn-default" />
@@ -27,4 +26,5 @@
             </section>
         </div>
     </div>
+    <script src="${pageContext.request.contextPath}/scripts/header-validation.js"></script>
 </t:page>
