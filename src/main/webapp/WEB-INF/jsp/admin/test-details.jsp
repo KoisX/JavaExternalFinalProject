@@ -39,95 +39,106 @@
         </div>
     </div>
     <br/>
-    <h2 align="center">Test tasks:</h2>
-    <a href="${pageContext.request.contextPath}/Test/CreateTask?id=${test.id}">Create new</a>
-    <c:forEach var="task" items="${requestScope.tasks}" varStatus="testIndex">
-        <div class="list-group-item task-item" id="task_${task.id}">
-            <fieldset class="form-group">
-                <legend>${testIndex.index+1}. ${task.question} <span class="badge">${task.price} point(s)</span><span style="font-size: 15px;"><a href="${pageContext.request.contextPath}/Test/TaskDetails?id=${task.id}">  Details</a></span></legend>
-                <c:choose>
-                    <c:when test="${fn:length(task.correctAnswers) gt 1}">
-                        <c:forEach var="answer" items="${task.possibleAnswers}">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <c:choose >
-                                        <c:when test="${task.correctAnswers.contains(answer)}">
-                                            <input type="checkbox" class="form-check-input" name="field_${task.id}"  value="${answer.value}" checked disabled>
-                                            ${answer.value}
-                                            <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&correct=true">Edit</a>
-                                            <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
-                                                <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
-                                                <input type="hidden" name="testId" value="${test.id}"/>
-                                            </form>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <input type="checkbox" class="form-check-input" name="field_${task.id}"  value="${answer.value}" disabled>
-                                            ${answer.value}
-                                            <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}">Edit</a>
-                                            <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
-                                                <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
-                                                <input type="hidden" name="testId" value="${test.id}"/>
-                                            </form>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </label>
-                            </div>
-                        </c:forEach>
-                        <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}">Add possible or correct answer</a>
-                    </c:when>
-                    <c:when test="${fn:length(task.possibleAnswers) gt 1}">
-                        <c:forEach var="answer" items="${task.possibleAnswers}">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <c:choose>
-                                        <c:when test="${task.correctAnswers.contains(answer)}">
-                                            <input type="radio" class="form-check-input" name="field_${task.id}" value="${answer.value}" checked disabled>
-                                            ${answer.value}
-                                            <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&correct=true">Edit</a>
-                                            <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
-                                                <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
-                                                <input type="hidden" name="testId" value="${test.id}"/>
-                                            </form>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <input type="radio" class="form-check-input" name="field_${task.id}" value="${answer.value}" disabled>
-                                            ${answer.value}
-                                            <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}">Edit</a>
-                                            <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
-                                                <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
-                                                <input type="hidden" name="testId" value="${test.id}"/>
-                                            </form>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </label>
-                            </div>
-                        </c:forEach>
-                        <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}">Add possible or correct answer</a>
-                    </c:when>
-                    <c:when test="${fn:length(task.correctAnswers) eq 1}">
-                        <div class="form-group">
-                            <label for="exampleInput">Answer:</label>
-                            <input type="text" class="form-control" id="exampleInput" name="field_${task.id}" placeholder="${task.possibleAnswers[0].value}" disabled>
-                            <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${task.possibleAnswers[0].id}&correct=true">Edit</a>
-                            <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${task.possibleAnswers[0].id}">
-                                <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
-                                <input type="hidden" name="testId" value="${test.id}"/>
-                            </form>
-                        </div>
-                        <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}">Add possible or correct answer</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}">Add possible or correct answer</a>
-                    </c:otherwise>
-                </c:choose>
-            </fieldset>
-        </div>
-    </c:forEach>
-    <c:if test="${status=='Error'}">
-        <%--TODO: move script to header--%>
-        <script src="${pageContext.request.contextPath}/scripts/jquery-1.10.2.js"></script>
-        <script>
-            $('#status-warn').css('color', 'red');
-        </script>
-    </c:if>
+    <c:choose>
+        <c:when test="${fn:length(requestScope.tasks) eq 0}">
+            <div id="status-message" class="alert alert-info">
+                <p>There are no tasks yet :(</p>
+                <a href="${pageContext.request.contextPath}/Test/CreateTask?id=${test.id}"><strong>Create new</strong></a>
+
+            </div>
+        </c:when>
+        <c:otherwise>
+            <h2 align="center">Test tasks:</h2>
+            <a href="${pageContext.request.contextPath}/Test/CreateTask?id=${test.id}">Create new</a>
+            <c:forEach var="task" items="${requestScope.tasks}" varStatus="testIndex">
+                <div class="list-group-item task-item" id="task_${task.id}">
+                    <fieldset class="form-group">
+                        <legend>${testIndex.index+1}. ${task.question} <span class="badge">${task.price} point(s)</span><span style="font-size: 15px;"><a href="${pageContext.request.contextPath}/Test/TaskDetails?id=${task.id}">  Details</a></span></legend>
+                        <c:choose>
+                            <c:when test="${fn:length(task.correctAnswers) gt 1}">
+                                <c:forEach var="answer" items="${task.possibleAnswers}">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <c:choose >
+                                                <c:when test="${task.correctAnswers.contains(answer)}">
+                                                    <input type="checkbox" class="form-check-input" name="field_${task.id}"  value="${answer.value}" checked disabled>
+                                                    ${answer.value}
+                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&correct=true">Edit</a>
+                                                    <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
+                                                        <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
+                                                        <input type="hidden" name="testId" value="${test.id}"/>
+                                                    </form>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <input type="checkbox" class="form-check-input" name="field_${task.id}"  value="${answer.value}" disabled>
+                                                    ${answer.value}
+                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}">Edit</a>
+                                                    <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
+                                                        <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
+                                                        <input type="hidden" name="testId" value="${test.id}"/>
+                                                    </form>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </label>
+                                    </div>
+                                </c:forEach>
+                                <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}">Add possible or correct answer</a>
+                            </c:when>
+                            <c:when test="${fn:length(task.possibleAnswers) gt 1}">
+                                <c:forEach var="answer" items="${task.possibleAnswers}">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <c:choose>
+                                                <c:when test="${task.correctAnswers.contains(answer)}">
+                                                    <input type="radio" class="form-check-input" name="field_${task.id}" value="${answer.value}" checked disabled>
+                                                    ${answer.value}
+                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&correct=true">Edit</a>
+                                                    <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
+                                                        <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
+                                                        <input type="hidden" name="testId" value="${test.id}"/>
+                                                    </form>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <input type="radio" class="form-check-input" name="field_${task.id}" value="${answer.value}" disabled>
+                                                    ${answer.value}
+                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}">Edit</a>
+                                                    <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
+                                                        <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
+                                                        <input type="hidden" name="testId" value="${test.id}"/>
+                                                    </form>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </label>
+                                    </div>
+                                </c:forEach>
+                                <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}">Add possible or correct answer</a>
+                            </c:when>
+                            <c:when test="${fn:length(task.correctAnswers) eq 1}">
+                                <div class="form-group">
+                                    <label for="exampleInput">Answer:</label>
+                                    <input type="text" class="form-control" id="exampleInput" name="field_${task.id}" placeholder="${task.possibleAnswers[0].value}" disabled>
+                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${task.possibleAnswers[0].id}&correct=true">Edit</a>
+                                    <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${task.possibleAnswers[0].id}">
+                                        <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
+                                        <input type="hidden" name="testId" value="${test.id}"/>
+                                    </form>
+                                </div>
+                                <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}">Add possible or correct answer</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}">Add possible or correct answer</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </fieldset>
+                </div>
+            </c:forEach>
+            <c:if test="${status=='Error'}">
+                <%--TODO: move script to header--%>
+                <script src="${pageContext.request.contextPath}/scripts/jquery-1.10.2.js"></script>
+                <script>
+                    $('#status-warn').css('color', 'red');
+                </script>
+            </c:if>
+        </c:otherwise>
+    </c:choose>
 </t:page>
