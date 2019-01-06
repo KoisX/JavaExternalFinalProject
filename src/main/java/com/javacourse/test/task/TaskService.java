@@ -66,4 +66,11 @@ public class TaskService {
             return taskDAO.create(task);
         }
     }
+
+    public boolean delete(Integer id) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            TaskDAO taskDAO = factory.createTaskDAO(connection);
+            return taskDAO.delete(id);
+        }
+    }
 }

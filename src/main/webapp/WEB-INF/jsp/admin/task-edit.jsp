@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-8">
             <section id="createForm">
-                <form action="${pageContext.request.contextPath}/Topic/Create" method="post" class="form-horizontal" role="form">
+                <form action="${pageContext.request.contextPath}/Test/TaskDetails" method="post" class="form-horizontal" role="form">
                     <hr />
                     <div class="form-group">
                         <label for="question" class="col-md-2 control-label">Task name</label>
@@ -28,7 +28,8 @@
                             <button type="submit" name="command" value="delete" class="btn btn-danger">Delete</button>
                         </div>
                     </div>
-                    <input type="hidden" name="id" value="${testId}"/>
+                    <input type="hidden" name="testId" value="${testId}"/>
+                    <input type="hidden" name="taskId" value="${task.id}"/>
                 </form>
             </section>
         </div>

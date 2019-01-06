@@ -108,6 +108,16 @@ public enum TestCommandEnum {
         {
             this.command = new DeleteAnswerCommand();
         }
+    },
+    DELETE_TASK_COMMAND{
+        {
+            this.command = new DeleteTaskCommand();
+        }
+    },
+    EDIT_TASK_COMMAND{
+        {
+            this.command = new EditTaskCommand();
+        }
     };
 
     Command command;

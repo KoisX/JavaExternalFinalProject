@@ -16,9 +16,11 @@ public class ShowTaskDetailsCommand implements Command {
         WebPage webPage = new WebPage(WebPage.WebPageBase.TASK_ADMIN_EDIT_PAGE);
         TaskService taskService = new TaskService();
         try {
-            int taskId = Integer.parseInt(request.getParameter("id"));
+            int taskId = Integer.parseInt(request.getParameter("taskId"));
+            int testId = Integer.parseInt(request.getParameter("testId"));
             Task task = taskService.findById(taskId);
             request.setAttribute("task", task);
+            request.setAttribute("testId", testId);
         } catch (SQLException | UnsuccessfulQueryException | NumberFormatException e) {
             webPage = new WebPage(WebPage.WebPageBase.ERROR_ACTION);
         }

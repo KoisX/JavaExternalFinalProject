@@ -97,7 +97,16 @@ public class TaskDAOMySql implements TaskDAO {
 
     @Override
     public boolean delete(Integer id) throws UnsuccessfulQueryException {
-        return false;
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "DELETE FROM task WHERE id=? ;")){
+            statement.setLong(1, id);
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
     }
 
     @Override

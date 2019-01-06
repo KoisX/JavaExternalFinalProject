@@ -56,7 +56,7 @@ public class TestCommandFactory extends CommandFactory {
             case "TaskDetails":
                 return HttpMethod.isGet(request.getMethod()) ?
                         TestCommandEnum.SHOW_TASK_DETAILS.getCommand():
-                        TestCommandEnum.CREATE_TASK.getCommand();//TODO: change it!!!
+                        getTaskEditCommand(request);
             case "AddAnswer":
                 return HttpMethod.isGet(request.getMethod()) ?
                         TestCommandEnum.SHOW_ADD_ANSWER.getCommand():
@@ -72,5 +72,16 @@ public class TestCommandFactory extends CommandFactory {
             default:
                 return TopicCommandEnum.SHOW_TOPICS.getCommand();
         }
+    }
+
+    Command getTaskEditCommand(HttpServletRequest request){
+        String commandParam = request.getParameter("command");
+        Command command = TopicCommandEnum.SHOW_TOPICS.getCommand();//default page
+        if(commandParam.equals("edit")){
+            command = TestCommandEnum.EDIT_TASK_COMMAND.getCommand();
+        }else if(commandParam.equals("delete")){
+            command = TestCommandEnum.DELETE_TASK_COMMAND.getCommand();
+        }
+        return command;
     }
 }
