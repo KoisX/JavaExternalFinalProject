@@ -13,4 +13,5 @@ public interface TestDAO extends AbstractDAO<Integer, Test> {
     boolean delete(String id) throws UnsuccessfulQueryException;
     boolean changeTestStatus(boolean isPublic, long id) throws  UnsuccessfulQueryException;
     boolean updateHeader(String header, long id) throws UnsuccessfulQueryException;
+    boolean updateDescription(String description, long id) throws UnsuccessfulQueryException;
  }

@@ -128,4 +128,11 @@ public class TestService {
             return testDao.updateHeader(header, id);
         }
     }
+
+    public boolean updateDescription(String description, long id) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            TestDAO testDao = factory.createTestDAO(connection);
+            return testDao.updateDescription(description, id);
+        }
+    }
 }

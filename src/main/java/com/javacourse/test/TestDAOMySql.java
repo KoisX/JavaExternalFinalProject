@@ -229,6 +229,23 @@ public class TestDAOMySql implements TestDAO {
         return changes>0;
     }
 
+    @Override
+    public boolean updateDescription(String description, long id) throws UnsuccessfulQueryException{
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "UPDATE test " +
+                        "SET test.description = ? " +
+                        "WHERE test.id = ? ;")){
+            statement.setString(1,description);
+            statement.setLong(2,id);
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
+    }
+
     /**
      * Service method for closing ResultSet object entity
      * @param resultSet

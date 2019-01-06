@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-8">
             <section id="createForm">
-                <form action="${pageContext.request.contextPath}/Test/HeaderEdit" method="post" class="form-horizontal" role="form">
+                <form id="validate-test-description" action="${pageContext.request.contextPath}/Test/DescriptionEdit" method="post" class="form-horizontal" role="form">
                     <hr />
                     <div class="form-group">
                         <label for="description" class="col-md-2 control-label">Test description</label>
@@ -27,4 +27,5 @@
             </section>
         </div>
     </div>
+    <script src="${pageContext.request.contextPath}/scripts/test-description-validation.js"></script>
 </t:page>
