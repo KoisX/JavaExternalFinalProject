@@ -22,9 +22,8 @@
                             </textarea>
                         </div>
                     </div>
-                    <input type="hidden" name="command" value="create"/>
                     <input type="hidden" name="id" value="${id}"/>
-                    <p class="text-danger">${requestScope.error}</p>
+                    <p id="error-msg" class="text-danger">${requestScope.error}</p>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Create" class="btn btn-default" />
@@ -34,4 +33,5 @@
             </section>
         </div>
     </div>
+    <script src="${pageContext.request.contextPath}/scripts/test-validation.js"></script>
 </t:page>

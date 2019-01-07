@@ -8,10 +8,12 @@ import com.javacourse.test.TestService;
 import com.javacourse.test.topic.Topic;
 import com.javacourse.utils.BeanValidatorConfig;
 import com.javacourse.utils.ResourceBundleConfig;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -36,13 +38,25 @@ public class AddTestCommand implements Command {
 
         //set error message if model is not valid
         if(!violations.isEmpty()){
-            request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
-            return new WebPage(WebPage.WebPageBase.TEST_ADMIN_ADD_PAGE)
-                    .setQueryString("?id="+request.getParameter("id"));
-            //TODO: fix it!
+            showErrorResult(response, violations.iterator().next().getMessage());
+            return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
         }
 
-        return getPageDependingOnWhetherInsertIsSuccessful(request, test);
+        return getPageDependingOnWhetherInsertIsSuccessful(request, response, test);
+    }
+
+    @SuppressWarnings("Duplicates")
+    private void showErrorResult(HttpServletResponse response, String error) {
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("error", error);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            response.getWriter().write(jsonResponse.toString());
+            response.getWriter().flush();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not get response writer");
+        }
     }
 
     private Test constructTest(Map<String, String[]> parameterMap) {
@@ -59,29 +73,29 @@ public class AddTestCommand implements Command {
 
     //try to create topic and depending on whether this operation is
     //successful or not return corresponding WebPage
-    private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, Test test){
-        WebPage webPage = new WebPage(WebPage.WebPageBase.TEST_ADMIN_ADD_PAGE)
-                .setQueryString("?id="+request.getParameter("id"));
+    private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, HttpServletResponse response, Test test){
+        String topicId = request.getParameter("id");
         TestService testService = new TestService();
+
+        JSONObject jsonResponse = new JSONObject();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
         try {
             if(testService.create(test)){
-                return new WebPage(WebPage.WebPageBase.TESTS_ACTION)
-                        .setDispatchType(WebPage.DispatchType.REDIRECT)
-                        .setQueryString("?id="+request.getParameter("id"));
-            }
-            else {
-                setRequestParams(request, test);
+                jsonResponse.put("url", new WebPage(WebPage.WebPageBase.TESTS_ACTION)
+                        .setQueryString("?id="+topicId).toString());
             }
         } catch (SQLException | UnsuccessfulQueryException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
-            request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.creationUnsuccessful"));
-            return new WebPage(WebPage.WebPageBase.TEST_ADMIN_ADD_PAGE)
-                    .setQueryString("?id="+request.getParameter("id"));
+            jsonResponse.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }
-        return webPage;
-    }
-
-    private void setRequestParams(HttpServletRequest request, Test test){
-        request.setAttribute("id", test.getTopic().getId());
+        try {
+            response.getWriter().write(jsonResponse.toString());
+            response.getWriter().flush();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not get response writer");
+        }
+        return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
     }
 }
