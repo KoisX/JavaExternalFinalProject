@@ -114,10 +114,12 @@ public class TaskDAOMySql implements TaskDAO {
         int changes = 0;
         try(PreparedStatement statement = connection.prepareStatement(
                 "UPDATE task " +
-                        "SET task.question = ? " +
-                        "WHERE task.price = ? ;")){
+                        "SET task.question = ?, " +
+                        "task.price = ? " +
+                        "WHERE task.id = ? ;")){
             statement.setString(1,task.getQuestion());
             statement.setLong(2,task.getPrice());
+            statement.setLong(3,task.getId());
             changes = statement.executeUpdate();
         } catch (SQLException e) {
             logger.debug(e.getMessage());

@@ -52,6 +52,7 @@ public class EditTaskCommand implements Command {
         Task task = new Task();
         task.setQuestion(parameterMap.get("question")[0]);
         task.setPrice(Integer.parseInt(parameterMap.get("price")[0]));
+        task.setId(Integer.parseInt(parameterMap.get("taskId")[0]));
         return task;
     }
 

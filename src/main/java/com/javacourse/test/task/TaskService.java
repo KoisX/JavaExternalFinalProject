@@ -75,10 +75,10 @@ public class TaskService {
         }
     }
 
-    public boolean update(Task topic) throws SQLException, UnsuccessfulQueryException {
+    public boolean update(Task task) throws SQLException, UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);
-            return taskDAO.update(topic);
+            return taskDAO.update(task);
         }
     }
 }

@@ -25,11 +25,17 @@
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <button type="submit" name="command" value="edit" class="btn btn-success">Save changes</button>
-                            <button type="submit" name="command" value="delete" class="btn btn-danger">Delete</button>
                         </div>
                     </div>
+                    <input type="hidden" name="command" value="edit"/>
                     <input type="hidden" name="testId" value="${testId}"/>
                     <input type="hidden" name="taskId" value="${task.id}"/>
+                </form>
+                <form action="${pageContext.request.contextPath}/Test/TaskDetails" method="post" class="form-horizontal" role="form">
+                    <input type="hidden" name="command" value="delete"/>
+                    <input type="hidden" name="testId" value="${testId}"/>
+                    <input type="hidden" name="taskId" value="${task.id}"/>
+                    <input type="submit" value="Delete" class="btn btn-danger"/>
                 </form>
             </section>
         </div>
