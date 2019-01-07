@@ -13,7 +13,20 @@ import java.io.IOException;
 import static com.javacourse.shared.WebPage.*;
 
 @WebFilter(filterName = "AuthenticationFilter",
-        urlPatterns = {"/Home/Stats/*", "/WEB_INF/*"})
+        urlPatterns = { "/Home/Stats/*",
+                        "/WEB_INF/*",
+                        "/Test/Delete/*",
+                        "/Test/Details/*",
+                        "/Test/Create/*",
+                        "/Test/HeaderEdit/*",
+                        "/Test/DescriptionEdit/*",
+                        "/Test/PrivateStatus/*",
+                        "/Test/PublicStatus/*",
+                        "/Test/CreateTask/*",
+                        "/Test/TaskDetails/*",
+                        "/Test/AddAnswer/*",
+                        "/Test/EditAnswer/*",
+                        "/Test/DeleteAnswer/*"})
 public class AuthenticationFilter implements Filter {
 
     private static final String LOGIN_PARAM = "login";
@@ -31,7 +44,7 @@ public class AuthenticationFilter implements Filter {
         if(isLoggedIn(session)){
             Role role = (Role) session.getAttribute(ROLE_PARAM);
             if(role != Role.ADMIN){
-                page  = new WebPage(WebPageBase.ERROR_PAGE)
+                page  = new WebPage(WebPageBase.ERROR_ACTION)
                         .setDispatchType(DispatchType.REDIRECT);
             } else{
                 chain.doFilter(req, resp);
