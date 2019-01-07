@@ -4,6 +4,8 @@ import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.dataAccess.DAOFactory;
 import com.javacourse.shared.dataAccess.DBConnection;
 import com.javacourse.shared.dataAccess.MySqlDAOFactory;
+import com.javacourse.test.task.Task;
+import com.javacourse.test.task.TaskDAO;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
@@ -60,5 +62,28 @@ public class AnswerService {
         }
     }
 
+    public boolean update(Answer answer, boolean isCorrectAnswer, long taskId) throws SQLException, UnsuccessfulQueryException {
+        try(DBConnection connection = factory.createConnection()){
+            connection.setAutoCommit(false);
+            AnswerDAO answerDAO = factory.createAnswerDAO(connection);
+            try{
+                answerDAO.update(answer);
+                boolean isCorrectFromDb = answerDAO.isCorrect(answer.getId());
+                if(isCorrectFromDb != isCorrectAnswer){
+                    if(isCorrectAnswer){
+                        answerDAO.createAsCorrectAnswer(taskId, answer.getId());
+                    }else {
+                        answerDAO.deleteAsCorrectAnswer(taskId, answer.getId());
+                    }
+                }
+                connection.commit();
+            }catch (UnsuccessfulQueryException e){
+                logger.error(e.getMessage());
+                connection.rollback();
+                return false;
+            }
+            return true;
+        }
+    }
 
 }

@@ -31,7 +31,7 @@
                     <input type="hidden" name="testId" value="${testId}"/>
                     <input type="hidden" name="taskId" value="${task.id}"/>
                 </form>
-                <form style="position: absolute; bottom: -14px; left:250px;" action="${pageContext.request.contextPath}/Test/TaskDetails" method="post" class="form-horizontal" role="form">
+                <form action="${pageContext.request.contextPath}/Test/TaskDetails" method="post" class="form-horizontal inline-form-btn" role="form">
                     <input type="hidden" name="command" value="delete"/>
                     <input type="hidden" name="testId" value="${testId}"/>
                     <input type="hidden" name="taskId" value="${task.id}"/>

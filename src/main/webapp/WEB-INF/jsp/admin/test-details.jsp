@@ -63,7 +63,7 @@
                                                 <c:when test="${task.correctAnswers.contains(answer)}">
                                                     <input type="checkbox" class="form-check-input" name="field_${task.id}"  value="${answer.value}" checked disabled>
                                                     ${answer.value}
-                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&correct=true">Edit</a>
+                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&correct=true&taskId=${task.id}&testId=${test.id}">Edit</a>
                                                     <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
                                                         <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
                                                         <input type="hidden" name="testId" value="${test.id}"/>
@@ -72,7 +72,7 @@
                                                 <c:otherwise>
                                                     <input type="checkbox" class="form-check-input" name="field_${task.id}"  value="${answer.value}" disabled>
                                                     ${answer.value}
-                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}">Edit</a>
+                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&taskId=${task.id}&testId=${test.id}">Edit</a>
                                                     <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
                                                         <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
                                                         <input type="hidden" name="testId" value="${test.id}"/>
@@ -92,7 +92,7 @@
                                                 <c:when test="${task.correctAnswers.contains(answer)}">
                                                     <input type="radio" class="form-check-input" name="field_${task.id}" value="${answer.value}" checked disabled>
                                                     ${answer.value}
-                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&correct=true">Edit</a>
+                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&correct=true&testId=${test.id}&taskId=${task.id}">Edit</a>
                                                     <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
                                                         <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
                                                         <input type="hidden" name="testId" value="${test.id}"/>
@@ -101,7 +101,7 @@
                                                 <c:otherwise>
                                                     <input type="radio" class="form-check-input" name="field_${task.id}" value="${answer.value}" disabled>
                                                     ${answer.value}
-                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}">Edit</a>
+                                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${answer.id}&testId=${test.id}&taskId=${task.id}">Edit</a>
                                                     <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${answer.id}">
                                                         <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
                                                         <input type="hidden" name="testId" value="${test.id}"/>
@@ -117,7 +117,7 @@
                                 <div class="form-group">
                                     <label for="exampleInput">Answer:</label>
                                     <input type="text" class="form-control" id="exampleInput" name="field_${task.id}" placeholder="${task.possibleAnswers[0].value}" disabled>
-                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${task.possibleAnswers[0].id}&correct=true">Edit</a>
+                                    <a style="font-weight: normal;" href="${pageContext.request.contextPath}/Test/EditAnswer?id=${task.possibleAnswers[0].id}&correct=true&testId=${test.id}&taskId=${task.id}">Edit</a>
                                     <form method="post" style="display: inline-block;" action="${pageContext.request.contextPath}/Test/DeleteAnswer?id=${task.possibleAnswers[0].id}">
                                         <input style="display: inline-block;" type="submit" value="Delete" class="btn-link"/>
                                         <input type="hidden" name="testId" value="${test.id}"/>

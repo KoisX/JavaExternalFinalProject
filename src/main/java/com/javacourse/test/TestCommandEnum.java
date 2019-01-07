@@ -118,6 +118,11 @@ public enum TestCommandEnum {
         {
             this.command = new EditTaskCommand();
         }
+    },
+    EDIT_ANSWER_COMMAND{
+        {
+            this.command = new EditAnswerCommand();
+        }
     };
 
     Command command;

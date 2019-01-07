@@ -196,23 +196,63 @@ public class AnswerDAOMySql implements AnswerDAO{
             throw new UnsuccessfulQueryException();
         }
         return changes>0;
-}
+    }
 
     @Override
-    public boolean update(Answer answer) throws UnsuccessfulQueryException {
+    public boolean deleteAsCorrectAnswer(long taskId, long answerId) throws UnsuccessfulQueryException {
         int changes = 0;
         try(PreparedStatement statement = connection.prepareStatement(
-                "UPDATE answer " +
-                    "SET answer.value = ? " +
-                    "WHERE answer.id = ? ;")){
-            statement.setString(1,answer.getValue());
-            statement.setLong(2,answer.getId());
+                "DELETE FROM task_correct_answer " +
+                    "WHERE task_correct_answer.task_id = ? AND task_correct_answer.answer_id = ?;")){
+            statement.setLong(1, taskId);
+            statement.setLong(2, answerId);
             changes = statement.executeUpdate();
         } catch (SQLException e) {
             logger.debug(e.getMessage());
             throw new UnsuccessfulQueryException();
         }
         return changes>0;
+    }
+
+    @Override
+    public boolean update(Answer answer) throws UnsuccessfulQueryException {
+        int changes = 0;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "UPDATE answer " +
+                    "SET answer.value = ?, answer.is_case_sensitive = ? " +
+                    "WHERE answer.id = ? ;")){
+            statement.setString(1,answer.getValue());
+            statement.setBoolean(2, answer.getIsCaseSensitive());
+            statement.setLong(3,answer.getId());
+            changes = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.debug(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        }
+        return changes>0;
+    }
+
+    @Override
+    public boolean isCorrect(long id) throws UnsuccessfulQueryException {
+        boolean result;
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT COUNT(*) as res " +
+                    "FROM task_correct_answer " +
+                    "WHERE task_correct_answer.answer_id = ?; "
+        )){
+
+            statement.setLong(1,id);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            result = resultSet.getInt("res") > 0;
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        } finally {
+            closeResultSet(resultSet);
+        }
+        return result;
     }
 
     /**

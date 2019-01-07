@@ -19,6 +19,8 @@ public class ShowEditAnswerCommand implements Command {
             int taskId = Integer.parseInt(request.getParameter("id"));
             Answer answer = answerService.findById(taskId);
             request.setAttribute("answer", answer);
+            request.setAttribute("testId", request.getParameter("testId"));
+            request.setAttribute("taskId", request.getParameter("taskId"));
         } catch (SQLException | UnsuccessfulQueryException | NumberFormatException e) {
             webPage = new WebPage(WebPage.WebPageBase.ERROR_ACTION);
         }

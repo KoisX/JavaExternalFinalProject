@@ -15,6 +15,8 @@ public interface AnswerDAO extends AbstractDAO<Long, Answer> {
     List<Answer> findPossibleAnswersByTaskId(long task_id) throws UnsuccessfulQueryException;
     boolean createAsPossibleAnswer(long taskId, long answerId) throws UnsuccessfulQueryException;
     boolean createAsCorrectAnswer(long taskId, long answerId) throws UnsuccessfulQueryException;
+    boolean deleteAsCorrectAnswer(long taskId, long answerId) throws UnsuccessfulQueryException;
     long createAndGetId(Answer entity) throws UnsuccessfulQueryException;
     boolean update(Answer topic) throws UnsuccessfulQueryException;
+    boolean isCorrect(long id) throws  UnsuccessfulQueryException;
 }

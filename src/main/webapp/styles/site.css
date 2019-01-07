@@ -49,3 +49,9 @@ textarea {
 .my-table-cell { display:table-cell; }
 .my-table-header {display: table-header-group;}
 .my-table-body{display: table-row-group;}
+
+.inline-form-btn{
+    position: absolute !important;
+    bottom: -14px !important;
+    left:250px !important;
+}
