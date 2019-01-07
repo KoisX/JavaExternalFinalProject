@@ -22,9 +22,7 @@ import java.util.Set;
 public class AddTestCommand implements Command {
 
     private String lang;
-    private static final String NAME_PARAM = "name";
     private static final String LANG_PARAM = "lang";
-    private static final String ERROR_REQUEST_MESSAGE = "error";
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
