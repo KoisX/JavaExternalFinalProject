@@ -26,7 +26,8 @@ import static com.javacourse.shared.WebPage.*;
                         "/Test/TaskDetails/*",
                         "/Test/AddAnswer/*",
                         "/Test/EditAnswer/*",
-                        "/Test/DeleteAnswer/*"})
+                        "/Test/DeleteAnswer/*",
+                        "/Home/StatsDetails/*"})
 public class AuthenticationFilter implements Filter {
 
     private static final String LOGIN_PARAM = "login";
