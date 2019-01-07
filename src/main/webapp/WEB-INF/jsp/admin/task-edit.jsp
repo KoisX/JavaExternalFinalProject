@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-8">
             <section id="createForm">
-                <form action="${pageContext.request.contextPath}/Test/TaskDetails" method="post" class="form-horizontal" role="form">
+                <form id="task-form" action="${pageContext.request.contextPath}/Test/TaskDetails" method="post" class="form-horizontal" role="form">
                     <hr />
                     <div class="form-group">
                         <label for="question" class="col-md-2 control-label">Task name</label>
@@ -21,7 +21,7 @@
                             <input type="number" id="price" value="${task.price}" name="price" class="col-md-2 form-control" required>
                         </div>
                     </div>
-                    <p class="text-danger">${requestScope.error}</p>
+                    <p id="error-msg" class="text-danger">${requestScope.error}</p>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <button type="submit" name="command" value="edit" class="btn btn-success">Save changes</button>
@@ -34,4 +34,5 @@
             </section>
         </div>
     </div>
+    <script src="${pageContext.request.contextPath}/scripts/task-validation.js"></script>
 </t:page>

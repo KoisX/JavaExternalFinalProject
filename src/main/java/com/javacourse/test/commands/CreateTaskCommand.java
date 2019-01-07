@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+@SuppressWarnings("ALL")
 public class CreateTaskCommand implements Command {
 
     private static final String LANG_PARAM = "lang";

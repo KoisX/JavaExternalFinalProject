@@ -6,6 +6,7 @@ import com.javacourse.shared.dataAccess.DBConnection;
 import com.javacourse.shared.dataAccess.MySqlDAOFactory;
 import com.javacourse.shared.dataAccess.SqlConnection;
 import com.javacourse.test.answer.AnswerDAO;
+import com.javacourse.test.topic.Topic;
 import com.javacourse.test.topic.TopicDAO;
 import com.javacourse.user.UserService;
 import com.javacourse.utils.LogConfigurator;
@@ -71,6 +72,13 @@ public class TaskService {
         try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);
             return taskDAO.delete(id);
+        }
+    }
+
+    public boolean update(Task topic) throws SQLException, UnsuccessfulQueryException {
+        try(DBConnection connection = factory.createConnection()){
+            TaskDAO taskDAO = factory.createTaskDAO(connection);
+            return taskDAO.update(topic);
         }
     }
 }

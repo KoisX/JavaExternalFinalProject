@@ -8,8 +8,14 @@ import com.javacourse.utils.UriMarshaller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 public class TestCommandFactory extends CommandFactory {
+
+    private static final String COMMAND = "command";
+    private static final String EDIT_CMD = "edit";
+    private static final String DELETE_CMD = "delete";
+
     public TestCommandFactory(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }
@@ -56,7 +62,7 @@ public class TestCommandFactory extends CommandFactory {
             case "TaskDetails":
                 return HttpMethod.isGet(request.getMethod()) ?
                         TestCommandEnum.SHOW_TASK_DETAILS.getCommand():
-                        getTaskEditCommand(request);
+                        getPOSTTaskEditCommand(request);
             case "AddAnswer":
                 return HttpMethod.isGet(request.getMethod()) ?
                         TestCommandEnum.SHOW_ADD_ANSWER.getCommand():
@@ -74,12 +80,15 @@ public class TestCommandFactory extends CommandFactory {
         }
     }
 
-    Command getTaskEditCommand(HttpServletRequest request){
-        String commandParam = request.getParameter("command");
+    Command getPOSTTaskEditCommand(HttpServletRequest request){
+        String commandParam = Optional
+                .ofNullable(request.getParameter(COMMAND))
+                .orElse("");
+
         Command command = TopicCommandEnum.SHOW_TOPICS.getCommand();//default page
-        if(commandParam.equals("edit")){
+        if(commandParam.equals(EDIT_CMD)){
             command = TestCommandEnum.EDIT_TASK_COMMAND.getCommand();
-        }else if(commandParam.equals("delete")){
+        }else if(commandParam.equals(DELETE_CMD)){
             command = TestCommandEnum.DELETE_TASK_COMMAND.getCommand();
         }
         return command;

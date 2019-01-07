@@ -16,7 +16,7 @@ public class DeleteTaskCommand implements Command {
     private final static Logger logger;
     //logger configuration
     static {
-        logger = LogConfigurator.getLogger(DeleteAnswerCommand.class);
+        logger = LogConfigurator.getLogger(DeleteTaskCommand.class);
     }
 
     @Override
