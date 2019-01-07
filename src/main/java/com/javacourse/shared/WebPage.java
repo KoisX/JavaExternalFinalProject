@@ -11,6 +11,13 @@ public class WebPage{
     private WebPageBase base;
     private DispatchType dispatchType;
 
+    /**
+     * Default page, which makes WebPageRequestDispatcher leave user at the current page
+     * without redirecting. It does come into handy when working with AJAX.
+     * This object is immutable, thus there is really no use in creating multiple copies of it
+     */
+    public static final WebPage STAND_STILL_PAGE = new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
+
     public WebPage(WebPageBase baseUrl) {
         base = baseUrl;
         queryString = "";

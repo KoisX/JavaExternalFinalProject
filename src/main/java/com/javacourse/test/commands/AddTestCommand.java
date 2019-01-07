@@ -37,7 +37,7 @@ public class AddTestCommand implements Command {
         //set error message if model is not valid
         if(!violations.isEmpty()){
             showErrorResult(response, violations.iterator().next().getMessage());
-            return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
+            return WebPage.STAND_STILL_PAGE;
         }
 
         return getPageDependingOnWhetherInsertIsSuccessful(request, response, test);
@@ -94,6 +94,6 @@ public class AddTestCommand implements Command {
         } catch (IOException e) {
             throw new RuntimeException("Could not get response writer");
         }
-        return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
+        return WebPage.STAND_STILL_PAGE;
     }
 }

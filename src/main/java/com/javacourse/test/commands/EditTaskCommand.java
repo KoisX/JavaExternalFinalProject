@@ -30,7 +30,7 @@ public class EditTaskCommand implements Command {
             task = constructTask(request.getParameterMap());
         } catch (NumberFormatException e) {
             showErrorResult(response, "Error occurred");
-            return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
+            return WebPage.STAND_STILL_PAGE;
         }
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
 
@@ -42,7 +42,7 @@ public class EditTaskCommand implements Command {
         //set error message if model is not valid
         if(!violations.isEmpty()){
             showErrorResult(response, violations.iterator().next().getMessage());
-            return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
+            return WebPage.STAND_STILL_PAGE;
         }
 
         return getResponse(request, response, task, lang);
@@ -93,6 +93,6 @@ public class EditTaskCommand implements Command {
         } catch (IOException e) {
             throw new RuntimeException("Could not get response writer");
         }
-        return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
+        return WebPage.STAND_STILL_PAGE;
     }
 }
