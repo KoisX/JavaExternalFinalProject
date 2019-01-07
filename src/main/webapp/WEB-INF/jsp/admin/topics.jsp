@@ -27,7 +27,7 @@
         </c:if>
         <a href="${pageContext.request.contextPath}/Topic/Create">Create new</a>
         <c:forEach var="topic" items="${requestScope.topics}">
-            <a href="${pageContext.request.contextPath}/Test/Tests?id=${topic.id}" class="list-group-item list-group-item-action">
+            <a href="${pageContext.request.contextPath}/Test/Tests?id=${topic.id}" class="list-group-item list-group-item-action" style="padding-bottom: 20px;">
                 ${topic.name}
                 <div class="btn-group pull-right" role="group" style="width: 200px;">
                     <form method="post" action="${pageContext.request.contextPath}/Topic/List" style="display: inline-block;">

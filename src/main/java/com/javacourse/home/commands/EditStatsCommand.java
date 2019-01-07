@@ -25,13 +25,7 @@ import static com.javacourse.shared.WebPage.*;
 public class EditStatsCommand implements Command {
 
     private static final String LANG_PARAM = "lang";
-    private static final String ERROR_REQUEST_MESSAGE = "error";
     private static final String SCORE = "score";
-    private static final String EMAIL = "email";
-    private static final String NAME = "name";
-    private static final String TEST = "test";
-    private static final String STAT = "stat";
-    private static final int SCORE_INVALID = -1;
     private static final String ID = "id";
     private final static Logger logger;
 
