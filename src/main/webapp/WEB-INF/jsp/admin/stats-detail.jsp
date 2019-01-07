@@ -6,8 +6,8 @@
     <h2>More info about stats</h2>
     <div class="row">
         <div class="col-md-8">
-            <section id="createForm">
-                <form action="${pageContext.request.contextPath}/Home/Stats" method="post" class="form-horizontal" role="form">
+            <section id="createForm" style="position: relative;">
+                <form id="statsForm" action="${pageContext.request.contextPath}/Home/Stats" method="post" class="form-horizontal" role="form">
                     <hr />
                     <div class="form-group">
                         <label for="name" class="col-md-2 control-label">Person</label>
@@ -36,28 +36,25 @@
                     <div class="form-group">
                         <label for="score" class="col-md-2 control-label">Score</label>
                         <div class="col-md-10">
-                            <%--If score value is not valid it will be set to INVALID_SCORE value--%>
-                            <c:set var="INVALID_SCORE" scope="page" value="-1"/>
-                            <c:choose>
-                                <c:when test="${stat.score != INVALID_SCORE}">
-                                    <input type="number" id="score" name="score" class="col-md-2 form-control" value="${stat.score}">
-                                </c:when>
-                                <c:otherwise>
-                                    <input type="number" id="score" name="score" class="col-md-2 form-control" value="">
-                                </c:otherwise>
-                            </c:choose>
+                                <input type="number" id="score" name="score" class="col-md-2 form-control" value="${stat.score}">
                         </div>
                     </div>
                     <input type="hidden" name="id" value="${stat.id}"/>
-                    <p class="text-danger">${requestScope.error}</p>
+                    <input type="hidden" name="command" value="edit"/>
+                    <p id="error-msg" class="text-danger">${requestScope.error}</p>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <button type="submit" name="command" value="edit" class="btn btn-success">Save changes</button>
-                            <button type="submit" name="command" value="delete" class="btn btn-danger">Delete</button>
                         </div>
                     </div>
+                </form>
+                <form action="${pageContext.request.contextPath}/Home/Stats" method="post" class="form-horizontal inline-form-btn" role="form">
+                    <input type="hidden" name="command" value="delete"/>
+                    <input type="hidden" name="id" value="${stat.id}"/>
+                    <input type="submit" value="Delete" class="btn btn-danger"/>
                 </form>
             </section>
         </div>
     </div>
+    <script src="${pageContext.request.contextPath}/scripts/stats-validation.js"></script>
 </t:page>

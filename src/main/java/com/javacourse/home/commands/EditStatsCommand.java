@@ -9,12 +9,16 @@ import com.javacourse.test.Test;
 import com.javacourse.user.User;
 import com.javacourse.utils.BeanValidatorConfig;
 import com.javacourse.utils.LogConfigurator;
+import com.javacourse.utils.ResourceBundleConfig;
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 import java.util.Set;
 import static com.javacourse.shared.WebPage.*;
 
@@ -48,12 +52,25 @@ public class EditStatsCommand implements Command {
 
         //set error message if model is not valid
         if(!violations.isEmpty()){
-            //працює з помилкою. Пофіксити з AJAX
-            request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
-            return new WebPage(WebPageBase.STATS_ADMIN_DETAILS);
+            showErrorResult(response, violations.iterator().next().getMessage());
+            return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
         }
 
-        return getPageBasedOnWhetherEditIsSuccessful(request, stats);
+        return getPageBasedOnWhetherEditIsSuccessful(request, response,stats, lang);
+    }
+
+    @SuppressWarnings("Duplicates")
+    private void showErrorResult(HttpServletResponse response, String error) {
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("error", error);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            response.getWriter().write(jsonResponse.toString());
+            response.getWriter().flush();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not get response writer");
+        }
     }
 
     /*Constructs model, filling in only those fields, which are required*/
@@ -65,40 +82,33 @@ public class EditStatsCommand implements Command {
             stats.setScore(Integer.parseInt(scoreParam));
             stats.setId(Long.parseLong(id));
         } catch (NumberFormatException e) {
-            //stats.setScore(SCORE_INVALID);
-            setStatsRequestProperties(request, stats);
             logger.warn(e.getMessage());
         }
         return stats;
     }
 
-    private void setStatsRequestProperties(HttpServletRequest request, Stats stats){
-        stats.setScore(SCORE_INVALID);
-        User user = new User();
-        user.setName(request.getParameter(NAME));
-        user.setEmail(request.getParameter(EMAIL));
-
-        Test test = new Test();
-        test.setHeader(request.getParameter(TEST));
-        stats.setUser(user);
-        stats.setTest(test);
-        stats.setId(Long.parseLong(request.getParameter(ID)));
-        request.setAttribute(STAT, stats);
-    }
-
-    private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Stats stats){
-        WebPage webPage = new WebPage(WebPageBase.STATS_ACTION);
+    private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, HttpServletResponse response, Stats stats, String lang){
         StatsService statsService = new StatsService();
+
+        JSONObject jsonResponse = new JSONObject();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
         try {
             if(statsService.updateScore(stats)){
-                webPage = new WebPage(WebPageBase.STATS_ACTION)
-                        .setDispatchType(DispatchType.REDIRECT);
+                jsonResponse.put("url", new WebPage(WebPageBase.STATS_ACTION));
             }
         } catch (SQLException | UnsuccessfulQueryException e) {
-            //add filling in stats param!
-            webPage = new WebPage(WebPageBase.STATS_ADMIN_DETAILS);
+            ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
+            jsonResponse.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }
-        return webPage;
+        try {
+            response.getWriter().write(jsonResponse.toString());
+            response.getWriter().flush();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not get response writer");
+        }
+        return new WebPage(WebPage.WebPageBase.STAND_STILL_PAGE).setDispatchType(WebPage.DispatchType.STAND_STILL);
     }
 
 }
