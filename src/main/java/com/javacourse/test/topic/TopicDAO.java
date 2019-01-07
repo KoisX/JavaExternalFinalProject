@@ -8,4 +8,5 @@ import com.javacourse.shared.dataAccess.AbstractDAO;
  */
 public interface TopicDAO extends AbstractDAO<Integer, Topic> {
     boolean update(Topic topic) throws UnsuccessfulQueryException;
+    boolean doesTopicExist(Integer id) throws UnsuccessfulQueryException;
 }

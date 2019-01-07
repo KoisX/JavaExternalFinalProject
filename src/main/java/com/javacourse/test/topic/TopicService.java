@@ -67,4 +67,11 @@ public class TopicService {
             return topicDao.update(topic);
         }
     }
+
+    public boolean doesTopicExist(Integer id) throws UnsuccessfulQueryException, SQLException {
+        try(DBConnection connection = factory.createConnection()){
+            TopicDAO topicDao = factory.createTopicDAO(connection);
+            return topicDao.doesTopicExist(id);
+        }
+    }
 }

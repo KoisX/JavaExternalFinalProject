@@ -5,6 +5,8 @@ import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
 import com.javacourse.test.Test;
 import com.javacourse.test.TestService;
+import com.javacourse.test.topic.Topic;
+import com.javacourse.test.topic.TopicService;
 import com.javacourse.test.topic.commands.ShowTopicsCommand;
 import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
@@ -32,7 +34,7 @@ public class ShowTestByTopicCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         WebPage webPage = new WebPage(WebPageBase.ERROR_ACTION);
-        if(!setTestsAttribute(request)){
+        if(!setTestsAttribute(request) || topicDoesNotExist(request)){
             return webPage;
         }
         webPage = getTestPageForClient(request);
@@ -53,6 +55,21 @@ public class ShowTestByTopicCommand implements Command {
             return false;
         }
         return true;
+    }
+
+    private boolean topicDoesNotExist(HttpServletRequest request){
+        TopicService topicService = new TopicService();
+        String topicId = request.getParameter(ID_PARAM);
+        boolean doesExist = false;
+        if(topicId==null)
+            return false;
+        try{
+            doesExist = topicService.doesTopicExist(Integer.parseInt(topicId));
+        } catch (UnsuccessfulQueryException | SQLException e) {
+            logger.error(e.getMessage());
+            return false;
+        }
+        return !doesExist;
     }
 
     private WebPage getTestPageForClient(HttpServletRequest request){

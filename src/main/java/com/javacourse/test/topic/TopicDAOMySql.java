@@ -87,6 +87,27 @@ public class TopicDAOMySql implements TopicDAO {
         return topic;
     }
 
+    @Override
+    public boolean doesTopicExist(Integer id) throws UnsuccessfulQueryException {
+        ResultSet resultSet = null;
+        boolean result;
+        try(PreparedStatement statement = connection.prepareStatement(
+                "SELECT count(*) as count FROM topic WHERE topic.id = ?;"
+        )){
+
+            statement.setLong(1,id);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            result = resultSet.getInt("count") > 0;
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new UnsuccessfulQueryException();
+        } finally {
+            closeResultSet(resultSet);
+        }
+        return result;
+    }
+
     /**
      * Helper-method which encapsulates getting a single entity
      * from the ResultSet object
