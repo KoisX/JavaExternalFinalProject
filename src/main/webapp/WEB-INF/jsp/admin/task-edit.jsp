@@ -6,7 +6,7 @@
     <h2>Task details</h2>
     <div class="row">
         <div class="col-md-8">
-            <section id="createForm">
+            <section id="createForm" style="position: relative;">
                 <form id="task-form" action="${pageContext.request.contextPath}/Test/TaskDetails" method="post" class="form-horizontal" role="form">
                     <hr />
                     <div class="form-group">
@@ -31,7 +31,7 @@
                     <input type="hidden" name="testId" value="${testId}"/>
                     <input type="hidden" name="taskId" value="${task.id}"/>
                 </form>
-                <form action="${pageContext.request.contextPath}/Test/TaskDetails" method="post" class="form-horizontal" role="form">
+                <form style="position: absolute; bottom: -14px; left:250px;" action="${pageContext.request.contextPath}/Test/TaskDetails" method="post" class="form-horizontal" role="form">
                     <input type="hidden" name="command" value="delete"/>
                     <input type="hidden" name="testId" value="${testId}"/>
                     <input type="hidden" name="taskId" value="${task.id}"/>
