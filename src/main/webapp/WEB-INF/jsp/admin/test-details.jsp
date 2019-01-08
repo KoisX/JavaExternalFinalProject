@@ -10,7 +10,7 @@
     <c:if test="${test.isPublic == false}">
         <div id="status-message" class="alert alert-info">
             <p><strong>Attention!</strong> This test is <strong>NOT</strong> public!</p>
-            <form method="post" action="${pageContext.request.contextPath}/Test/PublicStatus">
+            <form id="make-public" method="post" action="${pageContext.request.contextPath}/Test/PublicStatus">
                 <input type="hidden" name="id" value="${test.id}"/>
                 <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                 <button type="submit" class="btn btn-link"><i>Grant public access</i></button>
@@ -132,13 +132,7 @@
                     </fieldset>
                 </div>
             </c:forEach>
-            <c:if test="${status=='Error'}">
-                <%--TODO: move script to header--%>
-                <script src="${pageContext.request.contextPath}/scripts/jquery-1.10.2.js"></script>
-                <script>
-                    $('#status-warn').css('color', 'red');
-                </script>
-            </c:if>
         </c:otherwise>
     </c:choose>
+    <script src="${pageContext.request.contextPath}/scripts/grantPublicAccessValidation.js"></script>
 </t:page>

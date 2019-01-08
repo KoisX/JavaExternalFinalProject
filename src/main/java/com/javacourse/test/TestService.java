@@ -109,6 +109,7 @@ public class TestService {
             List<Task> tasks = taskService.findTasksByTestId(String.valueOf(entity.getId()));
             if(hasAtLeastOneTask(tasks) && doesEachTaskHaveAtLeastOneCorrectAnswer(tasks)){
                 testDao.changeTestStatus(true, entity.getId());
+                return true;
             }
             return false;
         }
