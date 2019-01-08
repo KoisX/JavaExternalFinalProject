@@ -29,14 +29,9 @@ public class EditHeaderCommand implements Command {
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Test test = constructTest(request.getParameterMap());
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
-        //validating model and getting violations if sth is wrong
-        Set<ConstraintViolation<Test>> violations = BeanValidatorConfig
-                .getValidator(lang)
-                .validate(test);
-
-        //set error message if model is not valid
-        if(!violations.isEmpty()){
-            JsonManager.sendSingleMessage("error", violations.iterator().next().getMessage(), response);
+        BeanValidatorConfig<Test> validator = new BeanValidatorConfig<>(lang);
+        if(!validator.isValid(test)){
+            JsonManager.sendSingleMessage("error", validator.getErrorMessage(), response);
         }else {
             editHeader(request, response, test, lang);
         }

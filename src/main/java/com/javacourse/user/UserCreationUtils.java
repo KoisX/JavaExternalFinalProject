@@ -52,11 +52,10 @@ public class UserCreationUtils {
     public WebPage handleUserInsert(User user){
 
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
-        validator = BeanValidatorConfig.getValidator(lang);
         setResourceBundle(lang);
-        Set<ConstraintViolation<User>> violations = validator.validate(user);
-        if(!violations.isEmpty()){
-            request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
+        BeanValidatorConfig<User> validator = new BeanValidatorConfig<>(lang);
+        if(!validator.isValid(user)){
+            request.setAttribute(ERROR_REQUEST_MESSAGE, validator.getErrorMessage());
             return new WebPage(WebPageBase.SIGN_UP_PAGE);
         }
 

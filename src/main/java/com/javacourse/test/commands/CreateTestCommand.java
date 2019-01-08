@@ -5,6 +5,7 @@ import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
 import com.javacourse.test.Test;
 import com.javacourse.test.TestService;
+import com.javacourse.test.answer.Answer;
 import com.javacourse.test.topic.Topic;
 import com.javacourse.utils.BeanValidatorConfig;
 import com.javacourse.utils.JsonManager;
@@ -28,14 +29,9 @@ public class CreateTestCommand implements Command {
         Test test = constructTest(request.getParameterMap());
         lang = (String)request.getSession().getAttribute(LANG_PARAM);
 
-        //validating model and getting violations if sth is wrong
-        Set<ConstraintViolation<Test>> violations = BeanValidatorConfig
-                .getValidator(lang)
-                .validate(test);
-
-        //set error message if model is not valid
-        if(!violations.isEmpty()){
-            JsonManager.sendSingleMessage("error", violations.iterator().next().getMessage(), response);
+        BeanValidatorConfig<Test> validator = new BeanValidatorConfig<>(lang);
+        if(!validator.isValid(test)){
+            JsonManager.sendSingleMessage("error", validator.getErrorMessage(), response);
         }else {
             createTest(request, response, test);
         }

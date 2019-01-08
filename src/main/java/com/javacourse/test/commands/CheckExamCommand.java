@@ -29,7 +29,7 @@ import static com.javacourse.shared.WebPage.*;
 public class CheckExamCommand implements Command {
 
     private List<Task> tasks;
-    private int maxScore;
+    private int maxScore;//awful - must be a stateless object. Refactor!!!!!!
     private int score;
     /*Tasks, in which user made mistakes*/
     private List<Long> wrongTasksIndexes;

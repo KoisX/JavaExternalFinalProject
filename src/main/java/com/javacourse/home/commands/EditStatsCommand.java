@@ -39,15 +39,9 @@ public class EditStatsCommand implements Command {
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Stats stats = constructPartialStatsModel(request);
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
-
-        //validating model and getting violations if sth is wrong
-        Set<ConstraintViolation<Stats>> violations = BeanValidatorConfig
-                .getValidator(lang)
-                .validate(stats);
-
-        //set error message if model is not valid
-        if(!violations.isEmpty()){
-            JsonManager.sendSingleMessage("error", violations.iterator().next().getMessage(), response);
+        BeanValidatorConfig<Stats> validator = new BeanValidatorConfig<>(lang);
+        if(!validator.isValid(stats)){
+            JsonManager.sendSingleMessage("error", validator.getErrorMessage(), response);
         }else {
             editStats(response, stats, lang);
         }

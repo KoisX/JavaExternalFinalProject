@@ -30,15 +30,9 @@ public class EditAnswerCommand implements Command {
         Answer answer = constructAnswer(request.getParameterMap());
         boolean isCorrectAnswer = getIsCorrectAnswer(request.getParameterMap());
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
-
-        //validating model and getting violations if sth is wrong
-        Set<ConstraintViolation<Answer>> violations = BeanValidatorConfig
-                .getValidator(lang)
-                .validate(answer);
-
-        //set error message if model is not valid
-        if(!violations.isEmpty()){
-            JsonManager.sendSingleMessage("error", violations.iterator().next().getMessage(), response);
+        BeanValidatorConfig<Answer> validator = new BeanValidatorConfig<>(lang);
+        if(!validator.isValid(answer)){
+            JsonManager.sendSingleMessage("error",validator.getErrorMessage(), response);
         }else {
             editAnswer(request, response, answer, lang, isCorrectAnswer);
         }

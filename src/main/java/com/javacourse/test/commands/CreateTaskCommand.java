@@ -36,15 +36,9 @@ public class CreateTaskCommand implements Command {
             return WebPage.STAND_STILL_PAGE;
         }
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
-
-        //validating model and getting violations if sth is wrong
-        Set<ConstraintViolation<Task>> violations = BeanValidatorConfig
-                .getValidator(lang)
-                .validate(task);
-
-        //set error message if model is not valid
-        if(!violations.isEmpty()){
-            JsonManager.sendSingleMessage("error", violations.iterator().next().getMessage(), response);
+        BeanValidatorConfig<Task> validator = new BeanValidatorConfig<>(lang);
+        if(!validator.isValid(task)){
+            JsonManager.sendSingleMessage("error", validator.getErrorMessage(), response);
         }else {
             createTask(request, response, task, lang);
         }

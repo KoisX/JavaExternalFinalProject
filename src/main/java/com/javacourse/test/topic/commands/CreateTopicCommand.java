@@ -27,15 +27,9 @@ public class CreateTopicCommand implements Command {
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Topic topic = constructTopic(request);
         lang = (String)request.getSession().getAttribute(LANG_PARAM);
-
-        //validating model and getting violations if sth is wrong
-        Set<ConstraintViolation<Topic>> violations = BeanValidatorConfig
-                .getValidator(lang)
-                .validate(topic);
-
-        //set error message if model is not valid
-        if(!violations.isEmpty()){
-            request.setAttribute(ERROR_REQUEST_MESSAGE, violations.iterator().next().getMessage());
+        BeanValidatorConfig<Topic> validator = new BeanValidatorConfig<>(lang);
+        if(!validator.isValid(topic)){
+            request.setAttribute(ERROR_REQUEST_MESSAGE, validator.getErrorMessage());
             return new WebPage(WebPageBase.TOPICS_ADMIN_CREATE);
         }
 
