@@ -20,8 +20,6 @@ import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class SignInCommand implements Command {
 
-    private String userEmail;
-    private String userPassword;
     private final static Logger logger;
     private final static String ERROR_MSG = "error";
     private static final String LANG_PARAM = "lang";
@@ -37,23 +35,23 @@ public class SignInCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        userEmail = request.getParameter(LOGIN_PARAM);
-        userPassword = request.getParameter(PASSWORD_PARAM);
-        WebPage webPage = getPageBasedOnWhetherUserExists(request);
+        String  userEmail = request.getParameter(LOGIN_PARAM);
+        String userPassword = request.getParameter(PASSWORD_PARAM);
+        WebPage webPage = getPageBasedOnWhetherUserExists(request, userPassword, userEmail);
         return webPage;
     }
 
-    private WebPage getPageBasedOnWhetherUserExists(HttpServletRequest request){
+    private WebPage getPageBasedOnWhetherUserExists(HttpServletRequest request, String userPassword, String userEmail){
         WebPage webPage = new WebPage(WebPageBase.LOGIN_PAGE);
         try {
             UserService userService = new UserService();
             String hash = PasswordManager.hash(userPassword, userEmail);
             if(userService.doesUserExist(userEmail, hash)){
                 Role role = userService.getUserRoleByEmail(userEmail);
-                setUserAttributes(role, hash, request);
+                setUserAttributes(role, hash, request, userEmail);
                 webPage = new WebPage(WebPageBase.INDEX_ACTION).setDispatchType(WebPage.DispatchType.REDIRECT);
             }
-        }catch (UnsuccessfulQueryException | SQLException e) {
+        }catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             webPage = new WebPage(WebPageBase.ERROR_ACTION);
         }
@@ -62,7 +60,7 @@ public class SignInCommand implements Command {
         return webPage;
     }
 
-    private void setUserAttributes(Role role, String hash, HttpServletRequest request) throws UnsuccessfulQueryException, SQLException {
+    private void setUserAttributes(Role role, String hash, HttpServletRequest request, String userEmail) {
         HttpSession session = request.getSession();
         session.setAttribute(LOGIN_PARAM, userEmail);
         session.setAttribute(PASSWORD_PARAM, hash);
