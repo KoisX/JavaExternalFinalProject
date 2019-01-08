@@ -2,17 +2,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="stats_messages"/>
 <t:page title="Stats">
-    <h1>Stats page</h1>
+    <h1><fmt:message key="msg.stats"/></h1>
     <table class="table table-hover table-striped">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Person</th>
-            <th scope="col">Email</th>
-            <th scope="col">Test</th>
-            <th scope="col">Date</th>
-            <th scope="col">Score</th>
+            <th scope="col"><fmt:message key="msg.person"/></th>
+            <th scope="col"><fmt:message key="msg.email"/></th>
+            <th scope="col"><fmt:message key="msg.test"/></th>
+            <th scope="col"><fmt:message key="msg.date"/></th>
+            <th scope="col"><fmt:message key="msg.score"/></th>
             <th scope="col"></th>
         </tr>
         </thead>
@@ -27,7 +29,7 @@
                 <td>${stat.score}</td>
                 <td>
                     <a href="${pageContext.request.contextPath}/Home/StatsDetails?id=${stat.id}">
-                        Learn more
+                        <fmt:message key="msg.learn-more"/>
                     </a>
                 </td>
             </tr>
@@ -40,12 +42,12 @@
             <c:choose>
                 <c:when test="${requestScope.currentPage gt 1}">
                     <li class="page-item">
-                        <a class="page-link" href="${pageContext.request.contextPath}/Home/Stats?page=${currentPage - 1}" tabindex="-1">Previous</a>
+                        <a class="page-link" href="${pageContext.request.contextPath}/Home/Stats?page=${currentPage - 1}" tabindex="-1"><fmt:message key="msg.previous"/></a>
                     </li>
                 </c:when>
                 <c:otherwise>
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        <a class="page-link" href="#" tabindex="-1"><fmt:message key="msg.previous"/></a>
                     </li>
                 </c:otherwise>
             </c:choose>
@@ -71,12 +73,12 @@
             <c:choose>
                 <c:when test="${requestScope.currentPage lt requestScope.pages}">
                     <li class="page-item">
-                        <a class="page-link" href="${pageContext.request.contextPath}/Home/Stats?page=${currentPage + 1}">Next</a>
+                        <a class="page-link" href="${pageContext.request.contextPath}/Home/Stats?page=${currentPage + 1}"><fmt:message key="msg.next"/></a>
                     </li>
                 </c:when>
                 <c:otherwise>
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Next</a>
+                        <a class="page-link" href="#" tabindex="-1"><fmt:message key="msg.next"/></a>
                     </li>
                 </c:otherwise>
             </c:choose>

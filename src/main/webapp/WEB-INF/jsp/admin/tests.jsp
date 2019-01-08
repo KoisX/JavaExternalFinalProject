@@ -16,12 +16,12 @@
         <c:choose>
             <c:when test="${fn:length(requestScope.tests) eq 0}">
                 <div id="status-message" class="alert alert-info">
-                    <p>There are no tests yet :(</p>
-                    <a href="${pageContext.request.contextPath}/Test/Create?id=${topicId}">Create new</a>
+                    <p><fmt:message key="msg.empty"/></p>
+                    <a href="${pageContext.request.contextPath}/Test/Create?id=${topicId}"><fmt:message key="msg.create"/></a>
                 </div>
             </c:when>
             <c:otherwise>
-                <a href="${pageContext.request.contextPath}/Test/Create?id=${topicId}">Create new</a>
+                <a href="${pageContext.request.contextPath}/Test/Create?id=${topicId}"><fmt:message key="msg.create"/></a>
                 <c:forEach var="test" items="${requestScope.tests}">
                     <a class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal${test.id}" style="cursor: pointer;">
                         <h3>
@@ -50,14 +50,14 @@
                                             <input type="hidden" name="command" value="delete"/>
                                             <input name="id" type="hidden" value="${test.id}"/>
                                             <input name="topicId" type="hidden" value="${topicId}"/>
-                                            <input type="submit" value="Delete" class="btn btn-danger">
+                                            <input type="submit" value="<fmt:message key="msg.delete"/>" class="btn btn-danger">
                                         </form>
                                         <div style="display: inline-block;">
-                                            <a href="${pageContext.request.contextPath}/Test/Details?id=${test.id}" class="btn btn-info">Edit test</a>
+                                            <a href="${pageContext.request.contextPath}/Test/Details?id=${test.id}" class="btn btn-info"><fmt:message key="msg.edit"/></a>
                                         </div>
                                     </div>
-                                    <a href="${pageContext.request.contextPath}/Test/Exam?id=${test.id}" class="btn btn-success">Start test</a>
-                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                                    <a href="${pageContext.request.contextPath}/Test/Exam?id=${test.id}" class="btn btn-success"><fmt:message key="msg.start"/></a>
+                                    <button type="button" class="btn btn-warning" data-dismiss="modal"><fmt:message key="msg.close"/></button>
                                 </div>
                             </div>
                         </div>

@@ -13,7 +13,7 @@
                 <strong>Warning!</strong> ${error}
             </div>
         </c:if>
-        <a href="${pageContext.request.contextPath}/Topic/Create">Create new</a>
+        <a href="${pageContext.request.contextPath}/Topic/Create"><fmt:message key="msg.create"/></a>
         <c:forEach var="topic" items="${requestScope.topics}">
             <a href="${pageContext.request.contextPath}/Test/Tests?id=${topic.id}" class="list-group-item list-group-item-action" style="padding-bottom: 20px;">
                     ${topic.name}
@@ -21,11 +21,11 @@
                     <form method="post" action="${pageContext.request.contextPath}/Topic/List" style="display: inline-block;">
                         <input type="hidden" name="command" value="delete"/>
                         <input name="id" type="hidden" value="${topic.id}"/>
-                        <input type="submit" value="Delete" class="btn btn-sm btn-danger">
+                        <input type="submit" value="<fmt:message key="msg.delete"/>" class="btn btn-sm btn-danger">
                     </form>
                     <form method="post" action="${pageContext.request.contextPath}/Topic/Edit" style="display: inline-block;">
                         <input name="id" type="hidden" value="${topic.id}"/>
-                        <input type="submit" value="Edit-page" class="btn btn-sm btn-warning">
+                        <input type="submit" value="<fmt:message key="msg.edit"/>" class="btn btn-sm btn-warning">
                     </form>
                 </div>
             </a>
