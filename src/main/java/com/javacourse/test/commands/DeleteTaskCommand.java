@@ -25,7 +25,7 @@ public class DeleteTaskCommand implements Command {
         String testId = request.getParameter("testId");
         TaskService taskService = new TaskService();
         try {
-            if(taskService.delete(Integer.parseInt(taskId)))
+            if(taskService.delete(taskId))
                 return new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setDispatchType(WebPage.DispatchType.REDIRECT)
                         .setQueryString("?id="+testId);

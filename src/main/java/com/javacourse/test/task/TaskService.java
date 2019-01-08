@@ -54,10 +54,10 @@ public class TaskService {
         }
     }
 
-    public Task findById(Integer id) throws UnsuccessfulQueryException, SQLException {
+    public Task findById(String id) throws UnsuccessfulQueryException, SQLException {
         try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);
-            return taskDAO.findById(id);
+            return taskDAO.findById(Integer.parseInt(id));
         }
     }
 
@@ -68,10 +68,10 @@ public class TaskService {
         }
     }
 
-    public boolean delete(Integer id) throws UnsuccessfulQueryException, SQLException {
+    public boolean delete(String id) throws UnsuccessfulQueryException, SQLException {
         try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);
-            return taskDAO.delete(id);
+            return taskDAO.delete(Integer.parseInt(id));
         }
     }
 

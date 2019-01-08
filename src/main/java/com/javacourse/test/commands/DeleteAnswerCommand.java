@@ -25,7 +25,7 @@ public class DeleteAnswerCommand implements Command {
         String testId = request.getParameter("testId");
         AnswerService answerService = new AnswerService();
         try {
-            if(answerService.delete(Long.parseLong(id)))
+            if(answerService.delete(id))
                 return new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setDispatchType(WebPage.DispatchType.REDIRECT)
                         .setQueryString("?id="+testId);

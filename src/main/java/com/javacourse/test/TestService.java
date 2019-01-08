@@ -123,17 +123,17 @@ public class TestService {
         return tasks.stream().noneMatch(element -> element.getCorrectAnswers().size() == 0);
     }
 
-    public boolean updateHeader(String header, long id) throws UnsuccessfulQueryException, SQLException {
+    public boolean updateHeader(String header, String id) throws UnsuccessfulQueryException, SQLException {
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);
-            return testDao.updateHeader(header, id);
+            return testDao.updateHeader(header, Long.parseLong(id));
         }
     }
 
-    public boolean updateDescription(String description, long id) throws UnsuccessfulQueryException, SQLException {
+    public boolean updateDescription(String description, String id) throws UnsuccessfulQueryException, SQLException {
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);
-            return testDao.updateDescription(description, id);
+            return testDao.updateDescription(description, Long.parseLong(id));
         }
     }
 }

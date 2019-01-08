@@ -64,7 +64,7 @@ public class ShowTestByTopicCommand implements Command {
         if(topicId==null)
             return false;
         try{
-            doesExist = topicService.doesTopicExist(Integer.parseInt(topicId));
+            doesExist = topicService.doesTopicExist(topicId);
         } catch (UnsuccessfulQueryException | SQLException e) {
             logger.error(e.getMessage());
             return false;

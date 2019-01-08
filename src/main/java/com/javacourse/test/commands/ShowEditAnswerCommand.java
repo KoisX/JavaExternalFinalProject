@@ -16,7 +16,7 @@ public class ShowEditAnswerCommand implements Command {
         WebPage webPage = new WebPage(WebPage.WebPageBase.ANSWER_ADMIN_EDIT_PAGE);
         AnswerService answerService = new AnswerService();
         try {
-            int taskId = Integer.parseInt(request.getParameter("id"));
+            String taskId = request.getParameter("id");
             Answer answer = answerService.findById(taskId);
             request.setAttribute("answer", answer);
             request.setAttribute("testId", request.getParameter("testId"));

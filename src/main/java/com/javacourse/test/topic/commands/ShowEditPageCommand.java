@@ -17,7 +17,7 @@ public class ShowEditPageCommand implements Command {
         WebPage webPage = new WebPage(WebPageBase.TOPICS_ADMIN_EDIT);
         TopicService topicService = new TopicService();
         try {
-            int topicId = Integer.parseInt(request.getParameter("id"));
+            String topicId = request.getParameter("id");
             Topic topic = topicService.findById(topicId);
             request.setAttribute("topic", topic);
         } catch (SQLException | UnsuccessfulQueryException | NumberFormatException e) {

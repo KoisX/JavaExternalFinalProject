@@ -28,10 +28,10 @@ public class AnswerService {
         this.factory = new MySqlDAOFactory();
     }
 
-    public Answer findById(int id) throws UnsuccessfulQueryException, SQLException {
+    public Answer findById(String id) throws UnsuccessfulQueryException, SQLException {
         try(DBConnection connection = factory.createConnection()){
             AnswerDAO answerDAO = factory.createAnswerDAO(connection);
-            return answerDAO.findById((long) id);
+            return answerDAO.findById(Long.parseLong(id));
         }
     }
 
@@ -55,10 +55,10 @@ public class AnswerService {
         }
     }
 
-    public boolean delete(Long id) throws UnsuccessfulQueryException, SQLException {
+    public boolean delete(String id) throws UnsuccessfulQueryException, SQLException {
         try(DBConnection connection = factory.createConnection()){
             AnswerDAO answerDAO = factory.createAnswerDAO(connection);
-            return answerDAO.delete(id);
+            return answerDAO.delete(Long.parseLong(id));
         }
     }
 

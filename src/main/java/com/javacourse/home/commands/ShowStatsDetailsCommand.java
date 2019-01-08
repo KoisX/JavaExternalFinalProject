@@ -26,7 +26,7 @@ public class ShowStatsDetailsCommand implements Command {
         StatsService statsService = new StatsService();
         try {
             String id = request.getParameter(ID);
-            Stats stats = statsService.findById(Integer.parseInt(id));
+            Stats stats = statsService.findById(id);
             request.setAttribute(STAT_PROP, stats);
         } catch (UnsuccessfulQueryException | SQLException | NumberFormatException e) {
             webPage = new WebPage(WebPageBase.ERROR_ACTION);

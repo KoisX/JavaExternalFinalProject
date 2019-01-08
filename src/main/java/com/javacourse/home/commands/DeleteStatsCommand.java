@@ -21,7 +21,7 @@ public class DeleteStatsCommand implements Command {
         StatsService statsService = new StatsService();
         String id = request.getParameter(ID);
         try {
-            statsService.delete(Integer.parseInt(id));
+            statsService.delete(id);
         } catch (UnsuccessfulQueryException | SQLException e) {
             webPage = new WebPage(WebPageBase.ERROR_ACTION)
                     .setDispatchType(WebPage.DispatchType.REDIRECT);

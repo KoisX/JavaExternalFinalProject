@@ -50,7 +50,7 @@ public class EditDescriptionCommand implements Command {
         String id = request.getParameter("id");
         JsonManager json = new JsonManager(response);
         try {
-            if(testService.updateDescription(test.getDescription(), Long.parseLong(id))){
+            if(testService.updateDescription(test.getDescription(),id)){
                 json.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setQueryString("?id="+id));
             }

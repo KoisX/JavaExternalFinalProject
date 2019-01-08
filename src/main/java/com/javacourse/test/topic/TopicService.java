@@ -54,10 +54,10 @@ public class TopicService {
         }
     }
 
-    public Topic findById(Integer id) throws SQLException, UnsuccessfulQueryException {
+    public Topic findById(String id) throws SQLException, UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TopicDAO topicDao = factory.createTopicDAO(connection);
-            return topicDao.findById(id);
+            return topicDao.findById(Integer.parseInt(id));
         }
     }
 
@@ -68,10 +68,10 @@ public class TopicService {
         }
     }
 
-    public boolean doesTopicExist(Integer id) throws UnsuccessfulQueryException, SQLException {
+    public boolean doesTopicExist(String id) throws UnsuccessfulQueryException, SQLException {
         try(DBConnection connection = factory.createConnection()){
             TopicDAO topicDao = factory.createTopicDAO(connection);
-            return topicDao.doesTopicExist(id);
+            return topicDao.doesTopicExist(Integer.parseInt(id));
         }
     }
 }

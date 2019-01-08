@@ -42,17 +42,17 @@ public class StatsService {
         }
     }
 
-    public Stats findById(Integer id) throws UnsuccessfulQueryException, SQLException {
+    public Stats findById(String id) throws UnsuccessfulQueryException, SQLException {
         try(DBConnection connection = factory.createConnection()){
             StatsDAO statsDAO = factory.createStatsDAO(connection);
-            return statsDAO.findById(id);
+            return statsDAO.findById(Integer.parseInt(id));
         }
     }
 
-    public boolean delete(Integer id) throws UnsuccessfulQueryException, SQLException {
+    public boolean delete(String id) throws UnsuccessfulQueryException, SQLException {
         try(DBConnection connection = factory.createConnection()){
             StatsDAO statsDAO = factory.createStatsDAO(connection);
-            return statsDAO.delete(id);
+            return statsDAO.delete(Integer.parseInt(id));
         }
     }
 

@@ -52,7 +52,7 @@ public class EditHeaderCommand implements Command {
         String id = request.getParameter("id");
         JsonManager json = new JsonManager(response);
         try {
-            if(testService.updateHeader(test.getHeader(), Long.parseLong(id))){
+            if(testService.updateHeader(test.getHeader(), id)){
                 json.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setQueryString("?id="+id).toString());
             }
