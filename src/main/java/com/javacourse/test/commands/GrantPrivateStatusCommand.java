@@ -19,7 +19,7 @@ public class GrantPrivateStatusCommand implements Command {
         test.setId(Long.parseLong(idParam));
         try {
             testService.makeTestPrivate(test);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             return new WebPage(WebPage.WebPageBase.ERROR_ACTION);
         }
         return new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)

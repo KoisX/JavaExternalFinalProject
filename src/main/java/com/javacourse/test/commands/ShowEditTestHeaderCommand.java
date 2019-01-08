@@ -28,7 +28,7 @@ public class ShowEditTestHeaderCommand implements Command {
         return new WebPage(WebPage.WebPageBase.TEST_ADMIN_EDIT_HEADER);
     }
 
-    @SuppressWarnings("Duplicates")
+
     private boolean setTasksAttribute(HttpServletRequest request){
         TestService testService = new TestService();
         String testId = request.getParameter(ID_PARAM);
@@ -38,7 +38,7 @@ public class ShowEditTestHeaderCommand implements Command {
             Test test = testService.findById(testId);
             request.setAttribute(TEST_ID_ATTRIBUTE, testId);
             request.setAttribute("test", test);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             return false;
         }
         return true;

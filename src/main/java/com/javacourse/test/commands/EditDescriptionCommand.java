@@ -28,6 +28,8 @@ public class EditDescriptionCommand implements Command {
         Test test = constructTest(request.getParameterMap());
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
         BeanValidatorConfig<Test> validator = new BeanValidatorConfig<>(lang);
+
+        //checking if model is in valid state
         if(!validator.isValid(test)){
             JsonManager.sendSingleMessage("error", validator.getErrorMessage(), response);
         }else {
@@ -54,7 +56,7 @@ public class EditDescriptionCommand implements Command {
                 json.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setQueryString("?id="+id));
             }
-        } catch (UnsuccessfulQueryException | SQLException | NumberFormatException e) {
+        } catch (UnsuccessfulQueryException | NumberFormatException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
             json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }

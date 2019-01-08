@@ -29,7 +29,7 @@ public class DeleteAnswerCommand implements Command {
                 return new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setDispatchType(WebPage.DispatchType.REDIRECT)
                         .setQueryString("?id="+testId);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
         }
         //in case delete is unsuccessful

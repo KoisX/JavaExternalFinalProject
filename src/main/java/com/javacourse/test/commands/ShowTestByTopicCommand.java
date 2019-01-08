@@ -50,7 +50,7 @@ public class ShowTestByTopicCommand implements Command {
             List<Test> tests = testService.findByTopicId(topicId);
             request.setAttribute(TESTS_ATTRIBUTE, tests);
             request.setAttribute(TOPIC_ID, topicId);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return false;
         }
@@ -65,7 +65,7 @@ public class ShowTestByTopicCommand implements Command {
             return false;
         try{
             doesExist = topicService.doesTopicExist(topicId);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return false;
         }

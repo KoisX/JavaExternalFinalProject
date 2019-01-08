@@ -45,7 +45,7 @@ public class ShowExamCommand implements Command {
             List<Task> tasks = taskService.findTasksByTestId(testId);
             request.setAttribute(TASKS_ATTRIBUTE, tasks);
             request.setAttribute(TEST_ID_ATTRIBUTE, testId);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return false;
         }

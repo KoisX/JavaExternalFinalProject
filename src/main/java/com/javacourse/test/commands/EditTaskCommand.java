@@ -8,16 +8,12 @@ import com.javacourse.test.task.TaskService;
 import com.javacourse.utils.BeanValidatorConfig;
 import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.ResourceBundleConfig;
-import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class EditTaskCommand implements Command {
 
@@ -25,13 +21,13 @@ public class EditTaskCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        Task task = null;
-        try {
-            task = constructTask(request.getParameterMap());
-        } catch (NumberFormatException e) {
-            JsonManager.sendSingleMessage("error","Error occurred", response);
+        Task task = constructTaskIfPossible(request.getParameterMap());
+        if(task==null){
+            JsonManager.sendSingleMessage("error", "Error occurred", response);
             return WebPage.STAND_STILL_PAGE;
         }
+
+        //checking if model is in valid state
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
         BeanValidatorConfig<Task> validator = new BeanValidatorConfig<>(lang);
         if(!validator.isValid(task)){
@@ -43,11 +39,15 @@ public class EditTaskCommand implements Command {
         return WebPage.STAND_STILL_PAGE;
     }
 
-    private Task constructTask(Map<String, String[]> parameterMap) {
+    private Task constructTaskIfPossible(Map<String, String[]> parameterMap) {
         Task task = new Task();
         task.setQuestion(parameterMap.get("question")[0]);
-        task.setPrice(Integer.parseInt(parameterMap.get("price")[0]));
-        task.setId(Integer.parseInt(parameterMap.get("taskId")[0]));
+        try {
+            task.setPrice(Integer.parseInt(parameterMap.get("price")[0]));
+            task.setId(Integer.parseInt(parameterMap.get("taskId")[0]));
+        } catch (NumberFormatException e) {
+            return null;
+        }
         return task;
     }
 
@@ -60,7 +60,7 @@ public class EditTaskCommand implements Command {
                 json.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setQueryString("?id="+testId).toString());
             }
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
             json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }

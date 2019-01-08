@@ -18,7 +18,6 @@ import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class CreateTopicCommand implements Command {
 
-    private String lang;
     private static final String NAME_PARAM = "name";
     private static final String LANG_PARAM = "lang";
     private static final String ERROR_REQUEST_MESSAGE = "error";
@@ -26,14 +25,14 @@ public class CreateTopicCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Topic topic = constructTopic(request);
-        lang = (String)request.getSession().getAttribute(LANG_PARAM);
+        String lang = (String)request.getSession().getAttribute(LANG_PARAM);
         BeanValidatorConfig<Topic> validator = new BeanValidatorConfig<>(lang);
         if(!validator.isValid(topic)){
             request.setAttribute(ERROR_REQUEST_MESSAGE, validator.getErrorMessage());
             return new WebPage(WebPageBase.TOPICS_ADMIN_CREATE);
         }
 
-        return getPageDependingOnWhetherInsertIsSuccessful(request, topic);
+        return getPageDependingOnWhetherInsertIsSuccessful(request, topic, lang);
     }
 
     private Topic constructTopic(HttpServletRequest request) {
@@ -44,7 +43,7 @@ public class CreateTopicCommand implements Command {
 
     //try to create topic and depending on whether this operation is
     //successful or not return corresponding WebPage
-    private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, Topic topic){
+    private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, Topic topic, String lang){
         WebPage webPage = new WebPage(WebPageBase.TOPICS_ACTION);
         TopicService topicService = new TopicService();
         try {
@@ -52,7 +51,7 @@ public class CreateTopicCommand implements Command {
                 return new WebPage(WebPageBase.TOPICS_ACTION)
                         .setDispatchType(WebPage.DispatchType.REDIRECT);
             }
-        } catch (SQLException | UnsuccessfulQueryException e) {
+        } catch ( UnsuccessfulQueryException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
             request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.creationUnsuccessful"));
             return new WebPage(WebPageBase.TOPICS_ADMIN_CREATE);

@@ -18,13 +18,17 @@ public class ShowEditAnswerCommand implements Command {
         try {
             String taskId = request.getParameter("id");
             Answer answer = answerService.findById(taskId);
-            request.setAttribute("answer", answer);
-            request.setAttribute("testId", request.getParameter("testId"));
-            request.setAttribute("taskId", request.getParameter("taskId"));
-        } catch (SQLException | UnsuccessfulQueryException | NumberFormatException e) {
+            setRequestAttributes(request, answer);
+        } catch ( UnsuccessfulQueryException | NumberFormatException e) {
             webPage = new WebPage(WebPage.WebPageBase.ERROR_ACTION);
         }
         request.setAttribute("correct", request.getParameter("correct"));
         return webPage;
+    }
+
+    private void setRequestAttributes(HttpServletRequest request, Answer answer){
+        request.setAttribute("answer", answer);
+        request.setAttribute("testId", request.getParameter("testId"));
+        request.setAttribute("taskId", request.getParameter("taskId"));
     }
 }

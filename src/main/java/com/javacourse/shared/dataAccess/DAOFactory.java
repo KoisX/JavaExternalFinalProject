@@ -23,5 +23,5 @@ public interface DAOFactory {
     TaskDAO createTaskDAO(DBConnection connection);
     AnswerDAO createAnswerDAO(DBConnection connection);
     StatsDAO createStatsDAO(DBConnection connection);
-    DBConnection createConnection() throws SQLException;
+    DBConnection createConnection();
 }

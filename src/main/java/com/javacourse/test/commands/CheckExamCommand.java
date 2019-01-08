@@ -48,6 +48,7 @@ public class CheckExamCommand implements Command {
         if(testId==null || !getTasksAndMaxScoreFromDb(testId)){
             return new WebPage(WebPageBase.ERROR_ACTION);
         }
+
         score = reviseTest(request.getParameterMap());
 
         insertTestResultToStats((String) request.getSession()
@@ -65,7 +66,7 @@ public class CheckExamCommand implements Command {
             TaskService taskService = new TaskService();
             tasks = taskService.findTasksByTestId(testId);
             maxScore = taskService.getMaximalScoreByTestId(testId);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return false;
         }
@@ -77,7 +78,7 @@ public class CheckExamCommand implements Command {
         boolean res;
         try {
             res = statsService.create(constructStatsObject(testId, getUserId(userEmail)));
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException  e) {
             logger.error(e.getMessage());
             return false;
         }
@@ -103,7 +104,7 @@ public class CheckExamCommand implements Command {
         try{
             UserService userService = new UserService();
             id = userService.getUserIdByEmail(email);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException  e) {
             logger.error(e.getMessage());
         }
         return id;
@@ -163,4 +164,50 @@ public class CheckExamCommand implements Command {
     private double getPercentageOfSolvedTasks(){
         return ((double)score)/maxScore*100;
     }
+
+    /**
+     * Value object for comfortable transport of multiple params
+     * between multiple methods
+     */
+    class TestResult{
+        private List<Task> tasks;
+        private int maxScore;
+        private int score;
+
+        /*Tasks, in which user made mistakes*/
+        private List<Long> wrongTasksIndexes;
+
+        public void setTasks(List<Task> tasks) {
+            this.tasks = tasks;
+        }
+
+        public void setMaxScore(int maxScore) {
+            this.maxScore = maxScore;
+        }
+
+        public void setScore(int score) {
+            this.score = score;
+        }
+
+        public void setWrongTasksIndexes(List<Long> wrongTasksIndexes) {
+            this.wrongTasksIndexes = wrongTasksIndexes;
+        }
+
+        public List<Task> getTasks() {
+            return tasks;
+        }
+
+        public int getMaxScore() {
+            return maxScore;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
+        public List<Long> getWrongTasksIndexes() {
+            return wrongTasksIndexes;
+        }
+    }
+
 }

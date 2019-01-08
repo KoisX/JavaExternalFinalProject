@@ -75,7 +75,7 @@ public class EditTopicCommand implements Command {
                 webPage = new WebPage(WebPageBase.TOPICS_ACTION)
                         .setDispatchType(WebPage.DispatchType.REDIRECT);
             }
-        } catch (SQLException | UnsuccessfulQueryException e) {
+        } catch ( UnsuccessfulQueryException e) {
             setErrorRequestAttributes(request, topic);
             webPage = new WebPage(WebPageBase.TOPICS_ADMIN_EDIT);
         }

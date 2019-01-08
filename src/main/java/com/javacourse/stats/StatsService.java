@@ -28,42 +28,42 @@ public class StatsService {
         this.factory = new MySqlDAOFactory();
     }
 
-    public List<Stats> findAllWithPagination(int offset, int recordsPerPage) throws UnsuccessfulQueryException, SQLException {
+    public List<Stats> findAllWithPagination(int offset, int recordsPerPage) throws UnsuccessfulQueryException{
         try(DBConnection connection = factory.createConnection()){
             StatsDAO statsDAO = factory.createStatsDAO(connection);
             return statsDAO.findAllWithPagination(offset, recordsPerPage);
         }
     }
 
-    public int getNumberOfPages(int recordsPerPage) throws UnsuccessfulQueryException, SQLException {
+    public int getNumberOfPages(int recordsPerPage) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             StatsDAO statsDAO = factory.createStatsDAO(connection);
             return statsDAO.getNumberOfPages(recordsPerPage);
         }
     }
 
-    public Stats findById(String id) throws UnsuccessfulQueryException, SQLException {
+    public Stats findById(String id) throws UnsuccessfulQueryException{
         try(DBConnection connection = factory.createConnection()){
             StatsDAO statsDAO = factory.createStatsDAO(connection);
             return statsDAO.findById(Integer.parseInt(id));
         }
     }
 
-    public boolean delete(String id) throws UnsuccessfulQueryException, SQLException {
+    public boolean delete(String id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             StatsDAO statsDAO = factory.createStatsDAO(connection);
             return statsDAO.delete(Integer.parseInt(id));
         }
     }
 
-    public boolean updateScore(Stats stats) throws UnsuccessfulQueryException, SQLException {
+    public boolean updateScore(Stats stats) throws UnsuccessfulQueryException{
         try(DBConnection connection = factory.createConnection()){
             StatsDAO statsDAO = factory.createStatsDAO(connection);
             return statsDAO.updateScore(stats);
         }
     }
 
-    public boolean create(Stats entity) throws UnsuccessfulQueryException, SQLException {
+    public boolean create(Stats entity) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             StatsDAO statsDAO = factory.createStatsDAO(connection);
             return statsDAO.create(entity);

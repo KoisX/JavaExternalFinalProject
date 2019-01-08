@@ -69,7 +69,7 @@ public class EditStatsCommand implements Command {
             if(statsService.updateScore(stats)){
                 json.put("url", new WebPage(WebPageBase.STATS_ACTION));
             }
-        } catch (SQLException | UnsuccessfulQueryException e) {
+        } catch ( UnsuccessfulQueryException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
             json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }

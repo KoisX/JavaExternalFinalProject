@@ -40,7 +40,7 @@ public class ShowTestDetailsCommand implements Command {
             request.setAttribute(TASKS_ATTRIBUTE, tasks);
             request.setAttribute(TEST_ID_ATTRIBUTE, testId);
             request.setAttribute("test", test);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException  e) {
             return false;
         }
         return true;

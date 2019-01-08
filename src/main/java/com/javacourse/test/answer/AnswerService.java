@@ -28,14 +28,14 @@ public class AnswerService {
         this.factory = new MySqlDAOFactory();
     }
 
-    public Answer findById(String id) throws UnsuccessfulQueryException, SQLException {
+    public Answer findById(String id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             AnswerDAO answerDAO = factory.createAnswerDAO(connection);
             return answerDAO.findById(Long.parseLong(id));
         }
     }
 
-    public boolean create(Answer entity, boolean isCorrect, long taskId) throws UnsuccessfulQueryException, SQLException {
+    public boolean create(Answer entity, boolean isCorrect, long taskId) throws UnsuccessfulQueryException{
         try(DBConnection connection = factory.createConnection()){
             connection.setAutoCommit(false);
             AnswerDAO answerDAO = factory.createAnswerDAO(connection);
@@ -55,14 +55,14 @@ public class AnswerService {
         }
     }
 
-    public boolean delete(String id) throws UnsuccessfulQueryException, SQLException {
+    public boolean delete(String id) throws UnsuccessfulQueryException{
         try(DBConnection connection = factory.createConnection()){
             AnswerDAO answerDAO = factory.createAnswerDAO(connection);
             return answerDAO.delete(Long.parseLong(id));
         }
     }
 
-    public boolean update(Answer answer, boolean isCorrectAnswer, long taskId) throws SQLException, UnsuccessfulQueryException {
+    public boolean update(Answer answer, boolean isCorrectAnswer, long taskId) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             connection.setAutoCommit(false);
             AnswerDAO answerDAO = factory.createAnswerDAO(connection);

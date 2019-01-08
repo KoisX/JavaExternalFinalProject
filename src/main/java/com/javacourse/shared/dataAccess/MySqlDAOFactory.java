@@ -60,7 +60,7 @@ public class MySqlDAOFactory implements DAOFactory {
     }
 
     @Override
-    public DBConnection createConnection() throws SQLException {
+    public DBConnection createConnection() {
         return new SqlConnection();
     }
 }

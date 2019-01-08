@@ -24,7 +24,7 @@ public class ShowEditTestDescriptionCommand implements Command {
         return new WebPage(WebPage.WebPageBase.TEST_ADMIN_EDIT_DESCRIPTION);
     }
 
-    @SuppressWarnings("Duplicates")
+
     private boolean setTasksAttribute(HttpServletRequest request){
         TestService testService = new TestService();
         String testId = request.getParameter(ID_PARAM);
@@ -32,11 +32,15 @@ public class ShowEditTestDescriptionCommand implements Command {
             return false;
         try{
             Test test = testService.findById(testId);
-            request.setAttribute(TEST_ID_ATTRIBUTE, testId);
-            request.setAttribute("test", test);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+            setRequestAttributes(test, request);
+        } catch (UnsuccessfulQueryException e) {
             return false;
         }
         return true;
+    }
+
+    private void setRequestAttributes(Test test, HttpServletRequest request){
+        request.setAttribute(TEST_ID_ATTRIBUTE, test.getId());
+        request.setAttribute("test", test);
     }
 }

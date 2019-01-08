@@ -36,14 +36,14 @@ public class TestService {
         this.factory = new MySqlDAOFactory();
     }
 
-    public List<Test> findByTopicId(String id) throws UnsuccessfulQueryException, SQLException {
+    public List<Test> findByTopicId(String id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);
             return testDao.findByTopicId(id);
         }
     }
 
-    public boolean delete(String id) throws UnsuccessfulQueryException, SQLException{
+    public boolean delete(String id) throws UnsuccessfulQueryException{
         try(DBConnection connection = factory.createConnection()){
             connection.setAutoCommit(false);
             TestDAO testDao = factory.createTestDAO(connection);
@@ -70,21 +70,21 @@ public class TestService {
         }
     }
 
-    public Test findById(String id) throws UnsuccessfulQueryException, SQLException {
+    public Test findById(String id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);
             return testDao.findById(Integer.parseInt(id));
         }
     }
 
-    public boolean create(Test entity) throws UnsuccessfulQueryException, SQLException {
+    public boolean create(Test entity) throws UnsuccessfulQueryException{
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);
             return testDao.create(entity);
         }
     }
 
-    public boolean makeTestPrivate(Test entity) throws UnsuccessfulQueryException, SQLException {
+    public boolean makeTestPrivate(Test entity) throws UnsuccessfulQueryException{
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);
             return testDao.changeTestStatus(false, entity.getId());
@@ -101,7 +101,7 @@ public class TestService {
      * @throws UnsuccessfulQueryException
      * @throws SQLException
      */
-    public boolean makeTestPublic(Test entity) throws UnsuccessfulQueryException, SQLException {
+    public boolean makeTestPublic(Test entity) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);
             TaskService taskService = new TaskService();
@@ -123,14 +123,14 @@ public class TestService {
         return tasks.stream().noneMatch(element -> element.getCorrectAnswers().size() == 0);
     }
 
-    public boolean updateHeader(String header, String id) throws UnsuccessfulQueryException, SQLException {
+    public boolean updateHeader(String header, String id) throws UnsuccessfulQueryException{
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);
             return testDao.updateHeader(header, Long.parseLong(id));
         }
     }
 
-    public boolean updateDescription(String description, String id) throws UnsuccessfulQueryException, SQLException {
+    public boolean updateDescription(String description, String id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);
             return testDao.updateDescription(description, Long.parseLong(id));

@@ -1,5 +1,6 @@
 package com.javacourse.shared.dataAccess;
 
+import com.javacourse.exceptions.NoConnectionToDbException;
 import com.javacourse.utils.DBConnectionPool;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
@@ -22,11 +23,12 @@ public class SqlConnection implements DBConnection, Closeable {
         logger = LogConfigurator.getLogger(SqlConnection.class);
     }
 
-    public SqlConnection() throws SQLException {
+    public SqlConnection() {
         try {
             this.connection = DBConnectionPool.getConnection();
         } catch (SQLException e) {
             logger.error(e.getMessage());
+            throw new NoConnectionToDbException();
         }
     }
 

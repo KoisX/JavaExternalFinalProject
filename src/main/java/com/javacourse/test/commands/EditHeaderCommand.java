@@ -21,8 +21,6 @@ import java.util.Set;
 
 public class EditHeaderCommand implements Command {
 
-    //this class need to be heavily refactored. Its just a working template
-
     private static final String LANG_PARAM = "lang";
 
     @Override
@@ -56,7 +54,7 @@ public class EditHeaderCommand implements Command {
                 json.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setQueryString("?id="+id).toString());
             }
-        } catch (UnsuccessfulQueryException | SQLException | NumberFormatException e) {
+        } catch (UnsuccessfulQueryException | NumberFormatException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
             json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }

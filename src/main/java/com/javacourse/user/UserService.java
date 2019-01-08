@@ -29,14 +29,14 @@ public class UserService{
         this.factory = new MySqlDAOFactory();
     }
 
-    public boolean doesUserExist(String email, String password) throws SQLException, UnsuccessfulQueryException {
+    public boolean doesUserExist(String email, String password) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             UserDAO userDao = factory.createUserDAO(connection);
             return userDao.doesUserExist(email, password);
         }
     }
 
-    public Role getUserRoleByEmail(String email) throws SQLException, UnsuccessfulQueryException {
+    public Role getUserRoleByEmail(String email) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             UserDAO userDao = factory.createUserDAO(connection);
             return userDao.getUserRoleByEmail(email);
@@ -50,20 +50,20 @@ public class UserService{
             user.getRole().setId(roleDAO.getRoleIdByName(user.getRole().getName()));
             userDao.create(user);
             return true;
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return false;
         }
     }
 
-    public boolean doesUserWithEmailExist(String email) throws UnsuccessfulQueryException, SQLException {
+    public boolean doesUserWithEmailExist(String email) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             UserDAO userDao = factory.createUserDAO(connection);
             return userDao.doesUserWithEmailExist(email);
         }
     }
 
-    public long getUserIdByEmail(String email) throws UnsuccessfulQueryException, SQLException {
+    public long getUserIdByEmail(String email) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             UserDAO userDao = factory.createUserDAO(connection);
             return userDao.getUserIdByEmail(email);

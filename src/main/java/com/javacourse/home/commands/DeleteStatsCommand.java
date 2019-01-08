@@ -22,7 +22,7 @@ public class DeleteStatsCommand implements Command {
         String id = request.getParameter(ID);
         try {
             statsService.delete(id);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             webPage = new WebPage(WebPageBase.ERROR_ACTION)
                     .setDispatchType(WebPage.DispatchType.REDIRECT);
             return webPage;

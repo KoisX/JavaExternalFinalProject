@@ -30,6 +30,8 @@ public class EditAnswerCommand implements Command {
         Answer answer = constructAnswer(request.getParameterMap());
         boolean isCorrectAnswer = getIsCorrectAnswer(request.getParameterMap());
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
+
+        //checking if model is in valid state
         BeanValidatorConfig<Answer> validator = new BeanValidatorConfig<>(lang);
         if(!validator.isValid(answer)){
             JsonManager.sendSingleMessage("error",validator.getErrorMessage(), response);
@@ -62,7 +64,7 @@ public class EditAnswerCommand implements Command {
                 json.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setQueryString("?id="+testId));
             }
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
             json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }

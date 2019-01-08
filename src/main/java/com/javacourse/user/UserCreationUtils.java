@@ -84,7 +84,7 @@ public class UserCreationUtils {
         UserService userService = new UserService();
         try {
             doesEmailExist = userService.doesUserWithEmailExist(user.getEmail());
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.unsuccessfullSigningUp"));
             return false;

@@ -22,14 +22,17 @@ import java.util.Set;
 public class CreateAnswerCommand implements Command {
 
     private static final String LANG_PARAM = "lang";
+    private static final String ERROR_PARAM = "error";
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Answer answer = constructAnswer(request.getParameterMap());
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
+
+        //checking if model is in valid state
         BeanValidatorConfig<Answer> validator = new BeanValidatorConfig<>(lang);
         if(!validator.isValid(answer)){
-            JsonManager.sendSingleMessage("error", validator.getErrorMessage(), response);
+            JsonManager.sendSingleMessage(ERROR_PARAM, validator.getErrorMessage(), response);
         }else {
             createAnswer(request, response, answer, lang);
         }
@@ -38,7 +41,8 @@ public class CreateAnswerCommand implements Command {
 
     private Answer constructAnswer(Map<String, String[]> parameterMap) {
         Answer answer = new Answer();
-        answer.setIsCaseSensitive(false);//by default answer is always case insensitive
+        //by default answer is always case insensitive
+        answer.setIsCaseSensitive(false);
         answer.setValue(parameterMap.get("value")[0]);
         return answer;
     }
@@ -54,9 +58,9 @@ public class CreateAnswerCommand implements Command {
                 json.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setQueryString("?id="+testId));
             }
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
-            json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
+            json.put(ERROR_PARAM, resourceBundle.getString("msg.creationUnsuccessful"));
         }
         json.respond();
     }

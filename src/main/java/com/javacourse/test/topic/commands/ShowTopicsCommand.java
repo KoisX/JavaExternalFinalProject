@@ -41,7 +41,7 @@ public class ShowTopicsCommand implements Command {
         try {
             List<Topic> topics = topicService.findAll();
             request.setAttribute(TOPICS_ATTRIBUTE, topics);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return false;
         }

@@ -52,7 +52,7 @@ public class ShowStatsCommand implements Command {
         try {
             stats = statsService.findAllWithPagination(getOffset(), RECORDS_PER_PAGE);
             numberOfPages = statsService.getNumberOfPages(RECORDS_PER_PAGE);
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return false;
         }

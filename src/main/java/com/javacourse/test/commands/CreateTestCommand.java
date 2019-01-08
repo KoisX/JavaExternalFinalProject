@@ -21,19 +21,18 @@ import java.util.Set;
 
 public class CreateTestCommand implements Command {
 
-    private String lang;
     private static final String LANG_PARAM = "lang";
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Test test = constructTest(request.getParameterMap());
-        lang = (String)request.getSession().getAttribute(LANG_PARAM);
+        String lang = (String)request.getSession().getAttribute(LANG_PARAM);
 
         BeanValidatorConfig<Test> validator = new BeanValidatorConfig<>(lang);
         if(!validator.isValid(test)){
             JsonManager.sendSingleMessage("error", validator.getErrorMessage(), response);
         }else {
-            createTest(request, response, test);
+            createTest(request, response, test, lang);
         }
         return WebPage.STAND_STILL_PAGE;
     }
@@ -50,7 +49,7 @@ public class CreateTestCommand implements Command {
         return test;
     }
 
-    private void createTest(HttpServletRequest request, HttpServletResponse response, Test test){
+    private void createTest(HttpServletRequest request, HttpServletResponse response, Test test, String lang){
         String topicId = request.getParameter("id");
         TestService testService = new TestService();
         JsonManager json = new JsonManager(response);
@@ -59,7 +58,7 @@ public class CreateTestCommand implements Command {
                 json.put("url", new WebPage(WebPage.WebPageBase.TESTS_ACTION)
                         .setQueryString("?id="+topicId));
             }
-        } catch (SQLException | UnsuccessfulQueryException e) {
+        } catch ( UnsuccessfulQueryException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
             json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }

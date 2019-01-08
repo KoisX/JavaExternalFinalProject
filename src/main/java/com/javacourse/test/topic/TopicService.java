@@ -29,14 +29,14 @@ public class TopicService {
         this.factory = new MySqlDAOFactory();
     }
 
-    public List<Topic> findAll() throws SQLException, UnsuccessfulQueryException {
+    public List<Topic> findAll() throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TopicDAO topicDao = factory.createTopicDAO(connection);
             return topicDao.findAll();
         }
     }
 
-    public boolean delete(String id) throws SQLException, UnsuccessfulQueryException {
+    public boolean delete(String id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TopicDAO topicDao = factory.createTopicDAO(connection);
             TestDAO testDAO = factory.createTestDAO(connection);
@@ -47,28 +47,28 @@ public class TopicService {
         }
     }
 
-    public boolean create(Topic topic) throws SQLException, UnsuccessfulQueryException {
+    public boolean create(Topic topic) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TopicDAO topicDao = factory.createTopicDAO(connection);
             return topicDao.create(topic);
         }
     }
 
-    public Topic findById(String id) throws SQLException, UnsuccessfulQueryException {
+    public Topic findById(String id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TopicDAO topicDao = factory.createTopicDAO(connection);
             return topicDao.findById(Integer.parseInt(id));
         }
     }
 
-    public boolean update(Topic topic) throws SQLException, UnsuccessfulQueryException {
+    public boolean update(Topic topic) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TopicDAO topicDao = factory.createTopicDAO(connection);
             return topicDao.update(topic);
         }
     }
 
-    public boolean doesTopicExist(String id) throws UnsuccessfulQueryException, SQLException {
+    public boolean doesTopicExist(String id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TopicDAO topicDao = factory.createTopicDAO(connection);
             return topicDao.doesTopicExist(Integer.parseInt(id));

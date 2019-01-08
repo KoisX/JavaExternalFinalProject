@@ -34,7 +34,7 @@ public class DeleteTestCommand implements Command {
                 return new WebPage(WebPageBase.TESTS_ACTION)
                         .setDispatchType(WebPage.DispatchType.REDIRECT)
                         .setQueryString("?id="+request.getParameter("topicId"));
-        } catch (UnsuccessfulQueryException | SQLException e) {
+        } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
         }
         //in case delete is unsuccessful

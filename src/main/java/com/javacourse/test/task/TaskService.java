@@ -33,7 +33,7 @@ public class TaskService {
         this.factory = new MySqlDAOFactory();
     }
 
-    public List<Task> findTasksByTestId(String test_id) throws UnsuccessfulQueryException, SQLException {
+    public List<Task> findTasksByTestId(String test_id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);
             AnswerDAO answerDAO = factory.createAnswerDAO(connection);
@@ -47,35 +47,35 @@ public class TaskService {
         }
     }
 
-    public int getMaximalScoreByTestId(String test_id) throws SQLException, UnsuccessfulQueryException {
+    public int getMaximalScoreByTestId(String test_id) throws  UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);
             return taskDAO.getMaximalScoreByTestId(test_id);
         }
     }
 
-    public Task findById(String id) throws UnsuccessfulQueryException, SQLException {
+    public Task findById(String id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);
             return taskDAO.findById(Integer.parseInt(id));
         }
     }
 
-    public boolean create(Task task) throws SQLException, UnsuccessfulQueryException {
+    public boolean create(Task task) throws  UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);
             return taskDAO.create(task);
         }
     }
 
-    public boolean delete(String id) throws UnsuccessfulQueryException, SQLException {
+    public boolean delete(String id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);
             return taskDAO.delete(Integer.parseInt(id));
         }
     }
 
-    public boolean update(Task task) throws SQLException, UnsuccessfulQueryException {
+    public boolean update(Task task) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);
             return taskDAO.update(task);

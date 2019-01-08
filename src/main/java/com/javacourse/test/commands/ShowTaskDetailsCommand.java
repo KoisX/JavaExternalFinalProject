@@ -21,7 +21,7 @@ public class ShowTaskDetailsCommand implements Command {
             Task task = taskService.findById(taskId);
             request.setAttribute("task", task);
             request.setAttribute("testId", testId);
-        } catch (SQLException | UnsuccessfulQueryException | NumberFormatException e) {
+        } catch ( UnsuccessfulQueryException | NumberFormatException e) {
             webPage = new WebPage(WebPage.WebPageBase.ERROR_ACTION);
         }
         return webPage;

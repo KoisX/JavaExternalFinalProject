@@ -20,7 +20,7 @@ public class ShowEditPageCommand implements Command {
             String topicId = request.getParameter("id");
             Topic topic = topicService.findById(topicId);
             request.setAttribute("topic", topic);
-        } catch (SQLException | UnsuccessfulQueryException | NumberFormatException e) {
+        } catch ( UnsuccessfulQueryException | NumberFormatException e) {
            webPage = new WebPage(WebPageBase.ERROR_ACTION);
         }
         return webPage;
