@@ -28,11 +28,6 @@ import static com.javacourse.shared.WebPage.*;
 
 public class CheckExamCommand implements Command {
 
-    private List<Task> tasks;
-    private int maxScore;//awful - must be a stateless object. Refactor!!!!!!
-    private int score;
-    /*Tasks, in which user made mistakes*/
-    private List<Long> wrongTasksIndexes;
     private final static Logger logger;
     private final static String ID_PARAM = "id";
 
@@ -44,28 +39,30 @@ public class CheckExamCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         String testId = request.getParameter(ID_PARAM);
+        TestResult testResult = new TestResult();
 
-        if(testId==null || !getTasksAndMaxScoreFromDb(testId)){
+        if(testId==null || !getTasksAndMaxScoreFromDb(testId, testResult)){
             return new WebPage(WebPageBase.ERROR_ACTION);
         }
 
-        score = reviseTest(request.getParameterMap());
+        testResult.setScore(reviseTest(request.getParameterMap(), testResult));
 
+        //no reaction for unsuccessful insert is foreseen
+        //cause we want user to see their result even if something goes wrong
         insertTestResultToStats((String) request.getSession()
-                .getAttribute(ApplicationResources
-                .getUserEmail()), Long.parseLong(testId));
+                .getAttribute(ApplicationResources.getUserEmail()), Long.parseLong(testId), testResult);
 
         //TODO: send email with result to user
 
-        showExamResult(response);
+        showExamResult(response, testResult);
         return new WebPage(WebPageBase.STAND_STILL_PAGE).setDispatchType(DispatchType.STAND_STILL);
     }
 
-    boolean getTasksAndMaxScoreFromDb(String testId){
+    private boolean getTasksAndMaxScoreFromDb(String testId, TestResult testResult){
         try{
             TaskService taskService = new TaskService();
-            tasks = taskService.findTasksByTestId(testId);
-            maxScore = taskService.getMaximalScoreByTestId(testId);
+            testResult.setTasks(taskService.findTasksByTestId(testId));
+            testResult.setMaxScore(taskService.getMaximalScoreByTestId(testId));
         } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
             return false;
@@ -73,11 +70,11 @@ public class CheckExamCommand implements Command {
         return true;
     }
 
-    boolean insertTestResultToStats(String userEmail, long testId){
+    private boolean insertTestResultToStats(String userEmail, long testId, TestResult testResult){
         StatsService statsService = new StatsService();
         boolean res;
         try {
-            res = statsService.create(constructStatsObject(testId, getUserId(userEmail)));
+            res = statsService.create(constructStatsObject(testId, getUserId(userEmail), testResult));
         } catch (UnsuccessfulQueryException  e) {
             logger.error(e.getMessage());
             return false;
@@ -85,7 +82,7 @@ public class CheckExamCommand implements Command {
         return res;
     }
 
-    Stats constructStatsObject(long testId, long userId){
+    private Stats constructStatsObject(long testId, long userId, TestResult testResult){
         Stats stats = new Stats();
         Test test = new Test();
         User user = new User();
@@ -93,13 +90,13 @@ public class CheckExamCommand implements Command {
         user.setId(userId);
         stats.setTest(test);
         stats.setUser(user);
-        stats.setScore(Math.round(getPercentageOfSolvedTasks()));
+        stats.setScore(Math.round(getPercentageOfSolvedTasks(testResult)));
         stats.setTimePassed(new Timestamp(System.currentTimeMillis()));
         return stats;
     }
 
 
-    long getUserId(String email){
+    private long getUserId(String email){
         long id = -1;
         try{
             UserService userService = new UserService();
@@ -110,10 +107,10 @@ public class CheckExamCommand implements Command {
         return id;
     }
 
-    int reviseTest(Map<String, String[]> paramMap){
+    private int reviseTest(Map<String, String[]> paramMap, TestResult testResult){
         List<Long> wrongTasks = new ArrayList<>();
         int score = 0;
-        for(Task task : tasks){
+        for(Task task : testResult.getTasks()){
             String[] userAnswersFromRequest = paramMap.get(getRequestParamInputValue(task));
             List<String> userAnswers = new ArrayList<>(Arrays.asList(userAnswersFromRequest));
             List<String> correctAnswers = task.getCorrectAnswers()
@@ -126,7 +123,7 @@ public class CheckExamCommand implements Command {
                 wrongTasks.add(task.getId());
             }
         }
-        wrongTasksIndexes = wrongTasks;
+        testResult.setWrongTasksIndexes(wrongTasks);
         return score;
     }
 
@@ -136,12 +133,12 @@ public class CheckExamCommand implements Command {
         return "field_"+String.valueOf(task.getId());
     }
 
-    void showExamResult(HttpServletResponse response){
+    private void showExamResult(HttpServletResponse response, TestResult testResult){
         JsonManager json = new JsonManager(response);
-        json.put("mistakes", wrongTasksIndexes)
-            .put("score", score)
-            .put("maxScore", maxScore)
-            .put("message", getMessage());
+        json.put("mistakes", testResult.getWrongTasksIndexes())
+            .put("score", testResult.getScore())
+            .put("maxScore", testResult.getMaxScore())
+            .put("message", getMessage(testResult));
         json.respond();
     }
 
@@ -149,11 +146,11 @@ public class CheckExamCommand implements Command {
      * Returns the message to be shown depending on the test result
      * @return test result summary message
      */
-    private String getMessage() {
+    private String getMessage(TestResult testResult) {
         //TODO: get msg from resource bundle
-        if(maxScore==0)
+        if(testResult.getMaxScore()==0)
             return "No result";
-        double percentageOfSolvedTasks = getPercentageOfSolvedTasks();
+        double percentageOfSolvedTasks = getPercentageOfSolvedTasks(testResult);
         if(percentageOfSolvedTasks<40)
             return "You need to study harder!";
         else if(percentageOfSolvedTasks<75)
@@ -161,15 +158,15 @@ public class CheckExamCommand implements Command {
         else return "Well done!";
     }
 
-    private double getPercentageOfSolvedTasks(){
-        return ((double)score)/maxScore*100;
+    private double getPercentageOfSolvedTasks(TestResult testResult){
+        return ((double)testResult.getScore())/testResult.getMaxScore()*100;
     }
 
     /**
      * Value object for comfortable transport of multiple params
      * between multiple methods
      */
-    class TestResult{
+    private class TestResult{
         private List<Task> tasks;
         private int maxScore;
         private int score;
@@ -181,7 +178,7 @@ public class CheckExamCommand implements Command {
             this.tasks = tasks;
         }
 
-        public void setMaxScore(int maxScore) {
+        void setMaxScore(int maxScore) {
             this.maxScore = maxScore;
         }
 
@@ -189,7 +186,7 @@ public class CheckExamCommand implements Command {
             this.score = score;
         }
 
-        public void setWrongTasksIndexes(List<Long> wrongTasksIndexes) {
+        void setWrongTasksIndexes(List<Long> wrongTasksIndexes) {
             this.wrongTasksIndexes = wrongTasksIndexes;
         }
 
@@ -197,7 +194,7 @@ public class CheckExamCommand implements Command {
             return tasks;
         }
 
-        public int getMaxScore() {
+        int getMaxScore() {
             return maxScore;
         }
 
@@ -205,7 +202,7 @@ public class CheckExamCommand implements Command {
             return score;
         }
 
-        public List<Long> getWrongTasksIndexes() {
+        List<Long> getWrongTasksIndexes() {
             return wrongTasksIndexes;
         }
     }
