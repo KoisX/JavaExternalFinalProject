@@ -12,6 +12,7 @@ import com.javacourse.test.task.Task;
 import com.javacourse.test.task.TaskService;
 import com.javacourse.user.User;
 import com.javacourse.user.UserService;
+import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -135,20 +136,12 @@ public class CheckExamCommand implements Command {
     }
 
     void showExamResult(HttpServletResponse response){
-        JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("mistakes", wrongTasksIndexes)
-                    .put("score", score)
-                    .put("maxScore", maxScore)
-                    .put("message", getMessage());
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException("Could not get response writer");
-        }
+        JsonManager json = new JsonManager(response);
+        json.put("mistakes", wrongTasksIndexes)
+            .put("score", score)
+            .put("maxScore", maxScore)
+            .put("message", getMessage());
+        json.respond();
     }
 
     /**

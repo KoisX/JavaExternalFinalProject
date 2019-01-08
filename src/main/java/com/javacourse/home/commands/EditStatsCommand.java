@@ -8,6 +8,7 @@ import com.javacourse.stats.StatsService;
 import com.javacourse.test.Test;
 import com.javacourse.user.User;
 import com.javacourse.utils.BeanValidatorConfig;
+import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.LogConfigurator;
 import com.javacourse.utils.ResourceBundleConfig;
 import org.apache.log4j.Logger;
@@ -46,25 +47,11 @@ public class EditStatsCommand implements Command {
 
         //set error message if model is not valid
         if(!violations.isEmpty()){
-            showErrorResult(response, violations.iterator().next().getMessage());
-            return WebPage.STAND_STILL_PAGE;
+            JsonManager.sendSingleMessage("error", violations.iterator().next().getMessage(), response);
+        }else {
+            editStats(response, stats, lang);
         }
-
-        return getPageBasedOnWhetherEditIsSuccessful(request, response,stats, lang);
-    }
-
-    @SuppressWarnings("Duplicates")
-    private void showErrorResult(HttpServletResponse response, String error) {
-        JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("error", error);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Could not get response writer");
-        }
+        return WebPage.STAND_STILL_PAGE;
     }
 
     /*Constructs model, filling in only those fields, which are required*/
@@ -81,28 +68,18 @@ public class EditStatsCommand implements Command {
         return stats;
     }
 
-    private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, HttpServletResponse response, Stats stats, String lang){
+    private void editStats(HttpServletResponse response, Stats stats, String lang){
         StatsService statsService = new StatsService();
-
-        JSONObject jsonResponse = new JSONObject();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
+        JsonManager json = new JsonManager(response);
         try {
             if(statsService.updateScore(stats)){
-                jsonResponse.put("url", new WebPage(WebPageBase.STATS_ACTION));
+                json.put("url", new WebPage(WebPageBase.STATS_ACTION));
             }
         } catch (SQLException | UnsuccessfulQueryException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
-            jsonResponse.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
+            json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Could not get response writer");
-        }
-        return WebPage.STAND_STILL_PAGE;
+        json.respond();
     }
 
 }

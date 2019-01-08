@@ -8,6 +8,7 @@ import com.javacourse.test.answer.AnswerService;
 import com.javacourse.test.task.Task;
 import com.javacourse.test.task.TaskService;
 import com.javacourse.utils.BeanValidatorConfig;
+import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.ResourceBundleConfig;
 import org.json.JSONObject;
 
@@ -31,7 +32,7 @@ public class CreateTaskCommand implements Command {
         try {
             task = constructTask(request.getParameterMap());
         } catch (NumberFormatException e) {
-            showErrorResult(response, "Error occurred");
+            JsonManager.sendSingleMessage("error", "Error occurred", response);
             return WebPage.STAND_STILL_PAGE;
         }
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
@@ -43,11 +44,11 @@ public class CreateTaskCommand implements Command {
 
         //set error message if model is not valid
         if(!violations.isEmpty()){
-            showErrorResult(response, violations.iterator().next().getMessage());
-            return WebPage.STAND_STILL_PAGE;
+            JsonManager.sendSingleMessage("error", violations.iterator().next().getMessage(), response);
+        }else {
+            createTask(request, response, task, lang);
         }
-
-        return getResponse(request, response, task, lang);
+        return WebPage.STAND_STILL_PAGE;
     }
 
     private Task constructTask(Map<String, String[]> parameterMap) {
@@ -58,43 +59,20 @@ public class CreateTaskCommand implements Command {
         return task;
     }
 
-    @SuppressWarnings("Duplicates")
-    private void showErrorResult(HttpServletResponse response, String error) {
-        JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("error", error);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Could not get response writer");
-        }
-    }
-
-    private WebPage getResponse(HttpServletRequest request, HttpServletResponse response, Task task, String lang) {
+    private void createTask(HttpServletRequest request, HttpServletResponse response, Task task, String lang) {
         TaskService taskService = new TaskService();
         String testId = request.getParameter("id");
-
-        JSONObject jsonResponse = new JSONObject();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+        JsonManager json = new JsonManager(response);
 
         try {
             if(taskService.create(task)){
-                jsonResponse.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
+                json.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setQueryString("?id="+testId).toString());
             }
         } catch (UnsuccessfulQueryException | SQLException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
-            jsonResponse.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
+            json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Could not get response writer");
-        }
-        return WebPage.STAND_STILL_PAGE;
+        json.respond();
     }
 }

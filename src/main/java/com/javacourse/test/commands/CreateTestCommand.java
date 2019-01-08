@@ -9,12 +9,10 @@ import com.javacourse.test.topic.Topic;
 import com.javacourse.utils.BeanValidatorConfig;
 import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.ResourceBundleConfig;
-import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -37,7 +35,7 @@ public class CreateTestCommand implements Command {
 
         //set error message if model is not valid
         if(!violations.isEmpty()){
-            JsonManager.sendError("error", violations.iterator().next().getMessage(), response);
+            JsonManager.sendSingleMessage("error", violations.iterator().next().getMessage(), response);
         }else {
             createTest(request, response, test);
         }

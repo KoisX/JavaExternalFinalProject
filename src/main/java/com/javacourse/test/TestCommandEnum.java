@@ -29,11 +29,6 @@ public enum TestCommandEnum {
             this.command = new CreateTestCommand();
         }
     },
-    EDIT_TEST{
-        {
-            this.command = new EditTestCommand();
-        }
-    },
     SHOW_ADD_TEST{
         {
             this.command = new ShowAddTestCommand();

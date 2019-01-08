@@ -5,8 +5,8 @@ import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
 import com.javacourse.test.Test;
 import com.javacourse.test.TestService;
-import com.javacourse.test.answer.Answer;
 import com.javacourse.utils.BeanValidatorConfig;
+import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.ResourceBundleConfig;
 import org.json.JSONObject;
 
@@ -36,10 +36,11 @@ public class EditHeaderCommand implements Command {
 
         //set error message if model is not valid
         if(!violations.isEmpty()){
-            showErrorResult(response, violations.iterator().next().getMessage());
-            return WebPage.STAND_STILL_PAGE;
+            JsonManager.sendSingleMessage("error", violations.iterator().next().getMessage(), response);
+        }else {
+            editHeader(request, response, test, lang);
         }
-        return getResponse(request, response, test, lang);
+        return WebPage.STAND_STILL_PAGE;
     }
 
     private Test constructTest(Map<String, String[]> parameterMap) {
@@ -51,45 +52,20 @@ public class EditHeaderCommand implements Command {
         return test;
     }
 
-
-    @SuppressWarnings("Duplicates")
-    private void showErrorResult(HttpServletResponse response, String error) {
-        JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("error", error);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Could not get response writer");
-        }
-    }
-
-    private WebPage getResponse(HttpServletRequest request, HttpServletResponse response, Test test, String lang) {
+    private void editHeader(HttpServletRequest request, HttpServletResponse response, Test test, String lang) {
         TestService testService = new TestService();
         String id = request.getParameter("id");
-
-        JSONObject jsonResponse = new JSONObject();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
+        JsonManager json = new JsonManager(response);
         try {
             if(testService.updateHeader(test.getHeader(), Long.parseLong(id))){
-                jsonResponse.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
+                json.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
                         .setQueryString("?id="+id).toString());
             }
         } catch (UnsuccessfulQueryException | SQLException | NumberFormatException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
-            jsonResponse.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
+            json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Could not get response writer");
-        }
-        return WebPage.STAND_STILL_PAGE;
+        json.respond();
     }
 
 }

@@ -34,7 +34,7 @@ public class JsonManager {
         }
     }
 
-    public static void sendError(String errorKey, String errorValue, HttpServletResponse response){
+    public static void sendSingleMessage(String errorKey, String errorValue, HttpServletResponse response){
         JSONObject jsonResponse = new JSONObject();
         jsonResponse.put(errorKey, errorValue);
         response.setContentType("application/json");

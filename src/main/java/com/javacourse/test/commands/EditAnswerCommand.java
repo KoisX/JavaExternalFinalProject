@@ -7,6 +7,7 @@ import com.javacourse.shared.WebPage;
 import com.javacourse.test.answer.Answer;
 import com.javacourse.test.answer.AnswerService;
 import com.javacourse.utils.BeanValidatorConfig;
+import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.ResourceBundleConfig;
 import org.json.JSONObject;
 
@@ -37,29 +38,15 @@ public class EditAnswerCommand implements Command {
 
         //set error message if model is not valid
         if(!violations.isEmpty()){
-            showErrorResult(response, violations.iterator().next().getMessage());
-            return WebPage.STAND_STILL_PAGE;
+            JsonManager.sendSingleMessage("error", violations.iterator().next().getMessage(), response);
+        }else {
+            editAnswer(request, response, answer, lang, isCorrectAnswer);
         }
-
-        return getResponse(request, response, answer, lang, isCorrectAnswer);
+        return WebPage.STAND_STILL_PAGE;
     }
 
     private boolean getIsCorrectAnswer(Map<String, String[]> parameterMap) {
         return parameterMap.get("isCorrect") != null;
-    }
-
-    @SuppressWarnings("Duplicates")
-    private void showErrorResult(HttpServletResponse response, String error) {
-        JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("error", error);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Could not get response writer");
-        }
     }
 
     private Answer constructAnswer(Map<String, String[]> parameterMap) {
@@ -70,30 +57,21 @@ public class EditAnswerCommand implements Command {
         return answer;
     }
 
-    private WebPage getResponse(HttpServletRequest request, HttpServletResponse response, Answer answer, String lang, boolean isCorrectAnswer) {
+    private void editAnswer(HttpServletRequest request, HttpServletResponse response, Answer answer, String lang, boolean isCorrectAnswer) {
         AnswerService answerService = new AnswerService();
         String taskId = request.getParameter("taskId");
         String testId = request.getParameter("testId");
 
-        JSONObject jsonResponse = new JSONObject();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
+        JsonManager json = new JsonManager(response);
         try {
             if(answerService.update(answer, isCorrectAnswer, Long.parseLong(taskId))){
-                jsonResponse.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
-                        .setQueryString("?id="+testId).toString());
+                json.put("url", new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)
+                        .setQueryString("?id="+testId));
             }
         } catch (UnsuccessfulQueryException | SQLException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
-            jsonResponse.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
+            json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Could not get response writer");
-        }
-        return WebPage.STAND_STILL_PAGE;
+        json.respond();
     }
 }
