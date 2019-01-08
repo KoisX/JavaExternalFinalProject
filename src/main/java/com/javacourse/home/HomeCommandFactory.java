@@ -26,19 +26,19 @@ public class HomeCommandFactory extends CommandFactory{
         String action = marshaller.getAction();
         switch (action){
             case "Index":
-                return HomeCommandEnum.INDEX.getCommand();
+                return HomeCommandEnum.SHOW_INDEX.getCommand();
             case "About":
-                return HomeCommandEnum.ABOUT.getCommand();
+                return HomeCommandEnum.SHOW_ABOUT.getCommand();
             case "Rules":
-                return HomeCommandEnum.RULES.getCommand();
+                return HomeCommandEnum.SHOW_RULES.getCommand();
             case "Stats":
                 return HttpMethod.isGet(request.getMethod()) ?
-                        HomeCommandEnum.STATS.getCommand() :
+                        HomeCommandEnum.SHOW_STATS.getCommand() :
                         getPOSTStatsCommand();
             case "StatsDetails":
-                return HomeCommandEnum.STATS_DETAILS.getCommand();
+                return HomeCommandEnum.SHOW_STATS_DETAILS.getCommand();
             default:
-                return HomeCommandEnum.INDEX.getCommand();
+                return HomeCommandEnum.SHOW_INDEX.getCommand();
         }
     }
 
@@ -48,9 +48,9 @@ public class HomeCommandFactory extends CommandFactory{
                 .orElse("");
 
         if(param.equals(EDIT_CMD))
-            return HomeCommandEnum.STATS_EDIT.getCommand();
+            return HomeCommandEnum.EDIT_STATS.getCommand();
         else if(param.equals(DELETE_CMD))
-            return HomeCommandEnum.STATS_DELETE.getCommand();
-        else return HomeCommandEnum.STATS.getCommand();
+            return HomeCommandEnum.DELETE_STATS.getCommand();
+        else return HomeCommandEnum.SHOW_STATS.getCommand();
     }
 }

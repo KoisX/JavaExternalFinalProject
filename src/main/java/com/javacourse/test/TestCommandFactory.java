@@ -8,7 +8,6 @@ import com.javacourse.utils.UriMarshaller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
 
 public class TestCommandFactory extends CommandFactory {
 
@@ -28,7 +27,7 @@ public class TestCommandFactory extends CommandFactory {
             case "Tests":
                 return TestCommandEnum.SHOW_TESTS_BY_TOPIC.getCommand();
             case "Exam":
-                return TestCommandEnum.SHOP_EXAM.getCommand();
+                return TestCommandEnum.SHOW_EXAM.getCommand();
             case "Results":
                 return TestCommandEnum.CHECK_TEST.getCommand();
             case "Delete":
@@ -38,7 +37,7 @@ public class TestCommandFactory extends CommandFactory {
             case "Create":
                 return HttpMethod.isGet(request.getMethod()) ?
                         TestCommandEnum.SHOW_ADD_TEST.getCommand():
-                        TestCommandEnum.ADD_TEST.getCommand();
+                        TestCommandEnum.CREATE_TEST.getCommand();
             case "HeaderEdit":
                 return HttpMethod.isGet(request.getMethod()) ?
                         TestCommandEnum.SHOW_EDIT_TEST_HEADER.getCommand():
@@ -70,7 +69,7 @@ public class TestCommandFactory extends CommandFactory {
             case "EditAnswer":
                 return HttpMethod.isGet(request.getMethod()) ?
                         TestCommandEnum.SHOW_EDIT_ANSWER.getCommand():
-                        TestCommandEnum.EDIT_ANSWER_COMMAND.getCommand();
+                        TestCommandEnum.EDIT_ANSWER.getCommand();
             case "DeleteAnswer":
                 return HttpMethod.isGet(request.getMethod()) ?
                         TopicCommandEnum.SHOW_TOPICS.getCommand()://only post method is allowed
@@ -84,9 +83,9 @@ public class TestCommandFactory extends CommandFactory {
         String commandParam = request.getParameter("command");
         Command command = TopicCommandEnum.SHOW_TOPICS.getCommand();//default page
         if(commandParam.equals("edit")){
-            command = TestCommandEnum.EDIT_TASK_COMMAND.getCommand();
+            command = TestCommandEnum.EDIT_TASK.getCommand();
         }else if(commandParam.equals("delete")){
-            command = TestCommandEnum.DELETE_TASK_COMMAND.getCommand();
+            command = TestCommandEnum.DELETE_TASK.getCommand();
         }
         return command;
     }

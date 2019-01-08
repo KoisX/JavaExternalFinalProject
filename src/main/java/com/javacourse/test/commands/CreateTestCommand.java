@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public class AddTestCommand implements Command {
+public class CreateTestCommand implements Command {
 
     private String lang;
     private static final String LANG_PARAM = "lang";

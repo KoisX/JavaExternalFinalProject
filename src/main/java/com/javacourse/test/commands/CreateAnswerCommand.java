@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public class AddAnswerCommand implements Command {
+public class CreateAnswerCommand implements Command {
 
     private static final String LANG_PARAM = "lang";
 

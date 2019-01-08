@@ -3,37 +3,37 @@ package com.javacourse.home.commands;
 import com.javacourse.shared.Command;
 
 public enum  HomeCommandEnum {
-    INDEX{
+    SHOW_INDEX {
         {
             this.command = new ShowIndexCommand();
         }
     },
-    ABOUT{
+    SHOW_ABOUT {
         {
             this.command = new ShowAboutCommand();
         }
     },
-    RULES{
+    SHOW_RULES {
         {
             this.command = new ShowRulesCommand();
         }
     },
-    STATS{
+    SHOW_STATS {
         {
             this.command = new ShowStatsCommand();
         }
     },
-    STATS_DETAILS{
+    SHOW_STATS_DETAILS {
         {
             this.command = new ShowStatsDetailsCommand();
         }
     },
-    STATS_EDIT{
+    EDIT_STATS {
         {
             this.command = new EditStatsCommand();
         }
     },
-    STATS_DELETE{
+    DELETE_STATS {
         {
             this.command = new DeleteStatsCommand();
         }

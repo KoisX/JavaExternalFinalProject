@@ -9,7 +9,7 @@ public enum TestCommandEnum {
             this.command = new ShowTestByTopicCommand();
         }
     },
-    SHOP_EXAM{
+    SHOW_EXAM {
         {
             this.command = new ShowExamCommand();
         }
@@ -24,9 +24,9 @@ public enum TestCommandEnum {
             this.command = new DeleteTestCommand();
         }
     },
-    ADD_TEST{
+    CREATE_TEST {
         {
-            this.command = new AddTestCommand();
+            this.command = new CreateTestCommand();
         }
     },
     EDIT_TEST{
@@ -101,7 +101,7 @@ public enum TestCommandEnum {
     },
     CREATE_ANSWER{
         {
-            this.command = new AddAnswerCommand();
+            this.command = new CreateAnswerCommand();
         }
     },
     DELETE_ANSWER{
@@ -109,17 +109,17 @@ public enum TestCommandEnum {
             this.command = new DeleteAnswerCommand();
         }
     },
-    DELETE_TASK_COMMAND{
+    DELETE_TASK {
         {
             this.command = new DeleteTaskCommand();
         }
     },
-    EDIT_TASK_COMMAND{
+    EDIT_TASK {
         {
             this.command = new EditTaskCommand();
         }
     },
-    EDIT_ANSWER_COMMAND{
+    EDIT_ANSWER {
         {
             this.command = new EditAnswerCommand();
         }

@@ -19,9 +19,9 @@ public enum TopicCommandEnum {
             this.command = new EditTopicCommand();
         }
     },
-    ADD_TOPIC{
+    CREATE_TOPIC {
         {
-            this.command = new AddTopicCommand();
+            this.command = new CreateTopicCommand();
         }
     },
     SHOW_CREATE_PAGE{

@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import static com.javacourse.shared.WebPage.WebPageBase;
 
-public class AddTopicCommand implements Command {
+public class CreateTopicCommand implements Command {
 
     private String lang;
     private static final String NAME_PARAM = "name";

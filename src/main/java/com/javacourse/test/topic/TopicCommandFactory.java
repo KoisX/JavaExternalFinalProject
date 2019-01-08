@@ -30,7 +30,7 @@ public class TopicCommandFactory extends CommandFactory {
             case "Create":
                 return HttpMethod.isGet(request.getMethod()) ?
                         TopicCommandEnum.SHOW_CREATE_PAGE.getCommand() :
-                        TopicCommandEnum.ADD_TOPIC.getCommand();
+                        TopicCommandEnum.CREATE_TOPIC.getCommand();
             case "Edit":
                 return HttpMethod.isGet(request.getMethod()) ?
                         TopicCommandEnum.SHOW_TOPICS.getCommand() :
