@@ -7,6 +7,7 @@ import com.javacourse.test.Test;
 import com.javacourse.test.TestService;
 import com.javacourse.test.topic.Topic;
 import com.javacourse.utils.BeanValidatorConfig;
+import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.ResourceBundleConfig;
 import org.json.JSONObject;
 
@@ -36,25 +37,11 @@ public class AddTestCommand implements Command {
 
         //set error message if model is not valid
         if(!violations.isEmpty()){
-            showErrorResult(response, violations.iterator().next().getMessage());
-            return WebPage.STAND_STILL_PAGE;
+            JsonManager.sendError("error", violations.iterator().next().getMessage(), response);
+        }else {
+            createTest(request, response, test);
         }
-
-        return getPageDependingOnWhetherInsertIsSuccessful(request, response, test);
-    }
-
-    @SuppressWarnings("Duplicates")
-    private void showErrorResult(HttpServletResponse response, String error) {
-        JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("error", error);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Could not get response writer");
-        }
+        return WebPage.STAND_STILL_PAGE;
     }
 
     private Test constructTest(Map<String, String[]> parameterMap) {
@@ -69,31 +56,19 @@ public class AddTestCommand implements Command {
         return test;
     }
 
-    //try to create topic and depending on whether this operation is
-    //successful or not return corresponding WebPage
-    private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, HttpServletResponse response, Test test){
+    private void createTest(HttpServletRequest request, HttpServletResponse response, Test test){
         String topicId = request.getParameter("id");
         TestService testService = new TestService();
-
-        JSONObject jsonResponse = new JSONObject();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
+        JsonManager json = new JsonManager(response);
         try {
             if(testService.create(test)){
-                jsonResponse.put("url", new WebPage(WebPage.WebPageBase.TESTS_ACTION)
-                        .setQueryString("?id="+topicId).toString());
+                json.put("url", new WebPage(WebPage.WebPageBase.TESTS_ACTION)
+                        .setQueryString("?id="+topicId));
             }
         } catch (SQLException | UnsuccessfulQueryException e) {
             ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
-            jsonResponse.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
+            json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }
-        try {
-            response.getWriter().write(jsonResponse.toString());
-            response.getWriter().flush();
-        } catch (IOException e) {
-            throw new RuntimeException("Could not get response writer");
-        }
-        return WebPage.STAND_STILL_PAGE;
+        json.respond();
     }
 }
