@@ -86,8 +86,4 @@ public class TopicDAOTest {
         topicDAOMySql.create(anyObject());
     }
 
-    @Test
-    @Ignore
-    public void update() {
-    }
 }

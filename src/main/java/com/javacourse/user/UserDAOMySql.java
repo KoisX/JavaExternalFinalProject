@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * DAO implementation for the MySQL relational database
@@ -276,5 +277,18 @@ public class UserDAOMySql implements UserDAO {
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserDAOMySql)) return false;
+        UserDAOMySql that = (UserDAOMySql) o;
+        return connection.equals(that.connection);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(connection);
     }
 }

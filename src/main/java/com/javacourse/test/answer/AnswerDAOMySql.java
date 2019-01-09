@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * DAO implementation for the MySQL relational database
@@ -266,5 +267,18 @@ public class AnswerDAOMySql implements AnswerDAO{
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AnswerDAOMySql)) return false;
+        AnswerDAOMySql that = (AnswerDAOMySql) o;
+        return Objects.equals(connection, that.connection);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(connection);
     }
 }
