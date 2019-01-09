@@ -55,3 +55,13 @@ textarea {
     bottom: -14px !important;
     left:250px !important;
 }
+
+.about-photo{
+    float: left;
+    margin-right: 40px;
+    margin-bottom: 15px;
+}
+
+.about-text{
+    font-size: 20px;
+}
