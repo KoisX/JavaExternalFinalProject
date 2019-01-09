@@ -14,6 +14,7 @@ import com.javacourse.user.User;
 import com.javacourse.user.UserService;
 import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.LogConfigurator;
+import com.javacourse.utils.ResourceBundleConfig;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
@@ -30,6 +31,7 @@ public class CheckExamCommand implements Command {
 
     private final static Logger logger;
     private final static String ID_PARAM = "id";
+    private static final String LANG_PARAM = "lang";
 
     //logger configuration
     static {
@@ -39,6 +41,8 @@ public class CheckExamCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         String testId = request.getParameter(ID_PARAM);
+        String lang = (String)request.getSession().getAttribute(LANG_PARAM);
+
         TestResult testResult = new TestResult();
 
         if(testId==null || !getTasksAndMaxScoreFromDb(testId, testResult)){
@@ -54,7 +58,7 @@ public class CheckExamCommand implements Command {
 
         //TODO: send email with result to user
 
-        showExamResult(response, testResult);
+        showExamResult(response, testResult, lang);
         return new WebPage(WebPageBase.STAND_STILL_PAGE).setDispatchType(DispatchType.STAND_STILL);
     }
 
@@ -133,12 +137,12 @@ public class CheckExamCommand implements Command {
         return "field_"+String.valueOf(task.getId());
     }
 
-    private void showExamResult(HttpServletResponse response, TestResult testResult){
+    private void showExamResult(HttpServletResponse response, TestResult testResult, String lang){
         JsonManager json = new JsonManager(response);
         json.put("mistakes", testResult.getWrongTasksIndexes())
             .put("score", testResult.getScore())
             .put("maxScore", testResult.getMaxScore())
-            .put("message", getMessage(testResult));
+            .put("message", getMessage(testResult, lang));
         json.respond();
     }
 
@@ -146,16 +150,16 @@ public class CheckExamCommand implements Command {
      * Returns the message to be shown depending on the test result
      * @return test result summary message
      */
-    private String getMessage(TestResult testResult) {
-        //TODO: get msg from resource bundle
+    private String getMessage(TestResult testResult, String lang) {
+        ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang, "exam_result_messages");
         if(testResult.getMaxScore()==0)
-            return "No result";
+            return resourceBundle.getString("msg.noresult");
         double percentageOfSolvedTasks = getPercentageOfSolvedTasks(testResult);
         if(percentageOfSolvedTasks<40)
-            return "You need to study harder!";
+            return resourceBundle.getString("msg.studyHarder");
         else if(percentageOfSolvedTasks<75)
-            return "Good work!";
-        else return "Well done!";
+            return resourceBundle.getString("msg.goodWork");
+        else return resourceBundle.getString("msg.wellDone");
     }
 
     private double getPercentageOfSolvedTasks(TestResult testResult){

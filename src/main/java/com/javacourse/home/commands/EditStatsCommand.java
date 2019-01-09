@@ -5,22 +5,16 @@ import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
 import com.javacourse.stats.Stats;
 import com.javacourse.stats.StatsService;
-import com.javacourse.test.Test;
-import com.javacourse.user.User;
 import com.javacourse.utils.BeanValidatorConfig;
 import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.LogConfigurator;
 import com.javacourse.utils.ResourceBundleConfig;
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.Set;
+
 import static com.javacourse.shared.WebPage.*;
 
 public class EditStatsCommand implements Command {
@@ -70,7 +64,7 @@ public class EditStatsCommand implements Command {
                 json.put("url", new WebPage(WebPageBase.STATS_ACTION));
             }
         } catch ( UnsuccessfulQueryException e) {
-            ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
+            ResourceBundle resourceBundle = ResourceBundleConfig.getErrorResourceBundle(lang);
             json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }
         json.respond();

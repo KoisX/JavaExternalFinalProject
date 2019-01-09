@@ -5,7 +5,6 @@ import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
 import com.javacourse.test.Test;
 import com.javacourse.test.TestService;
-import com.javacourse.test.answer.Answer;
 import com.javacourse.test.topic.Topic;
 import com.javacourse.utils.BeanValidatorConfig;
 import com.javacourse.utils.JsonManager;
@@ -13,11 +12,8 @@ import com.javacourse.utils.ResourceBundleConfig;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class CreateTestCommand implements Command {
 
@@ -59,7 +55,7 @@ public class CreateTestCommand implements Command {
                         .setQueryString("?id="+topicId));
             }
         } catch ( UnsuccessfulQueryException e) {
-            ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
+            ResourceBundle resourceBundle = ResourceBundleConfig.getErrorResourceBundle(lang);
             json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }
         json.respond();

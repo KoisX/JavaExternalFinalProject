@@ -11,7 +11,6 @@ import com.javacourse.utils.ResourceBundleConfig;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -61,7 +60,7 @@ public class EditTaskCommand implements Command {
                         .setQueryString("?id="+testId).toString());
             }
         } catch (UnsuccessfulQueryException e) {
-            ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
+            ResourceBundle resourceBundle = ResourceBundleConfig.getErrorResourceBundle(lang);
             json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }
         json.respond();

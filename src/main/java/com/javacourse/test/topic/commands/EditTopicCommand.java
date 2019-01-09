@@ -10,11 +10,9 @@ import com.javacourse.test.topic.TopicService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Set;
+
 import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class EditTopicCommand implements Command {
@@ -64,7 +62,7 @@ public class EditTopicCommand implements Command {
 
     private void initLanguageFields(String language){
         lang = language;
-        resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
+        resourceBundle = ResourceBundleConfig.getErrorResourceBundle(lang);
     }
 
     private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Topic topic){

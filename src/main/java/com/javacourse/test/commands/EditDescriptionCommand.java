@@ -8,16 +8,11 @@ import com.javacourse.test.TestService;
 import com.javacourse.utils.BeanValidatorConfig;
 import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.ResourceBundleConfig;
-import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class EditDescriptionCommand implements Command {
 
@@ -57,7 +52,7 @@ public class EditDescriptionCommand implements Command {
                         .setQueryString("?id="+id));
             }
         } catch (UnsuccessfulQueryException | NumberFormatException e) {
-            ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
+            ResourceBundle resourceBundle = ResourceBundleConfig.getErrorResourceBundle(lang);
             json.put("error", resourceBundle.getString("msg.creationUnsuccessful"));
         }
         json.respond();

@@ -10,10 +10,8 @@ import com.javacourse.test.topic.TopicService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.*;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.Set;
+
 import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class CreateTopicCommand implements Command {
@@ -52,7 +50,7 @@ public class CreateTopicCommand implements Command {
                         .setDispatchType(WebPage.DispatchType.REDIRECT);
             }
         } catch ( UnsuccessfulQueryException e) {
-            ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang);
+            ResourceBundle resourceBundle = ResourceBundleConfig.getErrorResourceBundle(lang);
             request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.creationUnsuccessful"));
             return new WebPage(WebPageBase.TOPICS_ADMIN_CREATE);
         }
