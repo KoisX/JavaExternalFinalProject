@@ -44,7 +44,7 @@ public class TestDAOTestMySql {
     @Test
     public void parseToEntityList_getsEntity_returnsCorrectEntity() throws SQLException {
         Topic topic = new Topic(1, "topic");
-        com.javacourse.test.Test test = new com.javacourse.test.Test(1, topic, "description", "header", true);
+        com.javacourse.test.Test test = new com.javacourse.test.Test(1, topic, "description", "header", false);
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
         when(rs.getLong("id")).thenReturn(test.getId());
@@ -68,7 +68,7 @@ public class TestDAOTestMySql {
     @Test
     public void parseSingleEntity_getsEntity_returnsCorrectEntity() throws SQLException {
         Topic topic = new Topic(1, "topic");
-        com.javacourse.test.Test expected = new com.javacourse.test.Test(1, topic, "description", "header", true);
+        com.javacourse.test.Test expected = new com.javacourse.test.Test(1, topic, "description", "header", false);
         ResultSet rs = mock(ResultSet.class);
         when(rs.next()).thenReturn(true).thenReturn(false);
         when(rs.getLong("id")).thenReturn(expected.getId());

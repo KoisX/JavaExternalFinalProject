@@ -48,6 +48,7 @@ public class HomeServlet extends HttpServlet {
             resultPage = command.execute(request, response);
         }catch (Exception e){
             resultPage = new WebPage(WebPageBase.ERROR_ACTION);
+            logger.error(e);
         }
         new WebPageDispatcher(request, response, resultPage).dispatch();
     }
