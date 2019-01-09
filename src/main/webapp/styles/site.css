@@ -65,3 +65,27 @@ textarea {
 .about-text{
     font-size: 20px;
 }
+
+.rules{
+    list-style: none;
+}
+
+.rule-item{
+    list-style: none;
+    border:2px solid rgba(39, 52, 59, 0.6);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    box-shadow: 1px 1px 2px 1px grey;
+}
+
+.rule-item:hover{
+    animation-name:colorful-text;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+@keyframes colorful-text {
+    from{border-color: rgba(39, 52, 59, 0.6)}
+    to{border-color: red}
+}
