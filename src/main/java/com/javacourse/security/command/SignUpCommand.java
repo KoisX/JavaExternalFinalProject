@@ -28,7 +28,7 @@ public class SignUpCommand implements Command {
         return new UserCreationUtils(request).handleUserInsert(constructUser(request));
     }
 
-    private User constructUser(HttpServletRequest request) {
+    User constructUser(HttpServletRequest request) {
         User user = new User();
         user.setEmail(request.getParameter(LOGIN_PARAM));
         user.setPassword((request.getParameter(PASSWORD_PARAM)));

@@ -1,5 +1,7 @@
 package com.javacourse.shared;
 
+import java.util.Objects;
+
 /**
  * Represents a wrapper for a path,
  * which the request will be forwarded or redirected to
@@ -97,5 +99,20 @@ public class WebPage{
     @Override
     public String toString() {
         return getPath();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WebPage)) return false;
+        WebPage webPage = (WebPage) o;
+        return Objects.equals(queryString, webPage.queryString) &&
+                base == webPage.base &&
+                dispatchType == webPage.dispatchType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(queryString, base, dispatchType);
     }
 }

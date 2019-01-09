@@ -34,9 +34,6 @@ public class AuthenticationFilter implements Filter {
     private static final String PASSWORD_PARAM = "password";
     private static final String ROLE_PARAM = "role";
 
-    public void destroy() {
-    }
-
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
@@ -56,11 +53,6 @@ public class AuthenticationFilter implements Filter {
                     .setDispatchType(DispatchType.REDIRECT);
         }
         new WebPageDispatcher(request, response, page).dispatch();
-
-    }
-
-    public void init(FilterConfig config) throws ServletException {
-
     }
 
     boolean isLoggedIn(HttpSession session){
