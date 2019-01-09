@@ -3,15 +3,17 @@ package com.javacourse.test.commands;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
+import com.javacourse.test.Test;
+import com.javacourse.test.TestService;
 import com.javacourse.test.task.Task;
 import com.javacourse.test.task.TaskService;
 import com.javacourse.test.topic.commands.ShowTopicsCommand;
+import com.javacourse.user.role.Role;
 import com.javacourse.utils.LogConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 import java.util.List;
 import static com.javacourse.shared.WebPage.WebPageBase;
 
@@ -30,7 +32,7 @@ public class ShowExamCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         WebPage webPage = new WebPage(WebPageBase.ERROR_ACTION);
-        if(!setTasksAttribute(request)){
+        if(!setTasksAttribute(request) || !isTestAccessibleForUser(request)){
             return webPage;
         }
         return new WebPage(WebPageBase.EXAM_USER_PAGE);
@@ -50,5 +52,15 @@ public class ShowExamCommand implements Command {
             return false;
         }
         return true;
+    }
+
+    private boolean isTestAccessibleForUser(HttpServletRequest request){
+        TestService testService = new TestService();
+        try {
+            Test test = testService.findById(request.getParameter(ID_PARAM));
+            return test.getIsPublic() || (((Role) request.getSession().getAttribute("role")) == Role.ADMIN);
+        } catch (UnsuccessfulQueryException e) {
+            return false;
+        }
     }
 }
