@@ -2,6 +2,8 @@ package com.javacourse.test.commands;
 
 import com.javacourse.ApplicationResources;
 import com.javacourse.exceptions.UnsuccessfulQueryException;
+import com.javacourse.mail.LetterComposer;
+import com.javacourse.mail.MailManager;
 import com.javacourse.shared.Command;
 import com.javacourse.shared.WebPage;
 import com.javacourse.stats.Stats;
@@ -18,6 +20,7 @@ import com.javacourse.utils.ResourceBundleConfig;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -57,6 +60,11 @@ public class CheckExamCommand implements Command {
                 .getAttribute(ApplicationResources.getUserEmail()), Long.parseLong(testId), testResult);
 
         //TODO: send email with result to user
+        try {
+            sendMail(request, testResult);
+        } catch (Exception e) {
+            logger.error("Problem while sending email "+ e.getMessage());
+        }
 
         showExamResult(response, testResult, lang);
         return new WebPage(WebPageBase.STAND_STILL_PAGE).setDispatchType(DispatchType.STAND_STILL);
@@ -166,11 +174,32 @@ public class CheckExamCommand implements Command {
         return ((double)testResult.getScore())/testResult.getMaxScore()*100;
     }
 
+    private void sendMail(HttpServletRequest request, TestResult testResult) {
+        ServletContext servletContext = request.getServletContext();
+        String to = (String) request.getSession().getAttribute("login");
+        Properties properties = new Properties();
+        String filename = servletContext.getInitParameter("mail");
+        try {
+            properties.load(servletContext.getResourceAsStream(filename));
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            return;
+        }
+
+        MailManager mailManager = MailManager.createMailManager(to,
+                getMessage(testResult, (String)request.getSession().getAttribute("lang")),
+                LetterComposer.compose(testResult.score, testResult.maxScore, (String)request.getSession().getAttribute("lang")),
+                properties
+                );
+
+        mailManager.sendMail();
+    }
+
     /**
      * Value object for comfortable transport of multiple params
      * between multiple methods
      */
-    private class TestResult{
+    public class TestResult{
         private List<Task> tasks;
         private int maxScore;
         private int score;

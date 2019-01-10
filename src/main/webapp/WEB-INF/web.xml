@@ -29,4 +29,9 @@
     <session-timeout>-1</session-timeout>
   </session-config>
 
+  <context-param>
+    <param-name>mail</param-name>
+    <param-value>/WEB-INF/classes/mail.properties</param-value>
+  </context-param>
+
 </web-app>
