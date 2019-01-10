@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,9 @@ public class WebPageDispatcherTest {
     HttpServletResponse response;
 
     @Mock
+    RequestDispatcher dispatcher;
+
+    @Mock
     WebPage webPage;
 
     @Before
@@ -42,6 +46,7 @@ public class WebPageDispatcherTest {
         when(webPage.getDispatchType()).thenReturn(WebPage.DispatchType.FORWARD);
         when(webPage.getPath()).thenReturn(RANDOM_PATH);
         when(request.getContextPath()).thenReturn("");
+        when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
 
         WebPageDispatcher webPageDispatcher = new WebPageDispatcher(request, response, webPage);
         webPageDispatcher.dispatch();

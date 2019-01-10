@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * A utility class, which encapsulates the basic actions,
@@ -47,4 +48,18 @@ public class JsonManager {
         }
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JsonManager)) return false;
+        JsonManager manager = (JsonManager) o;
+        return jsonResponse.equals(manager.jsonResponse) &&
+                response.equals(manager.response);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(jsonResponse, response);
+    }
 }

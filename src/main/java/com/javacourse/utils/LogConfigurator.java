@@ -28,4 +28,7 @@ public class LogConfigurator {
         PropertyConfigurator.configure(ApplicationResources.getLogConfigFile());
         return Logger.getLogger(clazz);
     }
+
+    private LogConfigurator() {
+    }
 }

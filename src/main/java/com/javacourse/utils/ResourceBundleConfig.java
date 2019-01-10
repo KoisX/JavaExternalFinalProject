@@ -23,4 +23,7 @@ public class ResourceBundleConfig {
         Locale locale= new Locale(lang);
         return ResourceBundle.getBundle(baseName, locale);
     }
+
+    private ResourceBundleConfig() {
+    }
 }
