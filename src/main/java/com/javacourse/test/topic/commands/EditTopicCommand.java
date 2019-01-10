@@ -17,8 +17,6 @@ import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class EditTopicCommand implements Command {
 
-    private String lang;
-    private ResourceBundle resourceBundle;
     private static final String NAME_PARAM = "name";
     private static final String LANG_PARAM = "lang";
     private static final String TOPIC_PARAM = "topic";
@@ -28,7 +26,8 @@ public class EditTopicCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Topic topic = constructTopic(request);
-        initLanguageFields((String)request.getSession().getAttribute(LANG_PARAM));
+        String lang = (String)request.getSession().getAttribute(LANG_PARAM);
+        ResourceBundle resourceBundle = ResourceBundleConfig.getErrorResourceBundle(lang);
         BeanValidatorConfig<Topic> validator = new BeanValidatorConfig<>(lang);
         //set error message if model is not valid
         if(!validator.isValid(topic)){
@@ -37,7 +36,7 @@ public class EditTopicCommand implements Command {
         }
         TopicService topicService = new TopicService();
 
-        return getPageBasedOnWhetherEditIsSuccessful(request, topic, topicService);
+        return getPageBasedOnWhetherEditIsSuccessful(request, topic, topicService, resourceBundle);
     }
 
     private Topic constructTopic(HttpServletRequest request) {
@@ -61,12 +60,8 @@ public class EditTopicCommand implements Command {
         return topic;
     }
 
-    private void initLanguageFields(String language){
-        lang = language;
-        resourceBundle = ResourceBundleConfig.getErrorResourceBundle(lang);
-    }
 
-    private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Topic topic, TopicService topicService){
+     WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Topic topic, TopicService topicService, ResourceBundle bundle){
         WebPage webPage = new WebPage(WebPageBase.TOPICS_ACTION);
         try {
             if(topicService.update(topic)){
@@ -74,14 +69,14 @@ public class EditTopicCommand implements Command {
                         .setDispatchType(WebPage.DispatchType.REDIRECT);
             }
         } catch ( UnsuccessfulQueryException e) {
-            setErrorRequestAttributes(request, topic);
+            setErrorRequestAttributes(request, topic, bundle);
             webPage = new WebPage(WebPageBase.TOPICS_ADMIN_EDIT);
         }
         return webPage;
     }
 
-    private void setErrorRequestAttributes(HttpServletRequest request, Topic topic){
-        request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.editUnsuccessful"));
+    private void setErrorRequestAttributes(HttpServletRequest request, Topic topic, ResourceBundle bundle){
+        request.setAttribute(ERROR_REQUEST_MESSAGE, bundle.getString("msg.editUnsuccessful"));
         request.setAttribute(NAME_PARAM, topic.getName());
         request.setAttribute(ID, topic.getId());
         request.setAttribute(TOPIC_PARAM, topic);
