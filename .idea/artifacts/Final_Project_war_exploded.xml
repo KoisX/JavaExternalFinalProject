@@ -27,6 +27,9 @@
           <element id="library" level="project" name="Maven: javax.el:javax.el-api:3.0.0" />
           <element id="library" level="project" name="Maven: org.glassfish.web:javax.el:2.2.6" />
           <element id="library" level="project" name="Maven: org.json:json:20160810" />
+          <element id="library" level="project" name="Maven: javax.mail:javax.mail-api:1.6.2" />
+          <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.6.0" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">
