@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import static com.javacourse.shared.WebPage.WebPageBase;
 
+/**
+ * Servlet responsible for rounting pages connected to authorization and authentication:
+ */
 @WebServlet(name = "Login", urlPatterns = {"/Login/*"})
 public class AuthorizationServlet extends HttpServlet {
 

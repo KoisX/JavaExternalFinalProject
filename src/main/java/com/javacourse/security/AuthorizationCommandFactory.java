@@ -10,6 +10,10 @@ import com.javacourse.utils.UriMarshaller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class, responsible for defining a proper command
+ * for a particular URL query
+ */
 public class AuthorizationCommandFactory extends CommandFactory {
 
     public AuthorizationCommandFactory(HttpServletRequest request, HttpServletResponse response) {

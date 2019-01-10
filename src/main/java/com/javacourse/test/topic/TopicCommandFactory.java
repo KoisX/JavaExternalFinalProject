@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+/**
+ * Class, responsible for defining a proper command
+ * for a particular URL query
+ */
 public class TopicCommandFactory extends CommandFactory {
 
     private static final String COMMAND = "command";

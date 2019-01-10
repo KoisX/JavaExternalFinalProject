@@ -9,6 +9,10 @@ import com.javacourse.utils.UriMarshaller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class, responsible for defining a proper command
+ * for a particular URL query
+ */
 public class TestCommandFactory extends CommandFactory {
 
     private static final String COMMAND = "command";
