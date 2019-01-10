@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import static com.javacourse.shared.WebPage.WebPageBase;
 
+/**
+ * Servlet responsible for rounting  pages dedicated to tests:
+ */
 @WebServlet(name = "TestServlet", urlPatterns = {"/Test/*"})
 public class TestServlet extends HttpServlet {
 

@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import static com.javacourse.shared.WebPage.WebPageBase;
 
+/**
+ * Servlet responsible for rounting  pages dedicated to test topics:
+ */
 @WebServlet(name = "TopicServlet", urlPatterns = {"/Topic/*"})
 public class TopicServlet extends HttpServlet {
     private Logger logger;
