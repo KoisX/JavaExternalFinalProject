@@ -12,13 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
+
 import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class ShowStatsCommand implements Command {
 
-    private List<Stats> stats;
-    private int currentPage = 1;
-    private int numberOfPages = 0;
     private final static Logger logger;
     private final static int RECORDS_PER_PAGE = 10;
     private final static String PAGE_PARAM = "page";
@@ -35,22 +34,39 @@ public class ShowStatsCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         WebPage resultingPage = new WebPage(WebPageBase.STATS_ADMIN_PAGE);
+        StatsService statsService = new StatsService();
+        int currentPage = Integer.parseInt(Optional
+                .ofNullable(request.getParameter(PAGE_PARAM))
+                .orElse("1"));
+        int numberOfPages = getNumberOfPages(statsService);
 
-        if(!getPageInfo(request)){
+        if(!isPageAccessible(currentPage, numberOfPages)){
             resultingPage = new WebPage(WebPageBase.ERROR_ACTION);
             return resultingPage;
         }
 
-        initRequestAttributes(request);
+        List<Stats> stats = getStats(statsService, currentPage);
+        initRequestAttributes(request, currentPage, numberOfPages, stats);
         return resultingPage;
     }
 
-    private boolean getPageInfo(HttpServletRequest request){
-        StatsService statsService = new StatsService();
+    List<Stats> getStats(StatsService statsService, int currentPage) throws UnsuccessfulQueryException {
+        return statsService.findAllWithPagination(getOffset(currentPage), RECORDS_PER_PAGE);
+    }
+
+    int getNumberOfPages(StatsService service){
+       return service.getNumberOfPages(RECORDS_PER_PAGE);
+    }
+
+    boolean isPageAccessible(int currentPage, int numberOfPages){
+        return currentPage >= 0 && currentPage <= numberOfPages;
+    }
+
+    boolean getPageInfo(HttpServletRequest request, StatsService statsService, List<Stats> stats,int currentPage, int numberOfPages){
         if(request.getParameter(PAGE_PARAM) != null)
             currentPage = Integer.parseInt(request.getParameter(PAGE_PARAM));
         try {
-            stats = statsService.findAllWithPagination(getOffset(), RECORDS_PER_PAGE);
+            stats = statsService.findAllWithPagination(getOffset(currentPage), RECORDS_PER_PAGE);
             numberOfPages = statsService.getNumberOfPages(RECORDS_PER_PAGE);
         } catch (UnsuccessfulQueryException e) {
             logger.error(e.getMessage());
@@ -61,14 +77,14 @@ public class ShowStatsCommand implements Command {
         return currentPage >= 0 && currentPage <= numberOfPages;
     }
 
-    private void initRequestAttributes(HttpServletRequest request){
+    private void initRequestAttributes(HttpServletRequest request, int currentPage, int numberOfPages, List<Stats> stats){
         request.setAttribute(STATS_ATTRIBUTE, stats);
         request.setAttribute(CURRENT_PAGE_ATTRIBUTE, currentPage);
         request.setAttribute(PAGES_ATTRIBUTE, numberOfPages);
         request.setAttribute(RECORDS_PER_PAGE_ATTRIBUTE, RECORDS_PER_PAGE);
     }
 
-    private int getOffset(){
+    private int getOffset(int currentPage){
         return (currentPage-1)*RECORDS_PER_PAGE;
     }
 }
