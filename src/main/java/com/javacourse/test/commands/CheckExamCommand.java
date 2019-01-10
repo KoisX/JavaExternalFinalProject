@@ -150,7 +150,7 @@ public class CheckExamCommand implements Command {
         json.put("mistakes", testResult.getWrongTasksIndexes())
             .put("score", testResult.getScore())
             .put("maxScore", testResult.getMaxScore())
-            .put("message", getMessage(testResult, lang));
+            .put("message", getMessage(testResult, lang, "exam_result_messages"));
         json.respond();
     }
 
@@ -158,8 +158,8 @@ public class CheckExamCommand implements Command {
      * Returns the message to be shown depending on the test result
      * @return test result summary message
      */
-    private String getMessage(TestResult testResult, String lang) {
-        ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang, "exam_result_messages");
+    private String getMessage(TestResult testResult, String lang, String base) {
+        ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang, base);
         if(testResult.getMaxScore()==0)
             return resourceBundle.getString("msg.noresult");
         double percentageOfSolvedTasks = getPercentageOfSolvedTasks(testResult);
@@ -187,7 +187,7 @@ public class CheckExamCommand implements Command {
         }
 
         MailManager mailManager = MailManager.createMailManager(to,
-                getMessage(testResult, (String)request.getSession().getAttribute("lang")),
+                getMessage(testResult, (String)request.getSession().getAttribute("lang"), "exam_result_header_messages"),
                 LetterComposer.compose(testResult.score, testResult.maxScore, (String)request.getSession().getAttribute("lang")),
                 properties
                 );
