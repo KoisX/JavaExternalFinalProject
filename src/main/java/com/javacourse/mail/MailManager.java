@@ -24,10 +24,21 @@ public class MailManager {
         this.password = props.getProperty("mail.user.password");
     }
 
+    /**
+     * Creates MailManager entity, initialized wih all necessary params
+     * @param to email of recipient
+     * @param subject subject of the letter
+     * @param message message body
+     * @param props Properties file with necessary params to initialize sender server
+     * @return MailManager entity
+     */
     public static MailManager createMailManager(String to, String subject, String message, Properties props){
         return new MailManager(to, subject, message, props);
     }
 
+    /**
+     * Sends letter to recipient's email
+     */
     public void sendMail(){
         new MailThread(to, subject, message, user, password).start();
     }

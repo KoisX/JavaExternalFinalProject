@@ -12,6 +12,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
+/**
+ * Multithreading emails sender class.
+ * Sends email to recipient
+ */
 public class MailThread extends Thread{
 
     private final static Logger logger;

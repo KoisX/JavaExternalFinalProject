@@ -15,6 +15,7 @@ public class ShowStatsDetailsCommand implements Command {
 
     private static final String ID = "id";
     private static final String STAT_PROP = "stat";
+    private static final String PAGE = "page";
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
@@ -28,7 +29,7 @@ public class ShowStatsDetailsCommand implements Command {
             String id = request.getParameter(ID);
             Stats stats = statsService.findById(id);
             request.setAttribute(STAT_PROP, stats);
-            request.setAttribute("page", request.getParameter("page"));
+            request.setAttribute(PAGE, request.getParameter(PAGE));
         } catch (UnsuccessfulQueryException | NumberFormatException e) {
             webPage = new WebPage(WebPageBase.ERROR_ACTION);
         }
