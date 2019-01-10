@@ -16,9 +16,13 @@ public class DeleteStatsCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
+        StatsService statsService = new StatsService();
+        return getPageDependingOnStatusOfDeletion(request, statsService);
+    }
+
+    WebPage getPageDependingOnStatusOfDeletion(HttpServletRequest request, StatsService statsService){
         WebPage webPage = new WebPage(WebPageBase.STATS_ACTION)
                 .setDispatchType(WebPage.DispatchType.REDIRECT);
-        StatsService statsService = new StatsService();
         String id = request.getParameter(ID);
         try {
             statsService.delete(id);

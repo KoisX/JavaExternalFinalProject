@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 @RunWith(MockitoJUnitRunner.class)
 public class ShowAboutCommandTest {
 
-    Command showIndexCommand = new ShowIndexCommand();
+    Command showAboutCommand = new ShowAboutCommand();
     @Mock
     HttpServletRequest request;
     @Mock
@@ -24,8 +24,8 @@ public class ShowAboutCommandTest {
 
     @Test
     public void execute() {
-        WebPage expected = new WebPage(WebPage.WebPageBase.INDEX_PAGE);
-        WebPage actual = showIndexCommand.execute(request, response);
+        WebPage expected = new WebPage(WebPage.WebPageBase.ABOUT_PAGE);
+        WebPage actual = showAboutCommand.execute(request, response);
         assertEquals(expected, actual);
     }
 }

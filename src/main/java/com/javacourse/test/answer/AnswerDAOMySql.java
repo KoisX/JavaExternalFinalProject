@@ -54,7 +54,7 @@ public class AnswerDAOMySql implements AnswerDAO{
         Answer answer;
         ResultSet resultSet = null;
         try(PreparedStatement statement = connection.prepareStatement(
-                "SELECT answer.id as id, answer.value as value, answer.is_case_sensitive as caseSens " +
+                 "SELECT answer.id as id, answer.value as value, answer.is_case_sensitive as caseSens " +
                     "FROM answer " +
                     "WHERE answer.id = ?; "
         )){

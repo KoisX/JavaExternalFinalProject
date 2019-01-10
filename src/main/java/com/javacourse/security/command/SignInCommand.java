@@ -37,14 +37,13 @@ public class SignInCommand implements Command {
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         String  userEmail = request.getParameter(LOGIN_PARAM);
         String userPassword = request.getParameter(PASSWORD_PARAM);
-        WebPage webPage = getPageBasedOnWhetherUserExists(request, userPassword, userEmail);
-        return webPage;
+        UserService userService = new UserService();
+        return getPageBasedOnWhetherUserExists(request, userPassword, userEmail, userService);
     }
 
-    private WebPage getPageBasedOnWhetherUserExists(HttpServletRequest request, String userPassword, String userEmail){
+    WebPage getPageBasedOnWhetherUserExists(HttpServletRequest request, String userPassword, String userEmail, UserService userService){
         WebPage webPage = new WebPage(WebPageBase.LOGIN_PAGE);
         try {
-            UserService userService = new UserService();
             String hash = PasswordManager.hash(userPassword, userEmail);
             if(userService.doesUserExist(userEmail, hash)){
                 Role role = userService.getUserRoleByEmail(userEmail);

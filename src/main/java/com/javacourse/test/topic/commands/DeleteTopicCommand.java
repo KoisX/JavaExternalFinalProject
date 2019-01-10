@@ -33,11 +33,11 @@ public class DeleteTopicCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        return getPageDependingOnWhetherDeleteIsSuccessful(request);
+        TopicService topicService = new TopicService();
+        return getPageDependingOnWhetherDeleteIsSuccessful(request, topicService);
     }
 
-    private WebPage getPageDependingOnWhetherDeleteIsSuccessful(HttpServletRequest request){
-        TopicService topicService = new TopicService();
+    WebPage getPageDependingOnWhetherDeleteIsSuccessful(HttpServletRequest request, TopicService topicService){
         try {
             setTopicsAttribute(request);
             //if delete is successful, update topics request param and return topics page

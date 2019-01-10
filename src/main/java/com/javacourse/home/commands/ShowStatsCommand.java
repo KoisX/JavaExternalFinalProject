@@ -18,18 +18,12 @@ import static com.javacourse.shared.WebPage.WebPageBase;
 
 public class ShowStatsCommand implements Command {
 
-    private final static Logger logger;
     private final static int RECORDS_PER_PAGE = 10;
     private final static String PAGE_PARAM = "page";
     private final static String STATS_ATTRIBUTE = "stats";
     private final static String CURRENT_PAGE_ATTRIBUTE = "currentPage";
     private final static String PAGES_ATTRIBUTE = "pages";
     private final static String RECORDS_PER_PAGE_ATTRIBUTE = "recordsPerPage";
-
-    //logger configuration
-    static {
-        logger = LogConfigurator.getLogger(ShowStatsCommand.class);
-    }
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
@@ -59,21 +53,6 @@ public class ShowStatsCommand implements Command {
     }
 
     boolean isPageAccessible(int currentPage, int numberOfPages){
-        return currentPage >= 0 && currentPage <= numberOfPages;
-    }
-
-    boolean getPageInfo(HttpServletRequest request, StatsService statsService, List<Stats> stats,int currentPage, int numberOfPages){
-        if(request.getParameter(PAGE_PARAM) != null)
-            currentPage = Integer.parseInt(request.getParameter(PAGE_PARAM));
-        try {
-            stats = statsService.findAllWithPagination(getOffset(currentPage), RECORDS_PER_PAGE);
-            numberOfPages = statsService.getNumberOfPages(RECORDS_PER_PAGE);
-        } catch (UnsuccessfulQueryException e) {
-            logger.error(e.getMessage());
-            return false;
-        }
-
-        //checking if currentPage param is in accepted value segment
         return currentPage >= 0 && currentPage <= numberOfPages;
     }
 

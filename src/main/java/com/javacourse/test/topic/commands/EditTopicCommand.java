@@ -35,8 +35,9 @@ public class EditTopicCommand implements Command {
             request.setAttribute(ERROR_REQUEST_MESSAGE, validator.getErrorMessage());
             return new WebPage(WebPageBase.TOPICS_ADMIN_EDIT);
         }
+        TopicService topicService = new TopicService();
 
-        return getPageBasedOnWhetherEditIsSuccessful(request, topic);
+        return getPageBasedOnWhetherEditIsSuccessful(request, topic, topicService);
     }
 
     private Topic constructTopic(HttpServletRequest request) {
@@ -65,9 +66,8 @@ public class EditTopicCommand implements Command {
         resourceBundle = ResourceBundleConfig.getErrorResourceBundle(lang);
     }
 
-    private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Topic topic){
+    private WebPage getPageBasedOnWhetherEditIsSuccessful(HttpServletRequest request, Topic topic, TopicService topicService){
         WebPage webPage = new WebPage(WebPageBase.TOPICS_ACTION);
-        TopicService topicService = new TopicService();
         try {
             if(topicService.update(topic)){
                 webPage = new WebPage(WebPageBase.TOPICS_ACTION)

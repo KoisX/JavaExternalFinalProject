@@ -30,10 +30,11 @@ public class CreateTopicCommand implements Command {
             return new WebPage(WebPageBase.TOPICS_ADMIN_CREATE);
         }
 
-        return getPageDependingOnWhetherInsertIsSuccessful(request, topic, lang);
+        TopicService topicService = new TopicService();
+        return getPageDependingOnWhetherInsertIsSuccessful(request, topic, lang, topicService);
     }
 
-    private Topic constructTopic(HttpServletRequest request) {
+    Topic constructTopic(HttpServletRequest request) {
         Topic topic = new Topic();
         topic.setName(request.getParameter(NAME_PARAM));
         return topic;
@@ -41,9 +42,8 @@ public class CreateTopicCommand implements Command {
 
     //try to create topic and depending on whether this operation is
     //successful or not return corresponding WebPage
-    private WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, Topic topic, String lang){
+    WebPage getPageDependingOnWhetherInsertIsSuccessful(HttpServletRequest request, Topic topic, String lang, TopicService topicService){
         WebPage webPage = new WebPage(WebPageBase.TOPICS_ACTION);
-        TopicService topicService = new TopicService();
         try {
             if(topicService.create(topic)){
                 return new WebPage(WebPageBase.TOPICS_ACTION)

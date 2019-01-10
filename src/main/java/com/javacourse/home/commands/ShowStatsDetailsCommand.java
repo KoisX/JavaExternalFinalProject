@@ -18,12 +18,12 @@ public class ShowStatsDetailsCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        return getWebPageBasedOnWhetherQueryIsSuccessful(request);
+        StatsService statsService = new StatsService();
+        return getWebPageBasedOnWhetherQueryIsSuccessful(request,statsService);
     }
 
-    private WebPage getWebPageBasedOnWhetherQueryIsSuccessful(HttpServletRequest request){
+    WebPage getWebPageBasedOnWhetherQueryIsSuccessful(HttpServletRequest request, StatsService statsService){
         WebPage webPage = new WebPage(WebPageBase.STATS_ADMIN_DETAILS);
-        StatsService statsService = new StatsService();
         try {
             String id = request.getParameter(ID);
             Stats stats = statsService.findById(id);
