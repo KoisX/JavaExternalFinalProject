@@ -28,7 +28,7 @@
                 <td><fmt:formatDate value="${stat.timePassed}" pattern="dd/MM/yyyy HH:mm:ss"/></td>
                 <td>${stat.score}</td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/Home/StatsDetails?id=${stat.id}">
+                    <a href="${pageContext.request.contextPath}/Home/StatsDetails?id=${stat.id}&page=${currentPage}">
                         <fmt:message key="msg.learn-more"/>
                     </a>
                 </td>

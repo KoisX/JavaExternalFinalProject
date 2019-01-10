@@ -22,7 +22,8 @@ public class DeleteStatsCommand implements Command {
 
     WebPage getPageDependingOnStatusOfDeletion(HttpServletRequest request, StatsService statsService){
         WebPage webPage = new WebPage(WebPageBase.STATS_ACTION)
-                .setDispatchType(WebPage.DispatchType.REDIRECT);
+                .setDispatchType(WebPage.DispatchType.REDIRECT)
+                .setQueryString("?page="+request.getParameter("page"));
         String id = request.getParameter(ID);
         try {
             statsService.delete(id);

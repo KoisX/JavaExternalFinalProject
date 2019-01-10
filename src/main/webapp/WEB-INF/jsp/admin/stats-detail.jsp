@@ -53,6 +53,7 @@
                 <form action="${pageContext.request.contextPath}/Home/Stats" method="post" class="form-horizontal inline-form-btn" role="form">
                     <input type="hidden" name="command" value="delete"/>
                     <input type="hidden" name="id" value="${stat.id}"/>
+                    <input type="hidden" name="page" value="${requestScope.page}"/>
                     <input type="submit" value="<fmt:message key="msg.delete"/>" class="btn btn-danger"/>
                 </form>
             </section>
