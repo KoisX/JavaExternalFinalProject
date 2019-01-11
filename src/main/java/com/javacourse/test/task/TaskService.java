@@ -33,6 +33,10 @@ public class TaskService {
         this.factory = new MySqlDAOFactory();
     }
 
+    public TaskService(DAOFactory factory) {
+        this.factory = factory;
+    }
+
     public List<Task> findTasksByTestId(String test_id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TaskDAO taskDAO = factory.createTaskDAO(connection);

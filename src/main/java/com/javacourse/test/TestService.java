@@ -36,6 +36,10 @@ public class TestService {
         this.factory = new MySqlDAOFactory();
     }
 
+    public TestService(DAOFactory factory) {
+        this.factory = factory;
+    }
+
     public List<Test> findByTopicId(String id) throws UnsuccessfulQueryException {
         try(DBConnection connection = factory.createConnection()){
             TestDAO testDao = factory.createTestDAO(connection);

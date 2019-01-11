@@ -32,8 +32,10 @@ public class DeleteStatsCommandTest {
     @Test
     public void getPageDependingOnStatusOfDeletion_deleteSuccessful_returnsCorrectPage() {
         StatsService statsService = mock(StatsService.class);
+        when(request.getParameter(anyString())).thenReturn("1");
         WebPage expected =new WebPage(WebPage.WebPageBase.STATS_ACTION)
-                .setDispatchType(WebPage.DispatchType.REDIRECT);
+                .setDispatchType(WebPage.DispatchType.REDIRECT).setQueryString("?page="+request.getParameter("page"));;
+
 
         WebPage actual = command.getPageDependingOnStatusOfDeletion(request,statsService);
         assertEquals(expected, actual);

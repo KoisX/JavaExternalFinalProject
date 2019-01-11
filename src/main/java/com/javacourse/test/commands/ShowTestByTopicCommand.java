@@ -34,15 +34,15 @@ public class ShowTestByTopicCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         WebPage webPage = new WebPage(WebPageBase.ERROR_ACTION);
-        if(!setTestsAttribute(request) || topicDoesNotExist(request)){
+        TestService testService = new TestService();
+        if(!setTestsAttribute(request, testService) || topicDoesNotExist(request)){
             return webPage;
         }
         webPage = getTestPageForClient(request);
         return webPage;
     }
 
-    private boolean setTestsAttribute(HttpServletRequest request){
-        TestService testService = new TestService();
+    boolean setTestsAttribute(HttpServletRequest request, TestService testService){
         String topicId = request.getParameter(ID_PARAM);
         if(topicId==null)
             return false;

@@ -22,15 +22,15 @@ public class ShowTestDetailsCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         WebPage webPage = new WebPage(WebPage.WebPageBase.ERROR_ACTION);
-        if(!setTasksAttribute(request)){
+        TaskService taskService = new TaskService();
+        TestService testService = new TestService();
+        if(!setTasksAttribute(request, testService, taskService)){
             return webPage;
         }
         return new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_PAGE);
     }
 
-    private boolean setTasksAttribute(HttpServletRequest request){
-        TaskService taskService = new TaskService();
-        TestService testService = new TestService();
+    boolean setTasksAttribute(HttpServletRequest request, TestService testService, TaskService taskService){
         String testId = request.getParameter(ID_PARAM);
         if(testId==null)
             return false;
