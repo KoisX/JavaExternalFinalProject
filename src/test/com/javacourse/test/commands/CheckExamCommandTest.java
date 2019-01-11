@@ -33,7 +33,7 @@ public class CheckExamCommandTest {
     }
 
     @Test
-    public void getMaxScoreFromDb() {
+    public void getMaxScoreFromDb_normalMethodExecution_returnsDbData() {
         TaskService service = mock(TaskService.class);
         final int SCORE = 1;
         when(service.getMaximalScoreByTestId(anyString())).thenReturn(SCORE);
@@ -44,7 +44,7 @@ public class CheckExamCommandTest {
     }
 
     @Test
-    public void getTasksFromDb() {
+    public void getTasksFromDb_normalMethodExecution_returnsDbData() {
         TaskService service = mock(TaskService.class);
         final List<Task> TASKS = new LinkedList<>();
         when(service.findTasksByTestId(anyString())).thenReturn(TASKS);
@@ -54,11 +54,4 @@ public class CheckExamCommandTest {
         assertEquals(expected, actual);
     }
 
-    @Test
-    public void insertTestResultToStats() {
-    }
-
-    @Test
-    public void constructStatsObject() {
-    }
 }

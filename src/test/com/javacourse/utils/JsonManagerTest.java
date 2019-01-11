@@ -28,14 +28,14 @@ public class JsonManagerTest {
     }
 
     @Test
-    public void put() {
+    public void put_putMethodCalled_objectStillTheSame() {
         JsonManager manager = new JsonManager(response);
 
         assertEquals(manager, manager.put("key", "value"));
     }
 
     @Test
-    public void respond() throws IOException {
+    public void respond_respondSent_respondWriterCalled() throws IOException {
         JsonManager manager = new JsonManager(response);
         when(response.getWriter()).thenReturn(printWriter);
         manager.respond();
@@ -44,7 +44,7 @@ public class JsonManagerTest {
     }
 
     @Test
-    public void sendSingleMessage() throws IOException {
+    public void sendSingleMessage_respondSent_respondWriterCalled() throws IOException {
         when(response.getWriter()).thenReturn(printWriter);
         JsonManager.sendSingleMessage("", "", response);
 

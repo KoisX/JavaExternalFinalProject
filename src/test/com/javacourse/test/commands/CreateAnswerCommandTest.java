@@ -43,7 +43,7 @@ public class CreateAnswerCommandTest {
     }
 
     @Test
-    public void createAnswer() throws IOException {
+    public void createAnswer_getsRequestWithCorrectParams_returnsProperWebpage() throws IOException {
         AnswerService service = mock(AnswerService.class);
         when(request.getParameter(anyString())).thenReturn("2");
         when(response.getWriter()).thenReturn(writer);

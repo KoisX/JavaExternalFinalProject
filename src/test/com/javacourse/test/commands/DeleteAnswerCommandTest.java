@@ -30,7 +30,7 @@ public class DeleteAnswerCommandTest {
     }
 
     @Test
-    public void getPageDependingOnWhetherDeleteIsSuccessful() {
+    public void getPageDependingOnWhetherDeleteIsSuccessful_getsRequestWithCorrectParams_returnsProperWebpage() {
         AnswerService service = mock(AnswerService.class);
         when(service.delete(anyString())).thenReturn(false);
         WebPage expected = new WebPage(WebPage.WebPageBase.ERROR_ACTION);

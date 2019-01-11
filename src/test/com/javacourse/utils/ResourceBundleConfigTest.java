@@ -15,13 +15,13 @@ public class ResourceBundleConfigTest {
     }
 
     @Test
-    public void getErrorResourceBundle() {
+    public void getErrorResourceBundle_getsLang_buildsCorrectErrorBundle() {
         ResourceBundle bundle =  ResourceBundleConfig.getErrorResourceBundle("en");
         assertEquals(bundle.getLocale(), new Locale("en"));
     }
 
     @Test
-    public void getResourceBundle() {
+    public void getResourceBundle_getsLang_buildsCorrectBundle() {
         ResourceBundle bundle =  ResourceBundleConfig.getResourceBundle("en", "error_message");
         assertEquals(bundle.getLocale(), new Locale("en"));
     }

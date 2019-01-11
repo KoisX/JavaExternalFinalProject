@@ -38,7 +38,7 @@ public class MySqlDAOFactoryTest {
     }
 
     @Test
-    public void createUserDAO() {
+    public void createUserDAO_getsConnection_buildsProperDAO() {
         when(sqlConnection.getConnection()).thenReturn(connection);
 
         UserDAO expected = new UserDAOMySql(sqlConnection.getConnection());
@@ -48,7 +48,7 @@ public class MySqlDAOFactoryTest {
     }
 
     @Test
-    public void createRoleDAO() {
+    public void createRoleDAO_getsConnection_buildsProperDAO() {
         when(sqlConnection.getConnection()).thenReturn(connection);
 
         RoleDAO expected = new RoleDAOMySql(sqlConnection.getConnection());
@@ -58,7 +58,7 @@ public class MySqlDAOFactoryTest {
     }
 
     @Test
-    public void createTopicDAO() {
+    public void createTopicDAO_getsConnection_buildsProperDAO() {
         when(sqlConnection.getConnection()).thenReturn(connection);
 
         TopicDAO expected = new TopicDAOMySql(sqlConnection.getConnection());
@@ -68,7 +68,7 @@ public class MySqlDAOFactoryTest {
     }
 
     @Test
-    public void createTestDAO() {
+    public void createTestDAO_getsConnection_buildsProperDAO() {
         when(sqlConnection.getConnection()).thenReturn(connection);
 
         TestDAO expected = new TestDAOMySql(sqlConnection.getConnection());
@@ -78,7 +78,7 @@ public class MySqlDAOFactoryTest {
     }
 
     @Test
-    public void createTaskDAO() {
+    public void createTaskDAO_getsConnection_buildsProperDAO() {
         when(sqlConnection.getConnection()).thenReturn(connection);
 
         TaskDAO expected = new TaskDAOMySql(sqlConnection.getConnection());
@@ -88,7 +88,7 @@ public class MySqlDAOFactoryTest {
     }
 
     @Test
-    public void createAnswerDAO() {
+    public void createAnswerDAO_getsConnection_buildsProperDAO() {
         when(sqlConnection.getConnection()).thenReturn(connection);
 
         AnswerDAO expected = new AnswerDAOMySql(sqlConnection.getConnection());
@@ -98,16 +98,12 @@ public class MySqlDAOFactoryTest {
     }
 
     @Test
-    public void createStatsDAO() {
+    public void createStatsDAO_getsConnection_buildsProperDAO() {
         when(sqlConnection.getConnection()).thenReturn(connection);
 
         StatsDAO expected = new StatsDAOMySql(sqlConnection.getConnection());
         StatsDAO actual = factory.createStatsDAO(sqlConnection);
 
         assertEquals(expected, actual);
-    }
-
-    @Test
-    public void createConnection() {
     }
 }

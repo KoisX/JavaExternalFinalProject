@@ -41,7 +41,7 @@ public class EncodingFilterTest {
     }
 
     @Test
-    public void doFilter() throws ServletException, IOException {
+    public void doFilter_getsRequest_setsProperEncoding() throws ServletException, IOException {
         when(request.getCharacterEncoding()).thenReturn("UTF-8");
 
         filter.doFilter(request, response, chain);

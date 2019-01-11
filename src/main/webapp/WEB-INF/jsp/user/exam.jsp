@@ -45,7 +45,7 @@
                             <c:otherwise>
                                 <div class="form-group">
                                     <label for="exampleInput"><fmt:message key="msg.answer"/></label>
-                                    <input type="text" class="form-control" id="exampleInput" name="field_${task.id}" placeholder="<fmt:message key="msg.placeholder"/>" required>
+                                    <input type="text" class="form-control" id="exampleInput" name="field_${task.id}" placeholder="<fmt:message key="msg.placeholder"/>" required autocomplete="off">
                                 </div>
                             </c:otherwise>
                         </c:choose>

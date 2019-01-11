@@ -48,7 +48,7 @@ public class TestServiceTest {
     }
 
     @Test
-    public void findByTopicId() {
+    public void findByTopicId_normalMethodExecution_returnsDbData() {
         List<com.javacourse.test.Test> expected = new ArrayList<>();
         expected.add(new com.javacourse.test.Test());
 
@@ -62,7 +62,7 @@ public class TestServiceTest {
     }
 
     @Test
-    public void findById() {
+    public void findById_normalMethodExecution_returnsDbData() {
         com.javacourse.test.Test test = new com.javacourse.test.Test();
         when(testDAO.findById(anyInt())).thenReturn(test);
 
@@ -70,36 +70,19 @@ public class TestServiceTest {
     }
 
     @Test
-    public void create() {
+    public void create_normalMethodExecution_returnsDbData() {
         when(testDAO.create(anyObject())).thenReturn(false);
         assertFalse(service.create(new com.javacourse.test.Test()));
     }
 
     @Test
-    public void makeTestPrivate() {
-    }
-
-    @Test
-    public void makeTestPublic() {
-    }
-
-    @Test
-    public void hasAtLeastOneTask() {
-    }
-
-    @Test
-    public void doesEachTaskHaveAtLeastOneCorrectAnswer() {
-
-    }
-
-    @Test
-    public void updateHeader() {
+    public void updateHeader_normalMethodExecution_returnsDbData() {
         when(testDAO.updateHeader(anyObject(), anyLong())).thenReturn(false);
         assertFalse(service.updateHeader("", "1"));
     }
 
     @Test
-    public void updateDescription() {
+    public void updateDescription_normalMethodExecution_returnsDbData() {
         when(testDAO.updateDescription(anyObject(), anyLong())).thenReturn(false);
         assertFalse(service.updateDescription("", "1"));
     }

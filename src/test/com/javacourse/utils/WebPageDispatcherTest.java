@@ -40,7 +40,7 @@ public class WebPageDispatcherTest {
     }
 
     @Test
-    public void dispatch() throws ServletException, IOException {
+    public void dispatch_getRequest_dispatchesProperly() throws ServletException, IOException {
         final String RANDOM_PATH = "123";
 
         when(webPage.getDispatchType()).thenReturn(WebPage.DispatchType.FORWARD);

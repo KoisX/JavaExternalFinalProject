@@ -22,7 +22,7 @@ public class ShowSignInCommandTest {
     HttpServletResponse response;
 
     @Test
-    public void execute() {
+    public void execute_getsCorrectInputData_returnsProperWebpage() {
         WebPage expected = new WebPage(WebPage.WebPageBase.LOGIN_PAGE);
         WebPage actual = showSignInCommand.execute(request, response);
         assertEquals(expected, actual);

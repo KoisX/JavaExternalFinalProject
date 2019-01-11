@@ -40,7 +40,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void findTasksByTestId() {
+    public void findTasksByTestId_normalMethodExecution_returnsDbData() {
         List<Task> expected = new ArrayList<>();
         expected.add(new Task(1,1,"question", null, null, null));
         when(taskDao.findTasksByTestId(anyString())).thenReturn(expected);
@@ -49,33 +49,33 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void getMaximalScoreByTestId() {
+    public void getMaximalScoreByTestId_normalMethodExecution_returnsDbData() {
         final int expected = 1;
         when(taskDao.getMaximalScoreByTestId(anyString())).thenReturn(expected);
         assertEquals(expected, service.getMaximalScoreByTestId("id"));
     }
 
     @Test
-    public void findById() {
+    public void findById_normalMethodExecution_returnsDbData() {
         Task expected = new Task();
         when(taskDao.findById(anyInt())).thenReturn(expected);
         assertEquals(expected, service.findById("1"));
     }
 
     @Test
-    public void create() {
+    public void create_normalMethodExecution_returnsDbData() {
         when(taskDao.create(anyObject())).thenReturn(false);
         assertFalse(service.create(new Task()));
     }
 
     @Test
-    public void delete() {
+    public void delete_normalMethodExecution_returnsDbData() {
         when(taskDao.delete(anyObject())).thenReturn(false);
         assertFalse(service.delete("1"));
     }
 
     @Test
-    public void update() {
+    public void update_normalMethodExecution_returnsDbData() {
         when(taskDao.update(anyObject())).thenReturn(false);
         assertFalse(service.update(new Task()));
     }

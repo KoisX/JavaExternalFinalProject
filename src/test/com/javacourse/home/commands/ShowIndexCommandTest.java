@@ -20,7 +20,7 @@ public class ShowIndexCommandTest {
 
 
     @Test
-    public void execute() {
+    public void execute_getsCorrectInputData_returnsProperWebpage() {
         WebPage expected = new WebPage(WebPage.WebPageBase.INDEX_PAGE);
         WebPage actual = showIndexCommand.execute(request, response);
         assertEquals(expected, actual);

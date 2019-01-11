@@ -32,7 +32,7 @@ public class ShowEditAnswerCommandTest {
     }
 
     @Test
-    public void getPageBasedOnWhetherOperationIsSuccessful() {
+    public void getPageBasedOnWhetherOperationIsSuccessful_getsRequestWithCorrectParams_returnsProperWebpage() {
         AnswerService service = mock(AnswerService.class);
         when(service.findById(anyString())).thenReturn(new Answer());
         WebPage expected = new WebPage(WebPage.WebPageBase.ANSWER_ADMIN_EDIT_PAGE);

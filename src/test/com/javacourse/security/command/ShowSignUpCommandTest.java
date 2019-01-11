@@ -21,7 +21,7 @@ public class ShowSignUpCommandTest {
     HttpServletResponse response;
 
     @Test
-    public void execute() {
+    public void execute_getsCorrectInputData_returnsProperWebpage() {
         WebPage expected = new WebPage(WebPage.WebPageBase.SIGN_UP_PAGE);
         WebPage actual = showSignUpCommand.execute(request, response);
         assertEquals(expected, actual);

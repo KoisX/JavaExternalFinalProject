@@ -23,7 +23,7 @@ public class ShowAboutCommandTest {
 
 
     @Test
-    public void execute() {
+    public void execute_getsCorrectInputData_returnsProperWebpage() {
         WebPage expected = new WebPage(WebPage.WebPageBase.ABOUT_PAGE);
         WebPage actual = showAboutCommand.execute(request, response);
         assertEquals(expected, actual);

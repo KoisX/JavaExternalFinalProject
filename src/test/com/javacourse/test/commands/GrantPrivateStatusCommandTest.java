@@ -32,7 +32,7 @@ public class GrantPrivateStatusCommandTest {
     }
 
     @Test
-    public void getPageDependingOnWhetherOperationIsSuccessful() {
+    public void getPageDependingOnWhetherOperationIsSuccessful_getsRequestWithCorrectParams_returnsProperWebpage() {
         TestService service = mock(TestService.class);
         when(service.makeTestPrivate(anyObject())).thenReturn(true);
         when(request.getParameter(anyString())).thenReturn("1");

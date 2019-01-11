@@ -31,7 +31,7 @@ public class ShowTaskDetailsCommandTest {
     }
 
     @Test
-    public void getPageDependingOnWhetherOperationIsSuccessful() {
+    public void getPageDependingOnWhetherOperationIsSuccessful_getsRequestWithCorrectParams_returnsProperWebpage() {
         TaskService service = mock(TaskService.class);
         when(service.findById(anyString())).thenReturn(new Task());
         WebPage expected = new WebPage(WebPage.WebPageBase.TASK_ADMIN_EDIT_PAGE);

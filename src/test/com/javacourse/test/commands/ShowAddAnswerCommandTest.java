@@ -31,7 +31,7 @@ public class ShowAddAnswerCommandTest {
     }
 
     @Test
-    public void execute() {
+    public void execute_getsRequestWithCorrectParams_returnsProperWebpage() {
         when(request.getParameter(anyString())).thenReturn("1");
 
         WebPage actual = command.execute(request, response);

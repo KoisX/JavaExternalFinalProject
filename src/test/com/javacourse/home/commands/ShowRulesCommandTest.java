@@ -19,7 +19,7 @@ public class ShowRulesCommandTest {
 
 
     @Test
-    public void execute() {
+    public void execute_getsCorrectInputData_returnsProperWebpage() {
         WebPage expected = new WebPage(WebPage.WebPageBase.RULES_PAGE);
         WebPage actual = showRulesCommand.execute(request, response);
         assertEquals(expected, actual);

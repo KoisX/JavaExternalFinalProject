@@ -41,7 +41,7 @@ public class CreateTaskCommandTest {
     }
 
     @Test
-    public void createTask() throws IOException {
+    public void createTask_getsRequestWithCorrectParams_returnsProperWebpage() throws IOException {
         TaskService service = mock(TaskService.class);
         when(request.getParameter(anyString())).thenReturn("2");
         when(response.getWriter()).thenReturn(writer);

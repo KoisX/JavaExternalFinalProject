@@ -29,7 +29,7 @@ public class DeleteTaskCommandTest {
     }
 
     @Test
-    public void getPageDependingOnWhetherDeleteIsSuccessful() {
+    public void getPageDependingOnWhetherDeleteIsSuccessful_getsRequestWithCorrectParams_returnsProperWebpage() {
         TaskService service = mock(TaskService.class);
         when(service.delete(anyString())).thenReturn(false);
         WebPage expected = new WebPage(WebPage.WebPageBase.ERROR_ACTION);

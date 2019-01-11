@@ -29,7 +29,7 @@ public class ShowEditTestHeaderCommandTest {
     }
 
     @Test
-    public void getPageDependingOnWhetherOperationIsSuccessful() {
+    public void getPageDependingOnWhetherOperationIsSuccessful_getsRequestWithCorrectParams_returnsProperWebpage() {
         TestService service = mock(TestService.class);
         when(request.getParameter(anyString())).thenReturn("1");
         when(service.findById(anyString())).thenReturn(new com.javacourse.test.Test());

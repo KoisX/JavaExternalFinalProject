@@ -41,7 +41,7 @@ public class SignUpCommandTest {
     }
 
     @Test
-    public void constructUser() {
+    public void constructUser_getsCorrectUser_returnsWellformedWebPage() {
         User expected = new User(DEFAULT_ID, DEFAULT_NAME, DEFAULT_SURNAME, DEFAULT_MAIL, DEFAULT_ROLE, DEFAULT_PASSWORD);
         User actual = signUpCommand.constructUser(request);
 

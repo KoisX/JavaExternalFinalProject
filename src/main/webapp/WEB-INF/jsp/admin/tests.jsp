@@ -56,7 +56,9 @@
                                             <a href="${pageContext.request.contextPath}/Test/Details?id=${test.id}" class="btn btn-info"><fmt:message key="msg.edit"/></a>
                                         </div>
                                     </div>
-                                    <a href="${pageContext.request.contextPath}/Test/Exam?id=${test.id}" class="btn btn-success"><fmt:message key="msg.start"/></a>
+                                    <c:if test="${test.isPublic == true}">
+                                        <a href="${pageContext.request.contextPath}/Test/Exam?id=${test.id}" class="btn btn-success"><fmt:message key="msg.start"/></a>
+                                    </c:if>
                                     <button type="button" class="btn btn-warning" data-dismiss="modal"><fmt:message key="msg.close"/></button>
                                 </div>
                             </div>
