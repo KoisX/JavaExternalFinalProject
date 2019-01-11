@@ -23,13 +23,14 @@ public class CreateAnswerCommand implements Command {
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Answer answer = constructAnswer(request.getParameterMap());
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
+        AnswerService answerService = new AnswerService();
 
         //checking if model is in valid state
         BeanValidatorConfig<Answer> validator = new BeanValidatorConfig<>(lang);
         if(!validator.isValid(answer)){
             JsonManager.sendSingleMessage(ERROR_PARAM, validator.getErrorMessage(), response);
         }else {
-            createAnswer(request, response, answer, lang);
+            createAnswer(request, response, answer, lang, answerService);
         }
         return WebPage.STAND_STILL_PAGE;
     }
@@ -42,8 +43,7 @@ public class CreateAnswerCommand implements Command {
         return answer;
     }
 
-    private void createAnswer(HttpServletRequest request, HttpServletResponse response, Answer answer, String lang) {
-        AnswerService answerService = new AnswerService();
+    void createAnswer(HttpServletRequest request, HttpServletResponse response, Answer answer, String lang, AnswerService answerService) {
         String taskId = request.getParameter("taskId");
         String testId = request.getParameter("testId");
         JsonManager json = new JsonManager(response);

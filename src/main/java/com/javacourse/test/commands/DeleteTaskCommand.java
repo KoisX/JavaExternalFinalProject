@@ -21,9 +21,13 @@ public class DeleteTaskCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
+        TaskService taskService = new TaskService();
+        return getPageDependingOnWhetherDeleteIsSuccessful(request, taskService);
+    }
+
+    WebPage getPageDependingOnWhetherDeleteIsSuccessful(HttpServletRequest request, TaskService taskService){
         String taskId = request.getParameter("taskId");
         String testId = request.getParameter("testId");
-        TaskService taskService = new TaskService();
         try {
             if(taskService.delete(taskId))
                 return new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)

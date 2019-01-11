@@ -13,8 +13,12 @@ import java.sql.SQLException;
 public class ShowEditAnswerCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        WebPage webPage = new WebPage(WebPage.WebPageBase.ANSWER_ADMIN_EDIT_PAGE);
         AnswerService answerService = new AnswerService();
+        return getPageBasedOnWhetherOperationIsSuccessful(request, answerService);
+    }
+
+    WebPage getPageBasedOnWhetherOperationIsSuccessful(HttpServletRequest request, AnswerService answerService){
+        WebPage webPage = new WebPage(WebPage.WebPageBase.ANSWER_ADMIN_EDIT_PAGE);
         try {
             String taskId = request.getParameter("id");
             Answer answer = answerService.findById(taskId);

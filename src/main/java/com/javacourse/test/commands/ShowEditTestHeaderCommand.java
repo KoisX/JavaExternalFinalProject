@@ -20,17 +20,19 @@ public class ShowEditTestHeaderCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
+        TestService testService = new TestService();
+        return getPageDependingOnWhetherOperationIsSuccessful(request, testService);
+    }
+    WebPage getPageDependingOnWhetherOperationIsSuccessful(HttpServletRequest request, TestService testService) {
         WebPage webPage = new WebPage(WebPage.WebPageBase.ERROR_ACTION);
-        if(!setTasksAttribute(request)){
+        if(!setTasksAttribute(request, testService)){
             return webPage;
         }
 
         return new WebPage(WebPage.WebPageBase.TEST_ADMIN_EDIT_HEADER);
     }
 
-
-    private boolean setTasksAttribute(HttpServletRequest request){
-        TestService testService = new TestService();
+    private boolean setTasksAttribute(HttpServletRequest request, TestService testService){
         String testId = request.getParameter(ID_PARAM);
         if(testId==null)
             return false;

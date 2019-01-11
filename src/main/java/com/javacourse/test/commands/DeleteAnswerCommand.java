@@ -21,9 +21,13 @@ public class DeleteAnswerCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
+        AnswerService answerService = new AnswerService();
+        return getPageDependingOnWhetherDeleteIsSuccessful(request, answerService);
+    }
+
+    WebPage getPageDependingOnWhetherDeleteIsSuccessful(HttpServletRequest request, AnswerService answerService){
         String id = request.getParameter("id");
         String testId = request.getParameter("testId");
-        AnswerService answerService = new AnswerService();
         try {
             if(answerService.delete(id))
                 return new WebPage(WebPage.WebPageBase.TEST_ADMIN_DETAILS_ACTION)

@@ -14,6 +14,10 @@ public class GrantPrivateStatusCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         TestService testService = new TestService();
+        return getPageDependingOnWhetherOperationIsSuccessful(request, testService);
+    }
+
+    WebPage getPageDependingOnWhetherOperationIsSuccessful(HttpServletRequest request,TestService testService){
         Test test = new Test();
         String idParam = request.getParameter("id");
         test.setId(Long.parseLong(idParam));

@@ -23,6 +23,7 @@ public class EditAnswerCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Answer answer = constructAnswer(request.getParameterMap());
+        AnswerService answerService = new AnswerService();
         boolean isCorrectAnswer = getIsCorrectAnswer(request.getParameterMap());
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
 
@@ -31,7 +32,7 @@ public class EditAnswerCommand implements Command {
         if(!validator.isValid(answer)){
             JsonManager.sendSingleMessage("error",validator.getErrorMessage(), response);
         }else {
-            editAnswer(request, response, answer, lang, isCorrectAnswer);
+            editAnswer(request, response, answer, lang, isCorrectAnswer, answerService);
         }
         return WebPage.STAND_STILL_PAGE;
     }
@@ -48,8 +49,7 @@ public class EditAnswerCommand implements Command {
         return answer;
     }
 
-    private void editAnswer(HttpServletRequest request, HttpServletResponse response, Answer answer, String lang, boolean isCorrectAnswer) {
-        AnswerService answerService = new AnswerService();
+    private void editAnswer(HttpServletRequest request, HttpServletResponse response, Answer answer, String lang, boolean isCorrectAnswer, AnswerService answerService) {
         String taskId = request.getParameter("taskId");
         String testId = request.getParameter("testId");
 

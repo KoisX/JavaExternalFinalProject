@@ -23,11 +23,11 @@ public class DeleteTestCommand implements Command {
 
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        return getPageDependingOnWhetherDeleteIsSuccessful(request);
+        TestService testService = new TestService();
+        return getPageDependingOnWhetherDeleteIsSuccessful(request, testService);
     }
 
-    private WebPage getPageDependingOnWhetherDeleteIsSuccessful(HttpServletRequest request) {
-        TestService testService = new TestService();
+    WebPage getPageDependingOnWhetherDeleteIsSuccessful(HttpServletRequest request, TestService testService) {
         String id = request.getParameter("id");
         try {
             if(testService.delete(id))

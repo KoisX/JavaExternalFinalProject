@@ -13,8 +13,12 @@ import java.sql.SQLException;
 public class ShowTaskDetailsCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
-        WebPage webPage = new WebPage(WebPage.WebPageBase.TASK_ADMIN_EDIT_PAGE);
         TaskService taskService = new TaskService();
+        return getPageDependingOnWhetherOperationIsSuccessful(request, taskService);
+    }
+
+    WebPage getPageDependingOnWhetherOperationIsSuccessful(HttpServletRequest request, TaskService taskService){
+        WebPage webPage = new WebPage(WebPage.WebPageBase.TASK_ADMIN_EDIT_PAGE);
         try {
             String taskId = request.getParameter("taskId");
             String testId = request.getParameter("testId");

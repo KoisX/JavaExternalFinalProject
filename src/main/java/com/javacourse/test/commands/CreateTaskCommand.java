@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-@SuppressWarnings("ALL")
 public class CreateTaskCommand implements Command {
 
     private static final String LANG_PARAM = "lang";
@@ -22,6 +21,7 @@ public class CreateTaskCommand implements Command {
     @Override
     public WebPage execute(HttpServletRequest request, HttpServletResponse response) {
         Task task = constructTaskIfPossible(request.getParameterMap());
+        TaskService taskService = new TaskService();
 
         if(task==null){
             JsonManager.sendSingleMessage("error", "Error occurred", response);
@@ -34,7 +34,7 @@ public class CreateTaskCommand implements Command {
         if(!validator.isValid(task)){
             JsonManager.sendSingleMessage("error", validator.getErrorMessage(), response);
         }else {
-            createTask(request, response, task, lang);
+            createTask(request, response, task, lang, taskService);
         }
         return WebPage.STAND_STILL_PAGE;
     }
@@ -51,8 +51,7 @@ public class CreateTaskCommand implements Command {
         return task;
     }
 
-    private void createTask(HttpServletRequest request, HttpServletResponse response, Task task, String lang) {
-        TaskService taskService = new TaskService();
+    void createTask(HttpServletRequest request, HttpServletResponse response, Task task, String lang, TaskService taskService) {
         String testId = request.getParameter("id");
         JsonManager json = new JsonManager(response);
 
