@@ -93,9 +93,4 @@ public class TestDAOTestMySql {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
         testDAOMySql.create(anyObject());
     }
-
-    @Test
-    @Ignore
-    public void update() {
-    }
 }

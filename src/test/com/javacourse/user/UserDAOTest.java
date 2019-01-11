@@ -102,9 +102,4 @@ public class UserDAOTest {
         when(connection.prepareStatement(anyString())).thenThrow(new SQLException());
         userDAOMySql.create(anyObject());
     }
-
-    @Test
-    @Ignore
-    public void update() {
-    }
 }
