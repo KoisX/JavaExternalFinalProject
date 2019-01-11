@@ -115,7 +115,7 @@
                                 </c:forEach>
                                 <a href="${pageContext.request.contextPath}/Test/AddAnswer?id=${task.id}&testId=${test.id}"><fmt:message key="msg.addAnswer"/></a>
                             </c:when>
-                            <c:when test="${fn:length(task.correctAnswers) eq 1}">
+                            <c:when test="${fn:length(task.possibleAnswers) eq 1}">
                                 <div class="form-group">
                                     <label for="exampleInput"><fmt:message key="msg.answer"/></label>
                                     <input type="text" class="form-control" id="exampleInput" name="field_${task.id}" placeholder="${task.possibleAnswers[0].value}" disabled>

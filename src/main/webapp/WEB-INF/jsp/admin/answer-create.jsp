@@ -14,7 +14,7 @@
                     <div class="form-group">
                         <label for="value" class="col-md-2 control-label"><fmt:message key="msg.value"/></label>
                         <div class="col-md-10">
-                            <input type="text" id="value" name="value" class="col-md-2 form-control" required pattern=".{3,250}">
+                            <input type="text" id="value" name="value" class="col-md-2 form-control" required pattern=".{1,250}">
                         </div>
                     </div>
                     <div class="form-check">
