@@ -24,9 +24,9 @@ import static com.javacourse.shared.WebPage.WebPageBase;
 public class UserCreationUtils {
 
     private Locale locale;
+    private String lang;
     private HttpServletRequest request;
     private ResourceBundle resourceBundle;
-    private Validator validator;
     private static final String ERROR_REQUEST_MESSAGE = "error";
     private static final String LANG_PARAM = "lang";
     private static final String ERROR_BUNDLE = "error_message";
@@ -40,6 +40,8 @@ public class UserCreationUtils {
 
     public UserCreationUtils(HttpServletRequest request) {
         this.request = request;
+        lang = (String)request.getSession().getAttribute(LANG_PARAM);
+        setResourceBundle(lang);
     }
 
     /**
@@ -50,9 +52,6 @@ public class UserCreationUtils {
      * @return url to forward or redirect to
      */
     public WebPage handleUserInsert(User user){
-
-        String lang = (String)request.getSession().getAttribute(LANG_PARAM);
-        setResourceBundle(lang);
         BeanValidatorConfig<User> validator = new BeanValidatorConfig<>(lang);
         if(!validator.isValid(user)){
             request.setAttribute(ERROR_REQUEST_MESSAGE, validator.getErrorMessage());
@@ -64,12 +63,13 @@ public class UserCreationUtils {
             return new WebPage(WebPageBase.SIGN_UP_PAGE);
         }
 
-        if(!validateInDb(user, request)){
+        UserService userService = new UserService();
+        if(!validateInDb(user, request, userService)){
             return new WebPage(WebPageBase.SIGN_UP_PAGE);
         }
 
         WebPage resultPage;
-        if(insertUser(user)){
+        if(insertUser(user, userService)){
             resultPage = new WebPage(WebPageBase.LOGIN_ACTION).setDispatchType(WebPage.DispatchType.REDIRECT);
         }else {
             request.setAttribute(ERROR_REQUEST_MESSAGE, resourceBundle.getString("msg.registrationUnsuccessful"));
@@ -79,9 +79,8 @@ public class UserCreationUtils {
         return resultPage;
     }
 
-    boolean validateInDb(User user, HttpServletRequest request){
+    boolean validateInDb(User user, HttpServletRequest request, UserService userService){
         boolean doesEmailExist = false;
-        UserService userService = new UserService();
         try {
             doesEmailExist = userService.doesUserWithEmailExist(user.getEmail());
         } catch (UnsuccessfulQueryException e) {
@@ -97,8 +96,7 @@ public class UserCreationUtils {
         return true;
     }
 
-    boolean insertUser(User user) {
-        UserService userService = new UserService();
+    boolean insertUser(User user, UserService userService) {
         user.setPassword(PasswordManager.hash(user.getPassword(), user.getEmail()));
         return userService.create(user);
     }
