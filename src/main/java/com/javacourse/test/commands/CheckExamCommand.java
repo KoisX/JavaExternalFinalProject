@@ -9,7 +9,8 @@ import com.javacourse.shared.WebPage;
 import com.javacourse.stats.Stats;
 import com.javacourse.stats.StatsService;
 import com.javacourse.test.Test;
-import com.javacourse.test.answer.Answer;
+import com.javacourse.test.revisor.ExamResult;
+import com.javacourse.test.revisor.ExamReviser;
 import com.javacourse.test.task.Task;
 import com.javacourse.test.task.TaskService;
 import com.javacourse.user.User;
@@ -18,16 +19,14 @@ import com.javacourse.utils.JsonManager;
 import com.javacourse.utils.LogConfigurator;
 import com.javacourse.utils.ResourceBundleConfig;
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
+
 import static com.javacourse.shared.WebPage.*;
 
 public class CheckExamCommand implements Command {
@@ -46,47 +45,50 @@ public class CheckExamCommand implements Command {
         String testId = request.getParameter(ID_PARAM);
         String lang = (String)request.getSession().getAttribute(LANG_PARAM);
 
-        TestResult testResult = new TestResult();
+        StatsService statsService = new StatsService();
+        TaskService taskService = new TaskService();
+        UserService userService = new UserService();
 
-        if(testId==null || !getTasksAndMaxScoreFromDb(testId, testResult)){
-            return new WebPage(WebPageBase.ERROR_ACTION);
-        }
+        //test revision
 
-        testResult.setScore(reviseTest(request.getParameterMap(), testResult));
+        List<Task> tasks = getTasksFromDb(testId, taskService);
+        int maxScore = getMaxScoreFromDb(testId, taskService);
+        ExamResult result = new ExamReviser().reviseTest(request.getParameterMap(), tasks, maxScore);
 
-        //no reaction for unsuccessful insert is foreseen
-        //cause we want user to see their result even if something goes wrong
+        //inserting test result to stats in db
+
         insertTestResultToStats((String) request.getSession()
-                .getAttribute(ApplicationResources.getUserEmail()), Long.parseLong(testId), testResult);
+                .getAttribute(ApplicationResources.getUserEmail()),
+                Long.parseLong(testId),
+                result,
+                statsService,
+                userService);
 
-        //TODO: send email with result to user
+        //no reaction for unsuccessful email sending is foreseen
+        //cause we want user to see their result even if something goes wrong
         try {
-            sendMail(request, testResult);
+            //sending mail to user
+            sendMail(request, result);
         } catch (Exception e) {
             logger.error("Problem while sending email "+ e.getMessage());
         }
 
-        showExamResult(response, testResult, lang);
+        showExamResult(response, result, lang);
         return new WebPage(WebPageBase.STAND_STILL_PAGE).setDispatchType(DispatchType.STAND_STILL);
     }
 
-    private boolean getTasksAndMaxScoreFromDb(String testId, TestResult testResult){
-        try{
-            TaskService taskService = new TaskService();
-            testResult.setTasks(taskService.findTasksByTestId(testId));
-            testResult.setMaxScore(taskService.getMaximalScoreByTestId(testId));
-        } catch (UnsuccessfulQueryException e) {
-            logger.error(e.getMessage());
-            return false;
-        }
-        return true;
+    int getMaxScoreFromDb(String testId, TaskService taskService){
+          return  taskService.getMaximalScoreByTestId(testId);
     }
 
-    private boolean insertTestResultToStats(String userEmail, long testId, TestResult testResult){
-        StatsService statsService = new StatsService();
+    List<Task> getTasksFromDb(String testId, TaskService taskService){
+        return taskService.findTasksByTestId(testId);
+    }
+
+    boolean insertTestResultToStats(String userEmail, long testId, ExamResult testResult, StatsService statsService, UserService userService){
         boolean res;
         try {
-            res = statsService.create(constructStatsObject(testId, getUserId(userEmail), testResult));
+            res = statsService.create(constructStatsObject(testId, getUserId(userEmail, userService), testResult));
         } catch (UnsuccessfulQueryException  e) {
             logger.error(e.getMessage());
             return false;
@@ -94,7 +96,7 @@ public class CheckExamCommand implements Command {
         return res;
     }
 
-    private Stats constructStatsObject(long testId, long userId, TestResult testResult){
+    Stats constructStatsObject(long testId, long userId, ExamResult testResult){
         Stats stats = new Stats();
         Test test = new Test();
         User user = new User();
@@ -102,16 +104,15 @@ public class CheckExamCommand implements Command {
         user.setId(userId);
         stats.setTest(test);
         stats.setUser(user);
-        stats.setScore(Math.round(getPercentageOfSolvedTasks(testResult)));
+        stats.setScore(Math.round(testResult.getPercentageOfSolvedTasks()));
         stats.setTimePassed(new Timestamp(System.currentTimeMillis()));
         return stats;
     }
 
 
-    private long getUserId(String email){
+    private long getUserId(String email, UserService userService){
         long id = -1;
         try{
-            UserService userService = new UserService();
             id = userService.getUserIdByEmail(email);
         } catch (UnsuccessfulQueryException  e) {
             logger.error(e.getMessage());
@@ -119,33 +120,7 @@ public class CheckExamCommand implements Command {
         return id;
     }
 
-    private int reviseTest(Map<String, String[]> paramMap, TestResult testResult){
-        List<Long> wrongTasks = new ArrayList<>();
-        int score = 0;
-        for(Task task : testResult.getTasks()){
-            String[] userAnswersFromRequest = paramMap.get(getRequestParamInputValue(task));
-            List<String> userAnswers = new ArrayList<>(Arrays.asList(userAnswersFromRequest));
-            List<String> correctAnswers = task.getCorrectAnswers()
-                    .stream()
-                    .map(Answer::getValue)
-                    .collect(Collectors.toList());
-            if(userAnswers.containsAll(correctAnswers) && userAnswers.size()==correctAnswers.size()){
-                score += task.getPrice();
-            }else {
-                wrongTasks.add(task.getId());
-            }
-        }
-        testResult.setWrongTasksIndexes(wrongTasks);
-        return score;
-    }
-
-    /*Gets param from a request, with the name, which corresponds to
-    * test page naming conventions: field_task-id*/
-    private String getRequestParamInputValue(Task task){
-        return "field_"+String.valueOf(task.getId());
-    }
-
-    private void showExamResult(HttpServletResponse response, TestResult testResult, String lang){
+    private void showExamResult(HttpServletResponse response, ExamResult testResult, String lang){
         JsonManager json = new JsonManager(response);
         json.put("mistakes", testResult.getWrongTasksIndexes())
             .put("score", testResult.getScore())
@@ -158,11 +133,11 @@ public class CheckExamCommand implements Command {
      * Returns the message to be shown depending on the test result
      * @return test result summary message
      */
-    private String getMessage(TestResult testResult, String lang, String base) {
+    private String getMessage(ExamResult testResult, String lang, String base) {
         ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang, base);
         if(testResult.getMaxScore()==0)
             return resourceBundle.getString("msg.noresult");
-        double percentageOfSolvedTasks = getPercentageOfSolvedTasks(testResult);
+        double percentageOfSolvedTasks = testResult.getPercentageOfSolvedTasks();
         if(percentageOfSolvedTasks<40)
             return resourceBundle.getString("msg.studyHarder");
         else if(percentageOfSolvedTasks<75)
@@ -170,11 +145,7 @@ public class CheckExamCommand implements Command {
         else return resourceBundle.getString("msg.wellDone");
     }
 
-    private double getPercentageOfSolvedTasks(TestResult testResult){
-        return ((double)testResult.getScore())/testResult.getMaxScore()*100;
-    }
-
-    private void sendMail(HttpServletRequest request, TestResult testResult) {
+    private void sendMail(HttpServletRequest request, ExamResult testResult) {
         ServletContext servletContext = request.getServletContext();
         String to = (String) request.getSession().getAttribute("login");
         Properties properties = new Properties();
@@ -188,56 +159,11 @@ public class CheckExamCommand implements Command {
 
         MailManager mailManager = MailManager.createMailManager(to,
                 getMessage(testResult, (String)request.getSession().getAttribute("lang"), "exam_result_header_messages"),
-                LetterComposer.compose(testResult.score, testResult.maxScore, (String)request.getSession().getAttribute("lang")),
+                LetterComposer.compose(testResult.getScore(), testResult.getMaxScore(), (String)request.getSession().getAttribute("lang")),
                 properties
                 );
 
         mailManager.sendMail();
-    }
-
-    /**
-     * Value object for comfortable transport of multiple params
-     * between multiple methods
-     */
-    public class TestResult{
-        private List<Task> tasks;
-        private int maxScore;
-        private int score;
-
-        /*Tasks, in which user made mistakes*/
-        private List<Long> wrongTasksIndexes;
-
-        public void setTasks(List<Task> tasks) {
-            this.tasks = tasks;
-        }
-
-        void setMaxScore(int maxScore) {
-            this.maxScore = maxScore;
-        }
-
-        public void setScore(int score) {
-            this.score = score;
-        }
-
-        void setWrongTasksIndexes(List<Long> wrongTasksIndexes) {
-            this.wrongTasksIndexes = wrongTasksIndexes;
-        }
-
-        public List<Task> getTasks() {
-            return tasks;
-        }
-
-        int getMaxScore() {
-            return maxScore;
-        }
-
-        public int getScore() {
-            return score;
-        }
-
-        List<Long> getWrongTasksIndexes() {
-            return wrongTasksIndexes;
-        }
     }
 
 }
