@@ -14,7 +14,7 @@ public class Answer implements Entity {
   @PositiveOrZero
   private long id;
 
-  @Size(min = 3, max = 250, message = "{msg.emptyFields}")
+  @Size(min = 1, max = 250, message = "{msg.emptyFields}")
   private String value;
 
   private boolean isCaseSensitive;
