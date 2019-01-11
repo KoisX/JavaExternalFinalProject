@@ -4,7 +4,17 @@ import com.javacourse.utils.ResourceBundleConfig;
 
 import java.util.ResourceBundle;
 
+/**
+ * Helper class for creating exam result letter body
+ */
 public class LetterComposer {
+    /**
+     * Creates exam result letter body
+     * @param score exam score
+     * @param maxScore maximal exam score
+     * @param lang message body language
+     * @return letter body
+     */
     public static String compose(int score, int maxScore, String lang){
         ResourceBundle resourceBundle = ResourceBundleConfig.getResourceBundle(lang, "email_message");
         StringBuilder sb = new StringBuilder();
