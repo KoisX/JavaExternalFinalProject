@@ -47,6 +47,8 @@ public class DBConnectionPool {
 
     private DBConnectionPool(){}
 
+    /*No need for synchronization, because BasicDataSource takes care
+    * of staff of this king*/
     public static Connection getConnection() throws SQLException {
         return ds.getConnection();
     }
