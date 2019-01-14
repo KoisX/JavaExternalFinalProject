@@ -7,7 +7,7 @@ Final project for the Java External course
 Clone it from GitHub git clone https://github.com/KoisX/JavaExternalFinalProject.git
 
 # To run the project
-1)Install database from /etc/dbData/*.sql
-2)Go to Tomcat root folder /bin and run startup.bin to run Tomcat
-3)Build and deploy the project with maven mvn tomcat7:deploy
-4)Go to url localhost:8080/WebExam
+1)Install database from /etc/dbData/*.sql<br />
+2)Go to Tomcat root folder /bin and run startup.bin to run Tomcat<br />
+3)Build and deploy the project with maven mvn tomcat7:deploy<br />
+4)Go to url localhost:8080/WebExam<br />
